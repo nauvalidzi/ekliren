@@ -1,0 +1,1 @@
+ew.events={},ew.charts={},ew.clientScript=function(){$(".sidebar").css("height","calc(100% - 8em)")},ew.startupScript=function(){};
