@@ -484,12 +484,12 @@ class VAswasEdit extends VAswas
         $this->nip->setVisibility();
         $this->nrp->setVisibility();
         $this->nama->setVisibility();
+        $this->unit_organisasi->setVisibility();
         $this->pangkat->setVisibility();
         $this->jabatan->setVisibility();
-        $this->unit_organisasi->setVisibility();
+        $this->kategori_pemohon->setVisibility();
         $this->scan_lhkpn->setVisibility();
         $this->scan_lhkasn->setVisibility();
-        $this->kategori_pemohon->setVisibility();
         $this->keperluan->setVisibility();
         $this->email_pemohon->setVisibility();
         $this->hukuman_disiplin->setVisibility();
@@ -534,9 +534,9 @@ class VAswasEdit extends VAswas
         }
 
         // Set up lookup cache
+        $this->setupLookupOptions($this->unit_organisasi);
         $this->setupLookupOptions($this->pangkat);
         $this->setupLookupOptions($this->jabatan);
-        $this->setupLookupOptions($this->unit_organisasi);
         $this->setupLookupOptions($this->keperluan);
         $this->setupLookupOptions($this->surat_keputusan);
         $this->setupLookupOptions($this->tempat_sidang_kode_perilaku);
@@ -747,6 +747,16 @@ class VAswasEdit extends VAswas
             }
         }
 
+        // Check field name 'unit_organisasi' first before field var 'x_unit_organisasi'
+        $val = $CurrentForm->hasValue("unit_organisasi") ? $CurrentForm->getValue("unit_organisasi") : $CurrentForm->getValue("x_unit_organisasi");
+        if (!$this->unit_organisasi->IsDetailKey) {
+            if (IsApi() && $val === null) {
+                $this->unit_organisasi->Visible = false; // Disable update for API request
+            } else {
+                $this->unit_organisasi->setFormValue($val);
+            }
+        }
+
         // Check field name 'pangkat' first before field var 'x_pangkat'
         $val = $CurrentForm->hasValue("pangkat") ? $CurrentForm->getValue("pangkat") : $CurrentForm->getValue("x_pangkat");
         if (!$this->pangkat->IsDetailKey) {
@@ -767,13 +777,13 @@ class VAswasEdit extends VAswas
             }
         }
 
-        // Check field name 'unit_organisasi' first before field var 'x_unit_organisasi'
-        $val = $CurrentForm->hasValue("unit_organisasi") ? $CurrentForm->getValue("unit_organisasi") : $CurrentForm->getValue("x_unit_organisasi");
-        if (!$this->unit_organisasi->IsDetailKey) {
+        // Check field name 'kategori_pemohon' first before field var 'x_kategori_pemohon'
+        $val = $CurrentForm->hasValue("kategori_pemohon") ? $CurrentForm->getValue("kategori_pemohon") : $CurrentForm->getValue("x_kategori_pemohon");
+        if (!$this->kategori_pemohon->IsDetailKey) {
             if (IsApi() && $val === null) {
-                $this->unit_organisasi->Visible = false; // Disable update for API request
+                $this->kategori_pemohon->Visible = false; // Disable update for API request
             } else {
-                $this->unit_organisasi->setFormValue($val);
+                $this->kategori_pemohon->setFormValue($val);
             }
         }
 
@@ -794,16 +804,6 @@ class VAswasEdit extends VAswas
                 $this->scan_lhkasn->Visible = false; // Disable update for API request
             } else {
                 $this->scan_lhkasn->setFormValue($val);
-            }
-        }
-
-        // Check field name 'kategori_pemohon' first before field var 'x_kategori_pemohon'
-        $val = $CurrentForm->hasValue("kategori_pemohon") ? $CurrentForm->getValue("kategori_pemohon") : $CurrentForm->getValue("x_kategori_pemohon");
-        if (!$this->kategori_pemohon->IsDetailKey) {
-            if (IsApi() && $val === null) {
-                $this->kategori_pemohon->Visible = false; // Disable update for API request
-            } else {
-                $this->kategori_pemohon->setFormValue($val);
             }
         }
 
@@ -1067,12 +1067,12 @@ class VAswasEdit extends VAswas
         $this->nip->CurrentValue = $this->nip->FormValue;
         $this->nrp->CurrentValue = $this->nrp->FormValue;
         $this->nama->CurrentValue = $this->nama->FormValue;
+        $this->unit_organisasi->CurrentValue = $this->unit_organisasi->FormValue;
         $this->pangkat->CurrentValue = $this->pangkat->FormValue;
         $this->jabatan->CurrentValue = $this->jabatan->FormValue;
-        $this->unit_organisasi->CurrentValue = $this->unit_organisasi->FormValue;
+        $this->kategori_pemohon->CurrentValue = $this->kategori_pemohon->FormValue;
         $this->scan_lhkpn->CurrentValue = $this->scan_lhkpn->FormValue;
         $this->scan_lhkasn->CurrentValue = $this->scan_lhkasn->FormValue;
-        $this->kategori_pemohon->CurrentValue = $this->kategori_pemohon->FormValue;
         $this->keperluan->CurrentValue = $this->keperluan->FormValue;
         $this->email_pemohon->CurrentValue = $this->email_pemohon->FormValue;
         $this->hukuman_disiplin->CurrentValue = $this->hukuman_disiplin->FormValue;
@@ -1154,12 +1154,12 @@ class VAswasEdit extends VAswas
         $this->nip->setDbValue($row['nip']);
         $this->nrp->setDbValue($row['nrp']);
         $this->nama->setDbValue($row['nama']);
+        $this->unit_organisasi->setDbValue($row['unit_organisasi']);
         $this->pangkat->setDbValue($row['pangkat']);
         $this->jabatan->setDbValue($row['jabatan']);
-        $this->unit_organisasi->setDbValue($row['unit_organisasi']);
+        $this->kategori_pemohon->setDbValue($row['kategori_pemohon']);
         $this->scan_lhkpn->setDbValue($row['scan_lhkpn']);
         $this->scan_lhkasn->setDbValue($row['scan_lhkasn']);
-        $this->kategori_pemohon->setDbValue($row['kategori_pemohon']);
         $this->keperluan->setDbValue($row['keperluan']);
         $this->email_pemohon->setDbValue($row['email_pemohon']);
         $this->hukuman_disiplin->setDbValue($row['hukuman_disiplin']);
@@ -1195,12 +1195,12 @@ class VAswasEdit extends VAswas
         $row['nip'] = null;
         $row['nrp'] = null;
         $row['nama'] = null;
+        $row['unit_organisasi'] = null;
         $row['pangkat'] = null;
         $row['jabatan'] = null;
-        $row['unit_organisasi'] = null;
+        $row['kategori_pemohon'] = null;
         $row['scan_lhkpn'] = null;
         $row['scan_lhkasn'] = null;
-        $row['kategori_pemohon'] = null;
         $row['keperluan'] = null;
         $row['email_pemohon'] = null;
         $row['hukuman_disiplin'] = null;
@@ -1266,17 +1266,17 @@ class VAswasEdit extends VAswas
 
         // nama
 
+        // unit_organisasi
+
         // pangkat
 
         // jabatan
 
-        // unit_organisasi
+        // kategori_pemohon
 
         // scan_lhkpn
 
         // scan_lhkasn
-
-        // kategori_pemohon
 
         // keperluan
 
@@ -1347,6 +1347,27 @@ class VAswasEdit extends VAswas
             $this->nama->ViewValue = $this->nama->CurrentValue;
             $this->nama->ViewCustomAttributes = "";
 
+            // unit_organisasi
+            $curVal = trim(strval($this->unit_organisasi->CurrentValue));
+            if ($curVal != "") {
+                $this->unit_organisasi->ViewValue = $this->unit_organisasi->lookupCacheOption($curVal);
+                if ($this->unit_organisasi->ViewValue === null) { // Lookup from database
+                    $filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
+                    $sqlWrk = $this->unit_organisasi->Lookup->getSql(false, $filterWrk, '', $this, true, true);
+                    $rswrk = Conn()->executeQuery($sqlWrk)->fetchAll(\PDO::FETCH_BOTH);
+                    $ari = count($rswrk);
+                    if ($ari > 0) { // Lookup values found
+                        $arwrk = $this->unit_organisasi->Lookup->renderViewRow($rswrk[0]);
+                        $this->unit_organisasi->ViewValue = $this->unit_organisasi->displayValue($arwrk);
+                    } else {
+                        $this->unit_organisasi->ViewValue = $this->unit_organisasi->CurrentValue;
+                    }
+                }
+            } else {
+                $this->unit_organisasi->ViewValue = null;
+            }
+            $this->unit_organisasi->ViewCustomAttributes = "";
+
             // pangkat
             $curVal = trim(strval($this->pangkat->CurrentValue));
             if ($curVal != "") {
@@ -1389,26 +1410,13 @@ class VAswasEdit extends VAswas
             }
             $this->jabatan->ViewCustomAttributes = "";
 
-            // unit_organisasi
-            $curVal = trim(strval($this->unit_organisasi->CurrentValue));
-            if ($curVal != "") {
-                $this->unit_organisasi->ViewValue = $this->unit_organisasi->lookupCacheOption($curVal);
-                if ($this->unit_organisasi->ViewValue === null) { // Lookup from database
-                    $filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
-                    $sqlWrk = $this->unit_organisasi->Lookup->getSql(false, $filterWrk, '', $this, true, true);
-                    $rswrk = Conn()->executeQuery($sqlWrk)->fetchAll(\PDO::FETCH_BOTH);
-                    $ari = count($rswrk);
-                    if ($ari > 0) { // Lookup values found
-                        $arwrk = $this->unit_organisasi->Lookup->renderViewRow($rswrk[0]);
-                        $this->unit_organisasi->ViewValue = $this->unit_organisasi->displayValue($arwrk);
-                    } else {
-                        $this->unit_organisasi->ViewValue = $this->unit_organisasi->CurrentValue;
-                    }
-                }
+            // kategori_pemohon
+            if (strval($this->kategori_pemohon->CurrentValue) != "") {
+                $this->kategori_pemohon->ViewValue = $this->kategori_pemohon->optionCaption($this->kategori_pemohon->CurrentValue);
             } else {
-                $this->unit_organisasi->ViewValue = null;
+                $this->kategori_pemohon->ViewValue = null;
             }
-            $this->unit_organisasi->ViewCustomAttributes = "";
+            $this->kategori_pemohon->ViewCustomAttributes = "";
 
             // scan_lhkpn
             $this->scan_lhkpn->ViewValue = $this->scan_lhkpn->CurrentValue;
@@ -1417,14 +1425,6 @@ class VAswasEdit extends VAswas
             // scan_lhkasn
             $this->scan_lhkasn->ViewValue = $this->scan_lhkasn->CurrentValue;
             $this->scan_lhkasn->ViewCustomAttributes = "";
-
-            // kategori_pemohon
-            if (strval($this->kategori_pemohon->CurrentValue) != "") {
-                $this->kategori_pemohon->ViewValue = $this->kategori_pemohon->optionCaption($this->kategori_pemohon->CurrentValue);
-            } else {
-                $this->kategori_pemohon->ViewValue = null;
-            }
-            $this->kategori_pemohon->ViewCustomAttributes = "";
 
             // keperluan
             $curVal = trim(strval($this->keperluan->CurrentValue));
@@ -1621,6 +1621,11 @@ class VAswasEdit extends VAswas
             $this->nama->HrefValue = "";
             $this->nama->TooltipValue = "";
 
+            // unit_organisasi
+            $this->unit_organisasi->LinkCustomAttributes = "";
+            $this->unit_organisasi->HrefValue = "";
+            $this->unit_organisasi->TooltipValue = "";
+
             // pangkat
             $this->pangkat->LinkCustomAttributes = "";
             $this->pangkat->HrefValue = "";
@@ -1631,10 +1636,10 @@ class VAswasEdit extends VAswas
             $this->jabatan->HrefValue = "";
             $this->jabatan->TooltipValue = "";
 
-            // unit_organisasi
-            $this->unit_organisasi->LinkCustomAttributes = "";
-            $this->unit_organisasi->HrefValue = "";
-            $this->unit_organisasi->TooltipValue = "";
+            // kategori_pemohon
+            $this->kategori_pemohon->LinkCustomAttributes = "";
+            $this->kategori_pemohon->HrefValue = "";
+            $this->kategori_pemohon->TooltipValue = "";
 
             // scan_lhkpn
             $this->scan_lhkpn->LinkCustomAttributes = "data-toggle=\"modal\"";
@@ -1661,11 +1666,6 @@ class VAswasEdit extends VAswas
                 $this->scan_lhkasn->HrefValue = "";
             }
             $this->scan_lhkasn->TooltipValue = "";
-
-            // kategori_pemohon
-            $this->kategori_pemohon->LinkCustomAttributes = "";
-            $this->kategori_pemohon->HrefValue = "";
-            $this->kategori_pemohon->TooltipValue = "";
 
             // keperluan
             $this->keperluan->LinkCustomAttributes = "";
@@ -1812,6 +1812,29 @@ class VAswasEdit extends VAswas
             $this->nama->EditValue = $this->nama->CurrentValue;
             $this->nama->ViewCustomAttributes = "";
 
+            // unit_organisasi
+            $this->unit_organisasi->EditAttrs["class"] = "form-control";
+            $this->unit_organisasi->EditCustomAttributes = "";
+            $curVal = trim(strval($this->unit_organisasi->CurrentValue));
+            if ($curVal != "") {
+                $this->unit_organisasi->EditValue = $this->unit_organisasi->lookupCacheOption($curVal);
+                if ($this->unit_organisasi->EditValue === null) { // Lookup from database
+                    $filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
+                    $sqlWrk = $this->unit_organisasi->Lookup->getSql(false, $filterWrk, '', $this, true, true);
+                    $rswrk = Conn()->executeQuery($sqlWrk)->fetchAll(\PDO::FETCH_BOTH);
+                    $ari = count($rswrk);
+                    if ($ari > 0) { // Lookup values found
+                        $arwrk = $this->unit_organisasi->Lookup->renderViewRow($rswrk[0]);
+                        $this->unit_organisasi->EditValue = $this->unit_organisasi->displayValue($arwrk);
+                    } else {
+                        $this->unit_organisasi->EditValue = $this->unit_organisasi->CurrentValue;
+                    }
+                }
+            } else {
+                $this->unit_organisasi->EditValue = null;
+            }
+            $this->unit_organisasi->ViewCustomAttributes = "";
+
             // pangkat
             $this->pangkat->EditAttrs["class"] = "form-control";
             $this->pangkat->EditCustomAttributes = "";
@@ -1858,28 +1881,15 @@ class VAswasEdit extends VAswas
             }
             $this->jabatan->ViewCustomAttributes = "";
 
-            // unit_organisasi
-            $this->unit_organisasi->EditAttrs["class"] = "form-control";
-            $this->unit_organisasi->EditCustomAttributes = "";
-            $curVal = trim(strval($this->unit_organisasi->CurrentValue));
-            if ($curVal != "") {
-                $this->unit_organisasi->EditValue = $this->unit_organisasi->lookupCacheOption($curVal);
-                if ($this->unit_organisasi->EditValue === null) { // Lookup from database
-                    $filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
-                    $sqlWrk = $this->unit_organisasi->Lookup->getSql(false, $filterWrk, '', $this, true, true);
-                    $rswrk = Conn()->executeQuery($sqlWrk)->fetchAll(\PDO::FETCH_BOTH);
-                    $ari = count($rswrk);
-                    if ($ari > 0) { // Lookup values found
-                        $arwrk = $this->unit_organisasi->Lookup->renderViewRow($rswrk[0]);
-                        $this->unit_organisasi->EditValue = $this->unit_organisasi->displayValue($arwrk);
-                    } else {
-                        $this->unit_organisasi->EditValue = $this->unit_organisasi->CurrentValue;
-                    }
-                }
+            // kategori_pemohon
+            $this->kategori_pemohon->EditAttrs["class"] = "form-control";
+            $this->kategori_pemohon->EditCustomAttributes = "";
+            if (strval($this->kategori_pemohon->CurrentValue) != "") {
+                $this->kategori_pemohon->EditValue = $this->kategori_pemohon->optionCaption($this->kategori_pemohon->CurrentValue);
             } else {
-                $this->unit_organisasi->EditValue = null;
+                $this->kategori_pemohon->EditValue = null;
             }
-            $this->unit_organisasi->ViewCustomAttributes = "";
+            $this->kategori_pemohon->ViewCustomAttributes = "";
 
             // scan_lhkpn
             $this->scan_lhkpn->EditAttrs["class"] = "form-control";
@@ -1892,16 +1902,6 @@ class VAswasEdit extends VAswas
             $this->scan_lhkasn->EditCustomAttributes = "";
             $this->scan_lhkasn->EditValue = $this->scan_lhkasn->CurrentValue;
             $this->scan_lhkasn->ViewCustomAttributes = "";
-
-            // kategori_pemohon
-            $this->kategori_pemohon->EditAttrs["class"] = "form-control";
-            $this->kategori_pemohon->EditCustomAttributes = "";
-            if (strval($this->kategori_pemohon->CurrentValue) != "") {
-                $this->kategori_pemohon->EditValue = $this->kategori_pemohon->optionCaption($this->kategori_pemohon->CurrentValue);
-            } else {
-                $this->kategori_pemohon->EditValue = null;
-            }
-            $this->kategori_pemohon->ViewCustomAttributes = "";
 
             // keperluan
             $this->keperluan->EditAttrs["class"] = "form-control";
@@ -2143,6 +2143,11 @@ class VAswasEdit extends VAswas
             $this->nama->HrefValue = "";
             $this->nama->TooltipValue = "";
 
+            // unit_organisasi
+            $this->unit_organisasi->LinkCustomAttributes = "";
+            $this->unit_organisasi->HrefValue = "";
+            $this->unit_organisasi->TooltipValue = "";
+
             // pangkat
             $this->pangkat->LinkCustomAttributes = "";
             $this->pangkat->HrefValue = "";
@@ -2153,10 +2158,10 @@ class VAswasEdit extends VAswas
             $this->jabatan->HrefValue = "";
             $this->jabatan->TooltipValue = "";
 
-            // unit_organisasi
-            $this->unit_organisasi->LinkCustomAttributes = "";
-            $this->unit_organisasi->HrefValue = "";
-            $this->unit_organisasi->TooltipValue = "";
+            // kategori_pemohon
+            $this->kategori_pemohon->LinkCustomAttributes = "";
+            $this->kategori_pemohon->HrefValue = "";
+            $this->kategori_pemohon->TooltipValue = "";
 
             // scan_lhkpn
             $this->scan_lhkpn->LinkCustomAttributes = "data-toggle=\"modal\"";
@@ -2183,11 +2188,6 @@ class VAswasEdit extends VAswas
                 $this->scan_lhkasn->HrefValue = "";
             }
             $this->scan_lhkasn->TooltipValue = "";
-
-            // kategori_pemohon
-            $this->kategori_pemohon->LinkCustomAttributes = "";
-            $this->kategori_pemohon->HrefValue = "";
-            $this->kategori_pemohon->TooltipValue = "";
 
             // keperluan
             $this->keperluan->LinkCustomAttributes = "";
@@ -2352,6 +2352,11 @@ class VAswasEdit extends VAswas
                 $this->nama->addErrorMessage(str_replace("%s", $this->nama->caption(), $this->nama->RequiredErrorMessage));
             }
         }
+        if ($this->unit_organisasi->Required) {
+            if (!$this->unit_organisasi->IsDetailKey && EmptyValue($this->unit_organisasi->FormValue)) {
+                $this->unit_organisasi->addErrorMessage(str_replace("%s", $this->unit_organisasi->caption(), $this->unit_organisasi->RequiredErrorMessage));
+            }
+        }
         if ($this->pangkat->Required) {
             if (!$this->pangkat->IsDetailKey && EmptyValue($this->pangkat->FormValue)) {
                 $this->pangkat->addErrorMessage(str_replace("%s", $this->pangkat->caption(), $this->pangkat->RequiredErrorMessage));
@@ -2362,9 +2367,9 @@ class VAswasEdit extends VAswas
                 $this->jabatan->addErrorMessage(str_replace("%s", $this->jabatan->caption(), $this->jabatan->RequiredErrorMessage));
             }
         }
-        if ($this->unit_organisasi->Required) {
-            if (!$this->unit_organisasi->IsDetailKey && EmptyValue($this->unit_organisasi->FormValue)) {
-                $this->unit_organisasi->addErrorMessage(str_replace("%s", $this->unit_organisasi->caption(), $this->unit_organisasi->RequiredErrorMessage));
+        if ($this->kategori_pemohon->Required) {
+            if ($this->kategori_pemohon->FormValue == "") {
+                $this->kategori_pemohon->addErrorMessage(str_replace("%s", $this->kategori_pemohon->caption(), $this->kategori_pemohon->RequiredErrorMessage));
             }
         }
         if ($this->scan_lhkpn->Required) {
@@ -2375,11 +2380,6 @@ class VAswasEdit extends VAswas
         if ($this->scan_lhkasn->Required) {
             if (!$this->scan_lhkasn->IsDetailKey && EmptyValue($this->scan_lhkasn->FormValue)) {
                 $this->scan_lhkasn->addErrorMessage(str_replace("%s", $this->scan_lhkasn->caption(), $this->scan_lhkasn->RequiredErrorMessage));
-            }
-        }
-        if ($this->kategori_pemohon->Required) {
-            if ($this->kategori_pemohon->FormValue == "") {
-                $this->kategori_pemohon->addErrorMessage(str_replace("%s", $this->kategori_pemohon->caption(), $this->kategori_pemohon->RequiredErrorMessage));
             }
         }
         if ($this->keperluan->Required) {
@@ -2605,11 +2605,11 @@ class VAswasEdit extends VAswas
 
             // Set up lookup SQL and connection
             switch ($fld->FieldVar) {
+                case "x_unit_organisasi":
+                    break;
                 case "x_pangkat":
                     break;
                 case "x_jabatan":
-                    break;
-                case "x_unit_organisasi":
                     break;
                 case "x_kategori_pemohon":
                     break;

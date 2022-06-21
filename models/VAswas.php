@@ -33,12 +33,12 @@ class VAswas extends DbTable
     public $nip;
     public $nrp;
     public $nama;
+    public $unit_organisasi;
     public $pangkat;
     public $jabatan;
-    public $unit_organisasi;
+    public $kategori_pemohon;
     public $scan_lhkpn;
     public $scan_lhkasn;
-    public $kategori_pemohon;
     public $keperluan;
     public $email_pemohon;
     public $hukuman_disiplin;
@@ -140,6 +140,24 @@ class VAswas extends DbTable
         $this->nama->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->nama->Param, "CustomMsg");
         $this->Fields['nama'] = &$this->nama;
 
+        // unit_organisasi
+        $this->unit_organisasi = new DbField('v_aswas', 'v_aswas', 'x_unit_organisasi', 'unit_organisasi', '`unit_organisasi`', '`unit_organisasi`', 3, 11, -1, false, '`unit_organisasi`', false, false, false, 'FORMATTED TEXT', 'SELECT');
+        $this->unit_organisasi->Nullable = false; // NOT NULL field
+        $this->unit_organisasi->Sortable = true; // Allow sort
+        $this->unit_organisasi->UsePleaseSelect = true; // Use PleaseSelect by default
+        $this->unit_organisasi->PleaseSelectText = $Language->phrase("PleaseSelect"); // "PleaseSelect" text
+        switch ($CurrentLanguage) {
+            case "en":
+                $this->unit_organisasi->Lookup = new Lookup('unit_organisasi', 'm_satuan_kerja', false, 'id', ["satuan_kerja","","",""], [], [], [], [], [], [], '', '');
+                break;
+            default:
+                $this->unit_organisasi->Lookup = new Lookup('unit_organisasi', 'm_satuan_kerja', false, 'id', ["satuan_kerja","","",""], [], [], [], [], [], [], '', '');
+                break;
+        }
+        $this->unit_organisasi->DefaultErrorMessage = $Language->phrase("IncorrectInteger");
+        $this->unit_organisasi->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->unit_organisasi->Param, "CustomMsg");
+        $this->Fields['unit_organisasi'] = &$this->unit_organisasi;
+
         // pangkat
         $this->pangkat = new DbField('v_aswas', 'v_aswas', 'x_pangkat', 'pangkat', '`pangkat`', '`pangkat`', 3, 11, -1, false, '`pangkat`', false, false, false, 'FORMATTED TEXT', 'SELECT');
         $this->pangkat->Nullable = false; // NOT NULL field
@@ -176,36 +194,6 @@ class VAswas extends DbTable
         $this->jabatan->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->jabatan->Param, "CustomMsg");
         $this->Fields['jabatan'] = &$this->jabatan;
 
-        // unit_organisasi
-        $this->unit_organisasi = new DbField('v_aswas', 'v_aswas', 'x_unit_organisasi', 'unit_organisasi', '`unit_organisasi`', '`unit_organisasi`', 3, 11, -1, false, '`unit_organisasi`', false, false, false, 'FORMATTED TEXT', 'SELECT');
-        $this->unit_organisasi->Nullable = false; // NOT NULL field
-        $this->unit_organisasi->Sortable = true; // Allow sort
-        $this->unit_organisasi->UsePleaseSelect = true; // Use PleaseSelect by default
-        $this->unit_organisasi->PleaseSelectText = $Language->phrase("PleaseSelect"); // "PleaseSelect" text
-        switch ($CurrentLanguage) {
-            case "en":
-                $this->unit_organisasi->Lookup = new Lookup('unit_organisasi', 'm_satuan_kerja', false, 'id', ["satuan_kerja","","",""], [], [], [], [], [], [], '', '');
-                break;
-            default:
-                $this->unit_organisasi->Lookup = new Lookup('unit_organisasi', 'm_satuan_kerja', false, 'id', ["satuan_kerja","","",""], [], [], [], [], [], [], '', '');
-                break;
-        }
-        $this->unit_organisasi->DefaultErrorMessage = $Language->phrase("IncorrectInteger");
-        $this->unit_organisasi->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->unit_organisasi->Param, "CustomMsg");
-        $this->Fields['unit_organisasi'] = &$this->unit_organisasi;
-
-        // scan_lhkpn
-        $this->scan_lhkpn = new DbField('v_aswas', 'v_aswas', 'x_scan_lhkpn', 'scan_lhkpn', '`scan_lhkpn`', '`scan_lhkpn`', 200, 255, -1, false, '`scan_lhkpn`', false, false, false, 'FORMATTED TEXT', 'TEXT');
-        $this->scan_lhkpn->Sortable = true; // Allow sort
-        $this->scan_lhkpn->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->scan_lhkpn->Param, "CustomMsg");
-        $this->Fields['scan_lhkpn'] = &$this->scan_lhkpn;
-
-        // scan_lhkasn
-        $this->scan_lhkasn = new DbField('v_aswas', 'v_aswas', 'x_scan_lhkasn', 'scan_lhkasn', '`scan_lhkasn`', '`scan_lhkasn`', 200, 255, -1, false, '`scan_lhkasn`', false, false, false, 'FORMATTED TEXT', 'TEXT');
-        $this->scan_lhkasn->Sortable = true; // Allow sort
-        $this->scan_lhkasn->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->scan_lhkasn->Param, "CustomMsg");
-        $this->Fields['scan_lhkasn'] = &$this->scan_lhkasn;
-
         // kategori_pemohon
         $this->kategori_pemohon = new DbField('v_aswas', 'v_aswas', 'x_kategori_pemohon', 'kategori_pemohon', '`kategori_pemohon`', '`kategori_pemohon`', 200, 255, -1, false, '`kategori_pemohon`', false, false, false, 'FORMATTED TEXT', 'RADIO');
         $this->kategori_pemohon->Nullable = false; // NOT NULL field
@@ -222,6 +210,18 @@ class VAswas extends DbTable
         $this->kategori_pemohon->OptionCount = 2;
         $this->kategori_pemohon->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->kategori_pemohon->Param, "CustomMsg");
         $this->Fields['kategori_pemohon'] = &$this->kategori_pemohon;
+
+        // scan_lhkpn
+        $this->scan_lhkpn = new DbField('v_aswas', 'v_aswas', 'x_scan_lhkpn', 'scan_lhkpn', '`scan_lhkpn`', '`scan_lhkpn`', 200, 255, -1, false, '`scan_lhkpn`', false, false, false, 'FORMATTED TEXT', 'TEXT');
+        $this->scan_lhkpn->Sortable = true; // Allow sort
+        $this->scan_lhkpn->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->scan_lhkpn->Param, "CustomMsg");
+        $this->Fields['scan_lhkpn'] = &$this->scan_lhkpn;
+
+        // scan_lhkasn
+        $this->scan_lhkasn = new DbField('v_aswas', 'v_aswas', 'x_scan_lhkasn', 'scan_lhkasn', '`scan_lhkasn`', '`scan_lhkasn`', 200, 255, -1, false, '`scan_lhkasn`', false, false, false, 'FORMATTED TEXT', 'TEXT');
+        $this->scan_lhkasn->Sortable = true; // Allow sort
+        $this->scan_lhkasn->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->scan_lhkasn->Param, "CustomMsg");
+        $this->Fields['scan_lhkasn'] = &$this->scan_lhkasn;
 
         // keperluan
         $this->keperluan = new DbField('v_aswas', 'v_aswas', 'x_keperluan', 'keperluan', '`keperluan`', '`keperluan`', 3, 11, -1, false, '`keperluan`', false, false, false, 'FORMATTED TEXT', 'SELECT');
@@ -876,12 +876,12 @@ class VAswas extends DbTable
         $this->nip->DbValue = $row['nip'];
         $this->nrp->DbValue = $row['nrp'];
         $this->nama->DbValue = $row['nama'];
+        $this->unit_organisasi->DbValue = $row['unit_organisasi'];
         $this->pangkat->DbValue = $row['pangkat'];
         $this->jabatan->DbValue = $row['jabatan'];
-        $this->unit_organisasi->DbValue = $row['unit_organisasi'];
+        $this->kategori_pemohon->DbValue = $row['kategori_pemohon'];
         $this->scan_lhkpn->DbValue = $row['scan_lhkpn'];
         $this->scan_lhkasn->DbValue = $row['scan_lhkasn'];
-        $this->kategori_pemohon->DbValue = $row['kategori_pemohon'];
         $this->keperluan->DbValue = $row['keperluan'];
         $this->email_pemohon->DbValue = $row['email_pemohon'];
         $this->hukuman_disiplin->DbValue = $row['hukuman_disiplin'];
@@ -1231,12 +1231,12 @@ SORTHTML;
         $this->nip->setDbValue($row['nip']);
         $this->nrp->setDbValue($row['nrp']);
         $this->nama->setDbValue($row['nama']);
+        $this->unit_organisasi->setDbValue($row['unit_organisasi']);
         $this->pangkat->setDbValue($row['pangkat']);
         $this->jabatan->setDbValue($row['jabatan']);
-        $this->unit_organisasi->setDbValue($row['unit_organisasi']);
+        $this->kategori_pemohon->setDbValue($row['kategori_pemohon']);
         $this->scan_lhkpn->setDbValue($row['scan_lhkpn']);
         $this->scan_lhkasn->setDbValue($row['scan_lhkasn']);
-        $this->kategori_pemohon->setDbValue($row['kategori_pemohon']);
         $this->keperluan->setDbValue($row['keperluan']);
         $this->email_pemohon->setDbValue($row['email_pemohon']);
         $this->hukuman_disiplin->setDbValue($row['hukuman_disiplin']);
@@ -1283,17 +1283,17 @@ SORTHTML;
 
         // nama
 
+        // unit_organisasi
+
         // pangkat
 
         // jabatan
 
-        // unit_organisasi
+        // kategori_pemohon
 
         // scan_lhkpn
 
         // scan_lhkasn
-
-        // kategori_pemohon
 
         // keperluan
 
@@ -1364,6 +1364,27 @@ SORTHTML;
         $this->nama->ViewValue = $this->nama->CurrentValue;
         $this->nama->ViewCustomAttributes = "";
 
+        // unit_organisasi
+        $curVal = trim(strval($this->unit_organisasi->CurrentValue));
+        if ($curVal != "") {
+            $this->unit_organisasi->ViewValue = $this->unit_organisasi->lookupCacheOption($curVal);
+            if ($this->unit_organisasi->ViewValue === null) { // Lookup from database
+                $filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
+                $sqlWrk = $this->unit_organisasi->Lookup->getSql(false, $filterWrk, '', $this, true, true);
+                $rswrk = Conn()->executeQuery($sqlWrk)->fetchAll(\PDO::FETCH_BOTH);
+                $ari = count($rswrk);
+                if ($ari > 0) { // Lookup values found
+                    $arwrk = $this->unit_organisasi->Lookup->renderViewRow($rswrk[0]);
+                    $this->unit_organisasi->ViewValue = $this->unit_organisasi->displayValue($arwrk);
+                } else {
+                    $this->unit_organisasi->ViewValue = $this->unit_organisasi->CurrentValue;
+                }
+            }
+        } else {
+            $this->unit_organisasi->ViewValue = null;
+        }
+        $this->unit_organisasi->ViewCustomAttributes = "";
+
         // pangkat
         $curVal = trim(strval($this->pangkat->CurrentValue));
         if ($curVal != "") {
@@ -1406,26 +1427,13 @@ SORTHTML;
         }
         $this->jabatan->ViewCustomAttributes = "";
 
-        // unit_organisasi
-        $curVal = trim(strval($this->unit_organisasi->CurrentValue));
-        if ($curVal != "") {
-            $this->unit_organisasi->ViewValue = $this->unit_organisasi->lookupCacheOption($curVal);
-            if ($this->unit_organisasi->ViewValue === null) { // Lookup from database
-                $filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
-                $sqlWrk = $this->unit_organisasi->Lookup->getSql(false, $filterWrk, '', $this, true, true);
-                $rswrk = Conn()->executeQuery($sqlWrk)->fetchAll(\PDO::FETCH_BOTH);
-                $ari = count($rswrk);
-                if ($ari > 0) { // Lookup values found
-                    $arwrk = $this->unit_organisasi->Lookup->renderViewRow($rswrk[0]);
-                    $this->unit_organisasi->ViewValue = $this->unit_organisasi->displayValue($arwrk);
-                } else {
-                    $this->unit_organisasi->ViewValue = $this->unit_organisasi->CurrentValue;
-                }
-            }
+        // kategori_pemohon
+        if (strval($this->kategori_pemohon->CurrentValue) != "") {
+            $this->kategori_pemohon->ViewValue = $this->kategori_pemohon->optionCaption($this->kategori_pemohon->CurrentValue);
         } else {
-            $this->unit_organisasi->ViewValue = null;
+            $this->kategori_pemohon->ViewValue = null;
         }
-        $this->unit_organisasi->ViewCustomAttributes = "";
+        $this->kategori_pemohon->ViewCustomAttributes = "";
 
         // scan_lhkpn
         $this->scan_lhkpn->ViewValue = $this->scan_lhkpn->CurrentValue;
@@ -1434,14 +1442,6 @@ SORTHTML;
         // scan_lhkasn
         $this->scan_lhkasn->ViewValue = $this->scan_lhkasn->CurrentValue;
         $this->scan_lhkasn->ViewCustomAttributes = "";
-
-        // kategori_pemohon
-        if (strval($this->kategori_pemohon->CurrentValue) != "") {
-            $this->kategori_pemohon->ViewValue = $this->kategori_pemohon->optionCaption($this->kategori_pemohon->CurrentValue);
-        } else {
-            $this->kategori_pemohon->ViewValue = null;
-        }
-        $this->kategori_pemohon->ViewCustomAttributes = "";
 
         // keperluan
         $curVal = trim(strval($this->keperluan->CurrentValue));
@@ -1643,6 +1643,11 @@ SORTHTML;
         $this->nama->HrefValue = "";
         $this->nama->TooltipValue = "";
 
+        // unit_organisasi
+        $this->unit_organisasi->LinkCustomAttributes = "";
+        $this->unit_organisasi->HrefValue = "";
+        $this->unit_organisasi->TooltipValue = "";
+
         // pangkat
         $this->pangkat->LinkCustomAttributes = "";
         $this->pangkat->HrefValue = "";
@@ -1653,10 +1658,10 @@ SORTHTML;
         $this->jabatan->HrefValue = "";
         $this->jabatan->TooltipValue = "";
 
-        // unit_organisasi
-        $this->unit_organisasi->LinkCustomAttributes = "";
-        $this->unit_organisasi->HrefValue = "";
-        $this->unit_organisasi->TooltipValue = "";
+        // kategori_pemohon
+        $this->kategori_pemohon->LinkCustomAttributes = "";
+        $this->kategori_pemohon->HrefValue = "";
+        $this->kategori_pemohon->TooltipValue = "";
 
         // scan_lhkpn
         $this->scan_lhkpn->LinkCustomAttributes = "data-toggle=\"modal\"";
@@ -1683,11 +1688,6 @@ SORTHTML;
             $this->scan_lhkasn->HrefValue = "";
         }
         $this->scan_lhkasn->TooltipValue = "";
-
-        // kategori_pemohon
-        $this->kategori_pemohon->LinkCustomAttributes = "";
-        $this->kategori_pemohon->HrefValue = "";
-        $this->kategori_pemohon->TooltipValue = "";
 
         // keperluan
         $this->keperluan->LinkCustomAttributes = "";
@@ -1855,6 +1855,29 @@ SORTHTML;
         $this->nama->EditValue = $this->nama->CurrentValue;
         $this->nama->ViewCustomAttributes = "";
 
+        // unit_organisasi
+        $this->unit_organisasi->EditAttrs["class"] = "form-control";
+        $this->unit_organisasi->EditCustomAttributes = "";
+        $curVal = trim(strval($this->unit_organisasi->CurrentValue));
+        if ($curVal != "") {
+            $this->unit_organisasi->EditValue = $this->unit_organisasi->lookupCacheOption($curVal);
+            if ($this->unit_organisasi->EditValue === null) { // Lookup from database
+                $filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
+                $sqlWrk = $this->unit_organisasi->Lookup->getSql(false, $filterWrk, '', $this, true, true);
+                $rswrk = Conn()->executeQuery($sqlWrk)->fetchAll(\PDO::FETCH_BOTH);
+                $ari = count($rswrk);
+                if ($ari > 0) { // Lookup values found
+                    $arwrk = $this->unit_organisasi->Lookup->renderViewRow($rswrk[0]);
+                    $this->unit_organisasi->EditValue = $this->unit_organisasi->displayValue($arwrk);
+                } else {
+                    $this->unit_organisasi->EditValue = $this->unit_organisasi->CurrentValue;
+                }
+            }
+        } else {
+            $this->unit_organisasi->EditValue = null;
+        }
+        $this->unit_organisasi->ViewCustomAttributes = "";
+
         // pangkat
         $this->pangkat->EditAttrs["class"] = "form-control";
         $this->pangkat->EditCustomAttributes = "";
@@ -1901,28 +1924,15 @@ SORTHTML;
         }
         $this->jabatan->ViewCustomAttributes = "";
 
-        // unit_organisasi
-        $this->unit_organisasi->EditAttrs["class"] = "form-control";
-        $this->unit_organisasi->EditCustomAttributes = "";
-        $curVal = trim(strval($this->unit_organisasi->CurrentValue));
-        if ($curVal != "") {
-            $this->unit_organisasi->EditValue = $this->unit_organisasi->lookupCacheOption($curVal);
-            if ($this->unit_organisasi->EditValue === null) { // Lookup from database
-                $filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
-                $sqlWrk = $this->unit_organisasi->Lookup->getSql(false, $filterWrk, '', $this, true, true);
-                $rswrk = Conn()->executeQuery($sqlWrk)->fetchAll(\PDO::FETCH_BOTH);
-                $ari = count($rswrk);
-                if ($ari > 0) { // Lookup values found
-                    $arwrk = $this->unit_organisasi->Lookup->renderViewRow($rswrk[0]);
-                    $this->unit_organisasi->EditValue = $this->unit_organisasi->displayValue($arwrk);
-                } else {
-                    $this->unit_organisasi->EditValue = $this->unit_organisasi->CurrentValue;
-                }
-            }
+        // kategori_pemohon
+        $this->kategori_pemohon->EditAttrs["class"] = "form-control";
+        $this->kategori_pemohon->EditCustomAttributes = "";
+        if (strval($this->kategori_pemohon->CurrentValue) != "") {
+            $this->kategori_pemohon->EditValue = $this->kategori_pemohon->optionCaption($this->kategori_pemohon->CurrentValue);
         } else {
-            $this->unit_organisasi->EditValue = null;
+            $this->kategori_pemohon->EditValue = null;
         }
-        $this->unit_organisasi->ViewCustomAttributes = "";
+        $this->kategori_pemohon->ViewCustomAttributes = "";
 
         // scan_lhkpn
         $this->scan_lhkpn->EditAttrs["class"] = "form-control";
@@ -1935,16 +1945,6 @@ SORTHTML;
         $this->scan_lhkasn->EditCustomAttributes = "";
         $this->scan_lhkasn->EditValue = $this->scan_lhkasn->CurrentValue;
         $this->scan_lhkasn->ViewCustomAttributes = "";
-
-        // kategori_pemohon
-        $this->kategori_pemohon->EditAttrs["class"] = "form-control";
-        $this->kategori_pemohon->EditCustomAttributes = "";
-        if (strval($this->kategori_pemohon->CurrentValue) != "") {
-            $this->kategori_pemohon->EditValue = $this->kategori_pemohon->optionCaption($this->kategori_pemohon->CurrentValue);
-        } else {
-            $this->kategori_pemohon->EditValue = null;
-        }
-        $this->kategori_pemohon->ViewCustomAttributes = "";
 
         // keperluan
         $this->keperluan->EditAttrs["class"] = "form-control";
@@ -2196,12 +2196,12 @@ SORTHTML;
                     $doc->exportCaption($this->nip);
                     $doc->exportCaption($this->nrp);
                     $doc->exportCaption($this->nama);
+                    $doc->exportCaption($this->unit_organisasi);
                     $doc->exportCaption($this->pangkat);
                     $doc->exportCaption($this->jabatan);
-                    $doc->exportCaption($this->unit_organisasi);
+                    $doc->exportCaption($this->kategori_pemohon);
                     $doc->exportCaption($this->scan_lhkpn);
                     $doc->exportCaption($this->scan_lhkasn);
-                    $doc->exportCaption($this->kategori_pemohon);
                     $doc->exportCaption($this->keperluan);
                     $doc->exportCaption($this->email_pemohon);
                     $doc->exportCaption($this->hukuman_disiplin);
@@ -2232,12 +2232,12 @@ SORTHTML;
                     $doc->exportCaption($this->nip);
                     $doc->exportCaption($this->nrp);
                     $doc->exportCaption($this->nama);
+                    $doc->exportCaption($this->unit_organisasi);
                     $doc->exportCaption($this->pangkat);
                     $doc->exportCaption($this->jabatan);
-                    $doc->exportCaption($this->unit_organisasi);
+                    $doc->exportCaption($this->kategori_pemohon);
                     $doc->exportCaption($this->scan_lhkpn);
                     $doc->exportCaption($this->scan_lhkasn);
-                    $doc->exportCaption($this->kategori_pemohon);
                     $doc->exportCaption($this->keperluan);
                     $doc->exportCaption($this->email_pemohon);
                     $doc->exportCaption($this->hukuman_disiplin);
@@ -2295,12 +2295,12 @@ SORTHTML;
                         $doc->exportField($this->nip);
                         $doc->exportField($this->nrp);
                         $doc->exportField($this->nama);
+                        $doc->exportField($this->unit_organisasi);
                         $doc->exportField($this->pangkat);
                         $doc->exportField($this->jabatan);
-                        $doc->exportField($this->unit_organisasi);
+                        $doc->exportField($this->kategori_pemohon);
                         $doc->exportField($this->scan_lhkpn);
                         $doc->exportField($this->scan_lhkasn);
-                        $doc->exportField($this->kategori_pemohon);
                         $doc->exportField($this->keperluan);
                         $doc->exportField($this->email_pemohon);
                         $doc->exportField($this->hukuman_disiplin);
@@ -2331,12 +2331,12 @@ SORTHTML;
                         $doc->exportField($this->nip);
                         $doc->exportField($this->nrp);
                         $doc->exportField($this->nama);
+                        $doc->exportField($this->unit_organisasi);
                         $doc->exportField($this->pangkat);
                         $doc->exportField($this->jabatan);
-                        $doc->exportField($this->unit_organisasi);
+                        $doc->exportField($this->kategori_pemohon);
                         $doc->exportField($this->scan_lhkpn);
                         $doc->exportField($this->scan_lhkasn);
-                        $doc->exportField($this->kategori_pemohon);
                         $doc->exportField($this->keperluan);
                         $doc->exportField($this->email_pemohon);
                         $doc->exportField($this->hukuman_disiplin);

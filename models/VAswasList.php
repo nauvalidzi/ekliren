@@ -573,12 +573,12 @@ class VAswasList extends VAswas
         $this->nip->setVisibility();
         $this->nrp->setVisibility();
         $this->nama->setVisibility();
+        $this->unit_organisasi->setVisibility();
         $this->pangkat->Visible = false;
         $this->jabatan->Visible = false;
-        $this->unit_organisasi->setVisibility();
+        $this->kategori_pemohon->Visible = false;
         $this->scan_lhkpn->Visible = false;
         $this->scan_lhkasn->Visible = false;
-        $this->kategori_pemohon->Visible = false;
         $this->keperluan->setVisibility();
         $this->email_pemohon->Visible = false;
         $this->hukuman_disiplin->Visible = false;
@@ -630,9 +630,9 @@ class VAswasList extends VAswas
         }
 
         // Set up lookup cache
+        $this->setupLookupOptions($this->unit_organisasi);
         $this->setupLookupOptions($this->pangkat);
         $this->setupLookupOptions($this->jabatan);
-        $this->setupLookupOptions($this->unit_organisasi);
         $this->setupLookupOptions($this->keperluan);
         $this->setupLookupOptions($this->surat_keputusan);
         $this->setupLookupOptions($this->tempat_sidang_kode_perilaku);
@@ -904,12 +904,12 @@ class VAswasList extends VAswas
         $filterList = Concat($filterList, $this->nip->AdvancedSearch->toJson(), ","); // Field nip
         $filterList = Concat($filterList, $this->nrp->AdvancedSearch->toJson(), ","); // Field nrp
         $filterList = Concat($filterList, $this->nama->AdvancedSearch->toJson(), ","); // Field nama
+        $filterList = Concat($filterList, $this->unit_organisasi->AdvancedSearch->toJson(), ","); // Field unit_organisasi
         $filterList = Concat($filterList, $this->pangkat->AdvancedSearch->toJson(), ","); // Field pangkat
         $filterList = Concat($filterList, $this->jabatan->AdvancedSearch->toJson(), ","); // Field jabatan
-        $filterList = Concat($filterList, $this->unit_organisasi->AdvancedSearch->toJson(), ","); // Field unit_organisasi
+        $filterList = Concat($filterList, $this->kategori_pemohon->AdvancedSearch->toJson(), ","); // Field kategori_pemohon
         $filterList = Concat($filterList, $this->scan_lhkpn->AdvancedSearch->toJson(), ","); // Field scan_lhkpn
         $filterList = Concat($filterList, $this->scan_lhkasn->AdvancedSearch->toJson(), ","); // Field scan_lhkasn
-        $filterList = Concat($filterList, $this->kategori_pemohon->AdvancedSearch->toJson(), ","); // Field kategori_pemohon
         $filterList = Concat($filterList, $this->keperluan->AdvancedSearch->toJson(), ","); // Field keperluan
         $filterList = Concat($filterList, $this->email_pemohon->AdvancedSearch->toJson(), ","); // Field email_pemohon
         $filterList = Concat($filterList, $this->hukuman_disiplin->AdvancedSearch->toJson(), ","); // Field hukuman_disiplin
@@ -1014,6 +1014,14 @@ class VAswasList extends VAswas
         $this->nama->AdvancedSearch->SearchOperator2 = @$filter["w_nama"];
         $this->nama->AdvancedSearch->save();
 
+        // Field unit_organisasi
+        $this->unit_organisasi->AdvancedSearch->SearchValue = @$filter["x_unit_organisasi"];
+        $this->unit_organisasi->AdvancedSearch->SearchOperator = @$filter["z_unit_organisasi"];
+        $this->unit_organisasi->AdvancedSearch->SearchCondition = @$filter["v_unit_organisasi"];
+        $this->unit_organisasi->AdvancedSearch->SearchValue2 = @$filter["y_unit_organisasi"];
+        $this->unit_organisasi->AdvancedSearch->SearchOperator2 = @$filter["w_unit_organisasi"];
+        $this->unit_organisasi->AdvancedSearch->save();
+
         // Field pangkat
         $this->pangkat->AdvancedSearch->SearchValue = @$filter["x_pangkat"];
         $this->pangkat->AdvancedSearch->SearchOperator = @$filter["z_pangkat"];
@@ -1030,13 +1038,13 @@ class VAswasList extends VAswas
         $this->jabatan->AdvancedSearch->SearchOperator2 = @$filter["w_jabatan"];
         $this->jabatan->AdvancedSearch->save();
 
-        // Field unit_organisasi
-        $this->unit_organisasi->AdvancedSearch->SearchValue = @$filter["x_unit_organisasi"];
-        $this->unit_organisasi->AdvancedSearch->SearchOperator = @$filter["z_unit_organisasi"];
-        $this->unit_organisasi->AdvancedSearch->SearchCondition = @$filter["v_unit_organisasi"];
-        $this->unit_organisasi->AdvancedSearch->SearchValue2 = @$filter["y_unit_organisasi"];
-        $this->unit_organisasi->AdvancedSearch->SearchOperator2 = @$filter["w_unit_organisasi"];
-        $this->unit_organisasi->AdvancedSearch->save();
+        // Field kategori_pemohon
+        $this->kategori_pemohon->AdvancedSearch->SearchValue = @$filter["x_kategori_pemohon"];
+        $this->kategori_pemohon->AdvancedSearch->SearchOperator = @$filter["z_kategori_pemohon"];
+        $this->kategori_pemohon->AdvancedSearch->SearchCondition = @$filter["v_kategori_pemohon"];
+        $this->kategori_pemohon->AdvancedSearch->SearchValue2 = @$filter["y_kategori_pemohon"];
+        $this->kategori_pemohon->AdvancedSearch->SearchOperator2 = @$filter["w_kategori_pemohon"];
+        $this->kategori_pemohon->AdvancedSearch->save();
 
         // Field scan_lhkpn
         $this->scan_lhkpn->AdvancedSearch->SearchValue = @$filter["x_scan_lhkpn"];
@@ -1053,14 +1061,6 @@ class VAswasList extends VAswas
         $this->scan_lhkasn->AdvancedSearch->SearchValue2 = @$filter["y_scan_lhkasn"];
         $this->scan_lhkasn->AdvancedSearch->SearchOperator2 = @$filter["w_scan_lhkasn"];
         $this->scan_lhkasn->AdvancedSearch->save();
-
-        // Field kategori_pemohon
-        $this->kategori_pemohon->AdvancedSearch->SearchValue = @$filter["x_kategori_pemohon"];
-        $this->kategori_pemohon->AdvancedSearch->SearchOperator = @$filter["z_kategori_pemohon"];
-        $this->kategori_pemohon->AdvancedSearch->SearchCondition = @$filter["v_kategori_pemohon"];
-        $this->kategori_pemohon->AdvancedSearch->SearchValue2 = @$filter["y_kategori_pemohon"];
-        $this->kategori_pemohon->AdvancedSearch->SearchOperator2 = @$filter["w_kategori_pemohon"];
-        $this->kategori_pemohon->AdvancedSearch->save();
 
         // Field keperluan
         $this->keperluan->AdvancedSearch->SearchValue = @$filter["x_keperluan"];
@@ -1265,9 +1265,9 @@ class VAswasList extends VAswas
         $this->buildBasicSearchSql($where, $this->nip, $arKeywords, $type);
         $this->buildBasicSearchSql($where, $this->nrp, $arKeywords, $type);
         $this->buildBasicSearchSql($where, $this->nama, $arKeywords, $type);
+        $this->buildBasicSearchSql($where, $this->unit_organisasi, $arKeywords, $type);
         $this->buildBasicSearchSql($where, $this->pangkat, $arKeywords, $type);
         $this->buildBasicSearchSql($where, $this->jabatan, $arKeywords, $type);
-        $this->buildBasicSearchSql($where, $this->unit_organisasi, $arKeywords, $type);
         $this->buildBasicSearchSql($where, $this->scan_lhkpn, $arKeywords, $type);
         $this->buildBasicSearchSql($where, $this->scan_lhkasn, $arKeywords, $type);
         $this->buildBasicSearchSql($where, $this->keperluan, $arKeywords, $type);
@@ -1501,12 +1501,12 @@ class VAswasList extends VAswas
                 $this->nip->setSort("");
                 $this->nrp->setSort("");
                 $this->nama->setSort("");
+                $this->unit_organisasi->setSort("");
                 $this->pangkat->setSort("");
                 $this->jabatan->setSort("");
-                $this->unit_organisasi->setSort("");
+                $this->kategori_pemohon->setSort("");
                 $this->scan_lhkpn->setSort("");
                 $this->scan_lhkasn->setSort("");
-                $this->kategori_pemohon->setSort("");
                 $this->keperluan->setSort("");
                 $this->email_pemohon->setSort("");
                 $this->hukuman_disiplin->setSort("");
@@ -1890,12 +1890,12 @@ class VAswasList extends VAswas
         $this->nip->setDbValue($row['nip']);
         $this->nrp->setDbValue($row['nrp']);
         $this->nama->setDbValue($row['nama']);
+        $this->unit_organisasi->setDbValue($row['unit_organisasi']);
         $this->pangkat->setDbValue($row['pangkat']);
         $this->jabatan->setDbValue($row['jabatan']);
-        $this->unit_organisasi->setDbValue($row['unit_organisasi']);
+        $this->kategori_pemohon->setDbValue($row['kategori_pemohon']);
         $this->scan_lhkpn->setDbValue($row['scan_lhkpn']);
         $this->scan_lhkasn->setDbValue($row['scan_lhkasn']);
-        $this->kategori_pemohon->setDbValue($row['kategori_pemohon']);
         $this->keperluan->setDbValue($row['keperluan']);
         $this->email_pemohon->setDbValue($row['email_pemohon']);
         $this->hukuman_disiplin->setDbValue($row['hukuman_disiplin']);
@@ -1931,12 +1931,12 @@ class VAswasList extends VAswas
         $row['nip'] = null;
         $row['nrp'] = null;
         $row['nama'] = null;
+        $row['unit_organisasi'] = null;
         $row['pangkat'] = null;
         $row['jabatan'] = null;
-        $row['unit_organisasi'] = null;
+        $row['kategori_pemohon'] = null;
         $row['scan_lhkpn'] = null;
         $row['scan_lhkasn'] = null;
-        $row['kategori_pemohon'] = null;
         $row['keperluan'] = null;
         $row['email_pemohon'] = null;
         $row['hukuman_disiplin'] = null;
@@ -2008,17 +2008,17 @@ class VAswasList extends VAswas
 
         // nama
 
+        // unit_organisasi
+
         // pangkat
 
         // jabatan
 
-        // unit_organisasi
+        // kategori_pemohon
 
         // scan_lhkpn
 
         // scan_lhkasn
-
-        // kategori_pemohon
 
         // keperluan
 
@@ -2089,6 +2089,27 @@ class VAswasList extends VAswas
             $this->nama->ViewValue = $this->nama->CurrentValue;
             $this->nama->ViewCustomAttributes = "";
 
+            // unit_organisasi
+            $curVal = trim(strval($this->unit_organisasi->CurrentValue));
+            if ($curVal != "") {
+                $this->unit_organisasi->ViewValue = $this->unit_organisasi->lookupCacheOption($curVal);
+                if ($this->unit_organisasi->ViewValue === null) { // Lookup from database
+                    $filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
+                    $sqlWrk = $this->unit_organisasi->Lookup->getSql(false, $filterWrk, '', $this, true, true);
+                    $rswrk = Conn()->executeQuery($sqlWrk)->fetchAll(\PDO::FETCH_BOTH);
+                    $ari = count($rswrk);
+                    if ($ari > 0) { // Lookup values found
+                        $arwrk = $this->unit_organisasi->Lookup->renderViewRow($rswrk[0]);
+                        $this->unit_organisasi->ViewValue = $this->unit_organisasi->displayValue($arwrk);
+                    } else {
+                        $this->unit_organisasi->ViewValue = $this->unit_organisasi->CurrentValue;
+                    }
+                }
+            } else {
+                $this->unit_organisasi->ViewValue = null;
+            }
+            $this->unit_organisasi->ViewCustomAttributes = "";
+
             // pangkat
             $curVal = trim(strval($this->pangkat->CurrentValue));
             if ($curVal != "") {
@@ -2131,26 +2152,13 @@ class VAswasList extends VAswas
             }
             $this->jabatan->ViewCustomAttributes = "";
 
-            // unit_organisasi
-            $curVal = trim(strval($this->unit_organisasi->CurrentValue));
-            if ($curVal != "") {
-                $this->unit_organisasi->ViewValue = $this->unit_organisasi->lookupCacheOption($curVal);
-                if ($this->unit_organisasi->ViewValue === null) { // Lookup from database
-                    $filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
-                    $sqlWrk = $this->unit_organisasi->Lookup->getSql(false, $filterWrk, '', $this, true, true);
-                    $rswrk = Conn()->executeQuery($sqlWrk)->fetchAll(\PDO::FETCH_BOTH);
-                    $ari = count($rswrk);
-                    if ($ari > 0) { // Lookup values found
-                        $arwrk = $this->unit_organisasi->Lookup->renderViewRow($rswrk[0]);
-                        $this->unit_organisasi->ViewValue = $this->unit_organisasi->displayValue($arwrk);
-                    } else {
-                        $this->unit_organisasi->ViewValue = $this->unit_organisasi->CurrentValue;
-                    }
-                }
+            // kategori_pemohon
+            if (strval($this->kategori_pemohon->CurrentValue) != "") {
+                $this->kategori_pemohon->ViewValue = $this->kategori_pemohon->optionCaption($this->kategori_pemohon->CurrentValue);
             } else {
-                $this->unit_organisasi->ViewValue = null;
+                $this->kategori_pemohon->ViewValue = null;
             }
-            $this->unit_organisasi->ViewCustomAttributes = "";
+            $this->kategori_pemohon->ViewCustomAttributes = "";
 
             // scan_lhkpn
             $this->scan_lhkpn->ViewValue = $this->scan_lhkpn->CurrentValue;
@@ -2159,14 +2167,6 @@ class VAswasList extends VAswas
             // scan_lhkasn
             $this->scan_lhkasn->ViewValue = $this->scan_lhkasn->CurrentValue;
             $this->scan_lhkasn->ViewCustomAttributes = "";
-
-            // kategori_pemohon
-            if (strval($this->kategori_pemohon->CurrentValue) != "") {
-                $this->kategori_pemohon->ViewValue = $this->kategori_pemohon->optionCaption($this->kategori_pemohon->CurrentValue);
-            } else {
-                $this->kategori_pemohon->ViewValue = null;
-            }
-            $this->kategori_pemohon->ViewCustomAttributes = "";
 
             // keperluan
             $curVal = trim(strval($this->keperluan->CurrentValue));
@@ -2447,11 +2447,11 @@ class VAswasList extends VAswas
 
             // Set up lookup SQL and connection
             switch ($fld->FieldVar) {
+                case "x_unit_organisasi":
+                    break;
                 case "x_pangkat":
                     break;
                 case "x_jabatan":
-                    break;
-                case "x_unit_organisasi":
                     break;
                 case "x_kategori_pemohon":
                     break;

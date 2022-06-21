@@ -24,12 +24,12 @@ loadjs.ready("head", function () {
         ["nip", [fields.nip.visible && fields.nip.required ? ew.Validators.required(fields.nip.caption) : null], fields.nip.isInvalid],
         ["nrp", [fields.nrp.visible && fields.nrp.required ? ew.Validators.required(fields.nrp.caption) : null], fields.nrp.isInvalid],
         ["nama", [fields.nama.visible && fields.nama.required ? ew.Validators.required(fields.nama.caption) : null], fields.nama.isInvalid],
+        ["unit_organisasi", [fields.unit_organisasi.visible && fields.unit_organisasi.required ? ew.Validators.required(fields.unit_organisasi.caption) : null], fields.unit_organisasi.isInvalid],
         ["pangkat", [fields.pangkat.visible && fields.pangkat.required ? ew.Validators.required(fields.pangkat.caption) : null], fields.pangkat.isInvalid],
         ["jabatan", [fields.jabatan.visible && fields.jabatan.required ? ew.Validators.required(fields.jabatan.caption) : null], fields.jabatan.isInvalid],
-        ["unit_organisasi", [fields.unit_organisasi.visible && fields.unit_organisasi.required ? ew.Validators.required(fields.unit_organisasi.caption) : null], fields.unit_organisasi.isInvalid],
+        ["kategori_pemohon", [fields.kategori_pemohon.visible && fields.kategori_pemohon.required ? ew.Validators.required(fields.kategori_pemohon.caption) : null], fields.kategori_pemohon.isInvalid],
         ["scan_lhkpn", [fields.scan_lhkpn.visible && fields.scan_lhkpn.required ? ew.Validators.required(fields.scan_lhkpn.caption) : null], fields.scan_lhkpn.isInvalid],
         ["scan_lhkasn", [fields.scan_lhkasn.visible && fields.scan_lhkasn.required ? ew.Validators.required(fields.scan_lhkasn.caption) : null], fields.scan_lhkasn.isInvalid],
-        ["kategori_pemohon", [fields.kategori_pemohon.visible && fields.kategori_pemohon.required ? ew.Validators.required(fields.kategori_pemohon.caption) : null], fields.kategori_pemohon.isInvalid],
         ["keperluan", [fields.keperluan.visible && fields.keperluan.required ? ew.Validators.required(fields.keperluan.caption) : null], fields.keperluan.isInvalid],
         ["email_pemohon", [fields.email_pemohon.visible && fields.email_pemohon.required ? ew.Validators.required(fields.email_pemohon.caption) : null], fields.email_pemohon.isInvalid],
         ["hukuman_disiplin", [fields.hukuman_disiplin.visible && fields.hukuman_disiplin.required ? ew.Validators.required(fields.hukuman_disiplin.caption) : null], fields.hukuman_disiplin.isInvalid],
@@ -191,6 +191,18 @@ $Page->showMessage();
 </div></div>
     </div>
 <?php } ?>
+<?php if ($Page->unit_organisasi->Visible) { // unit_organisasi ?>
+    <div id="r_unit_organisasi" class="form-group row">
+        <label id="elh_v_aswas_unit_organisasi" for="x_unit_organisasi" class="<?= $Page->LeftColumnClass ?>"><template id="tpc_v_aswas_unit_organisasi"><?= $Page->unit_organisasi->caption() ?><?= $Page->unit_organisasi->Required ? $Language->phrase("FieldRequiredIndicator") : "" ?></template></label>
+        <div class="<?= $Page->RightColumnClass ?>"><div <?= $Page->unit_organisasi->cellAttributes() ?>>
+<template id="tpx_v_aswas_unit_organisasi"><span id="el_v_aswas_unit_organisasi">
+<span<?= $Page->unit_organisasi->viewAttributes() ?>>
+<input type="text" readonly class="form-control-plaintext" value="<?= HtmlEncode(RemoveHtml($Page->unit_organisasi->getDisplayValue($Page->unit_organisasi->EditValue))) ?>"></span>
+</span></template>
+<input type="hidden" data-table="v_aswas" data-field="x_unit_organisasi" data-hidden="1" name="x_unit_organisasi" id="x_unit_organisasi" value="<?= HtmlEncode($Page->unit_organisasi->CurrentValue) ?>">
+</div></div>
+    </div>
+<?php } ?>
 <?php if ($Page->pangkat->Visible) { // pangkat ?>
     <div id="r_pangkat" class="form-group row">
         <label id="elh_v_aswas_pangkat" for="x_pangkat" class="<?= $Page->LeftColumnClass ?>"><template id="tpc_v_aswas_pangkat"><?= $Page->pangkat->caption() ?><?= $Page->pangkat->Required ? $Language->phrase("FieldRequiredIndicator") : "" ?></template></label>
@@ -215,15 +227,15 @@ $Page->showMessage();
 </div></div>
     </div>
 <?php } ?>
-<?php if ($Page->unit_organisasi->Visible) { // unit_organisasi ?>
-    <div id="r_unit_organisasi" class="form-group row">
-        <label id="elh_v_aswas_unit_organisasi" for="x_unit_organisasi" class="<?= $Page->LeftColumnClass ?>"><template id="tpc_v_aswas_unit_organisasi"><?= $Page->unit_organisasi->caption() ?><?= $Page->unit_organisasi->Required ? $Language->phrase("FieldRequiredIndicator") : "" ?></template></label>
-        <div class="<?= $Page->RightColumnClass ?>"><div <?= $Page->unit_organisasi->cellAttributes() ?>>
-<template id="tpx_v_aswas_unit_organisasi"><span id="el_v_aswas_unit_organisasi">
-<span<?= $Page->unit_organisasi->viewAttributes() ?>>
-<input type="text" readonly class="form-control-plaintext" value="<?= HtmlEncode(RemoveHtml($Page->unit_organisasi->getDisplayValue($Page->unit_organisasi->EditValue))) ?>"></span>
+<?php if ($Page->kategori_pemohon->Visible) { // kategori_pemohon ?>
+    <div id="r_kategori_pemohon" class="form-group row">
+        <label id="elh_v_aswas_kategori_pemohon" class="<?= $Page->LeftColumnClass ?>"><template id="tpc_v_aswas_kategori_pemohon"><?= $Page->kategori_pemohon->caption() ?><?= $Page->kategori_pemohon->Required ? $Language->phrase("FieldRequiredIndicator") : "" ?></template></label>
+        <div class="<?= $Page->RightColumnClass ?>"><div <?= $Page->kategori_pemohon->cellAttributes() ?>>
+<template id="tpx_v_aswas_kategori_pemohon"><span id="el_v_aswas_kategori_pemohon">
+<span<?= $Page->kategori_pemohon->viewAttributes() ?>>
+<input type="text" readonly class="form-control-plaintext" value="<?= HtmlEncode(RemoveHtml($Page->kategori_pemohon->getDisplayValue($Page->kategori_pemohon->EditValue))) ?>"></span>
 </span></template>
-<input type="hidden" data-table="v_aswas" data-field="x_unit_organisasi" data-hidden="1" name="x_unit_organisasi" id="x_unit_organisasi" value="<?= HtmlEncode($Page->unit_organisasi->CurrentValue) ?>">
+<input type="hidden" data-table="v_aswas" data-field="x_kategori_pemohon" data-hidden="1" name="x_kategori_pemohon" id="x_kategori_pemohon" value="<?= HtmlEncode($Page->kategori_pemohon->CurrentValue) ?>">
 </div></div>
     </div>
 <?php } ?>
@@ -258,18 +270,6 @@ $Page->showMessage();
 </span>
 </span></template>
 <input type="hidden" data-table="v_aswas" data-field="x_scan_lhkasn" data-hidden="1" name="x_scan_lhkasn" id="x_scan_lhkasn" value="<?= HtmlEncode($Page->scan_lhkasn->CurrentValue) ?>">
-</div></div>
-    </div>
-<?php } ?>
-<?php if ($Page->kategori_pemohon->Visible) { // kategori_pemohon ?>
-    <div id="r_kategori_pemohon" class="form-group row">
-        <label id="elh_v_aswas_kategori_pemohon" class="<?= $Page->LeftColumnClass ?>"><template id="tpc_v_aswas_kategori_pemohon"><?= $Page->kategori_pemohon->caption() ?><?= $Page->kategori_pemohon->Required ? $Language->phrase("FieldRequiredIndicator") : "" ?></template></label>
-        <div class="<?= $Page->RightColumnClass ?>"><div <?= $Page->kategori_pemohon->cellAttributes() ?>>
-<template id="tpx_v_aswas_kategori_pemohon"><span id="el_v_aswas_kategori_pemohon">
-<span<?= $Page->kategori_pemohon->viewAttributes() ?>>
-<input type="text" readonly class="form-control-plaintext" value="<?= HtmlEncode(RemoveHtml($Page->kategori_pemohon->getDisplayValue($Page->kategori_pemohon->EditValue))) ?>"></span>
-</span></template>
-<input type="hidden" data-table="v_aswas" data-field="x_kategori_pemohon" data-hidden="1" name="x_kategori_pemohon" id="x_kategori_pemohon" value="<?= HtmlEncode($Page->kategori_pemohon->CurrentValue) ?>">
 </div></div>
     </div>
 <?php } ?>
