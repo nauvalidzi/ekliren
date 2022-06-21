@@ -874,7 +874,8 @@ SORTHTML;
         $this->userlevelid->EditAttrs["class"] = "form-control";
         $this->userlevelid->EditCustomAttributes = "";
         $this->userlevelid->EditValue = $this->userlevelid->CurrentValue;
-        $this->userlevelid->PlaceHolder = RemoveHtml($this->userlevelid->caption());
+        $this->userlevelid->EditValue = FormatNumber($this->userlevelid->EditValue, 0, -2, -2, -2);
+        $this->userlevelid->ViewCustomAttributes = "";
 
         // userlevelname
         $this->userlevelname->EditAttrs["class"] = "form-control";

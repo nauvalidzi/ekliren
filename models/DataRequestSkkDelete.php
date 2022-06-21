@@ -384,7 +384,7 @@ class DataRequestSkkDelete extends DataRequestSkk
         $this->pangkat->Visible = false;
         $this->jabatan->Visible = false;
         $this->keperluan->setVisibility();
-        $this->kategori_pemohon->setVisibility();
+        $this->kategori_pemohon->Visible = false;
         $this->scan_lhkpn->Visible = false;
         $this->scan_lhkasn->Visible = false;
         $this->email_pemohon->Visible = false;
@@ -856,11 +856,6 @@ class DataRequestSkkDelete extends DataRequestSkk
             $this->keperluan->LinkCustomAttributes = "";
             $this->keperluan->HrefValue = "";
             $this->keperluan->TooltipValue = "";
-
-            // kategori_pemohon
-            $this->kategori_pemohon->LinkCustomAttributes = "";
-            $this->kategori_pemohon->HrefValue = "";
-            $this->kategori_pemohon->TooltipValue = "";
 
             // status
             $this->status->LinkCustomAttributes = "";

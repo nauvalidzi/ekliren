@@ -3,37 +3,36 @@
 namespace PHPMaker2021\eclearance;
 
 // Page object
-$VSekretariatList = &$Page;
+$VKajariList = &$Page;
 ?>
 <?php if (!$Page->isExport()) { ?>
 <script>
 var currentForm, currentPageID;
-var fv_sekretariatlist;
+var fv_kajarilist;
 loadjs.ready("head", function () {
     var $ = jQuery;
     // Form object
     currentPageID = ew.PAGE_ID = "list";
-    fv_sekretariatlist = currentForm = new ew.Form("fv_sekretariatlist", "list");
-    fv_sekretariatlist.formKeyCountName = '<?= $Page->FormKeyCountName ?>';
-    loadjs.done("fv_sekretariatlist");
+    fv_kajarilist = currentForm = new ew.Form("fv_kajarilist", "list");
+    fv_kajarilist.formKeyCountName = '<?= $Page->FormKeyCountName ?>';
+    loadjs.done("fv_kajarilist");
 });
-var fv_sekretariatlistsrch, currentSearchForm, currentAdvancedSearchForm;
+var fv_kajarilistsrch, currentSearchForm, currentAdvancedSearchForm;
 loadjs.ready("head", function () {
     var $ = jQuery;
     // Form object for search
-    fv_sekretariatlistsrch = currentSearchForm = new ew.Form("fv_sekretariatlistsrch");
+    fv_kajarilistsrch = currentSearchForm = new ew.Form("fv_kajarilistsrch");
 
     // Dynamic selection lists
 
     // Filters
-    fv_sekretariatlistsrch.filterList = <?= $Page->getFilterList() ?>;
-    loadjs.done("fv_sekretariatlistsrch");
+    fv_kajarilistsrch.filterList = <?= $Page->getFilterList() ?>;
+    loadjs.done("fv_kajarilistsrch");
 });
 </script>
 <script>
 loadjs.ready("head", function () {
-    // Client script
-    $("span.v_sekretariat_details").hide(),$("a.ew-row-link.ew-edit").each((function(){var i=$(this).attr("href").split("=");$(this).attr("href",i[0]+"=hukuman_disiplin,banding,inspeksi,sidang_kode_perilaku")}));
+    // Write your table-specific client script here, no need to add script tags.
 });
 </script>
 <?php } ?>
@@ -59,10 +58,10 @@ $Page->renderOtherOptions();
 ?>
 <?php if ($Security->canSearch()) { ?>
 <?php if (!$Page->isExport() && !$Page->CurrentAction) { ?>
-<form name="fv_sekretariatlistsrch" id="fv_sekretariatlistsrch" class="form-inline ew-form ew-ext-search-form" action="<?= CurrentPageUrl(false) ?>">
-<div id="fv_sekretariatlistsrch-search-panel" class="<?= $Page->SearchPanelClass ?>">
+<form name="fv_kajarilistsrch" id="fv_kajarilistsrch" class="form-inline ew-form ew-ext-search-form" action="<?= CurrentPageUrl(false) ?>">
+<div id="fv_kajarilistsrch-search-panel" class="<?= $Page->SearchPanelClass ?>">
 <input type="hidden" name="cmd" value="search">
-<input type="hidden" name="t" value="v_sekretariat">
+<input type="hidden" name="t" value="v_kajari">
     <div class="ew-extended-search">
 <div id="xsr_<?= $Page->SearchRowCount + 1 ?>" class="ew-row d-sm-flex">
     <div class="ew-quick-search input-group">
@@ -90,16 +89,16 @@ $Page->renderOtherOptions();
 $Page->showMessage();
 ?>
 <?php if ($Page->TotalRecords > 0 || $Page->CurrentAction) { ?>
-<div class="card ew-card ew-grid<?php if ($Page->isAddOrEdit()) { ?> ew-grid-add-edit<?php } ?> v_sekretariat">
-<form name="fv_sekretariatlist" id="fv_sekretariatlist" class="form-inline ew-form ew-list-form" action="<?= CurrentPageUrl(false) ?>" method="post">
+<div class="card ew-card ew-grid<?php if ($Page->isAddOrEdit()) { ?> ew-grid-add-edit<?php } ?> v_kajari">
+<form name="fv_kajarilist" id="fv_kajarilist" class="form-inline ew-form ew-list-form" action="<?= CurrentPageUrl(false) ?>" method="post">
 <?php if (Config("CHECK_TOKEN")) { ?>
 <input type="hidden" name="<?= $TokenNameKey ?>" value="<?= $TokenName ?>"><!-- CSRF token name -->
 <input type="hidden" name="<?= $TokenValueKey ?>" value="<?= $TokenValue ?>"><!-- CSRF token value -->
 <?php } ?>
-<input type="hidden" name="t" value="v_sekretariat">
-<div id="gmp_v_sekretariat" class="<?= ResponsiveTableClass() ?>card-body ew-grid-middle-panel">
+<input type="hidden" name="t" value="v_kajari">
+<div id="gmp_v_kajari" class="<?= ResponsiveTableClass() ?>card-body ew-grid-middle-panel">
 <?php if ($Page->TotalRecords > 0 || $Page->isGridEdit()) { ?>
-<table id="tbl_v_sekretariatlist" class="table ew-table"><!-- .ew-table -->
+<table id="tbl_v_kajarilist" class="table ew-table"><!-- .ew-table -->
 <thead>
     <tr class="ew-table-header">
 <?php
@@ -113,25 +112,25 @@ $Page->renderListOptions();
 $Page->ListOptions->render("header", "left");
 ?>
 <?php if ($Page->tanggal_request->Visible) { // tanggal_request ?>
-        <th data-name="tanggal_request" class="<?= $Page->tanggal_request->headerCellClass() ?>"><div id="elh_v_sekretariat_tanggal_request" class="v_sekretariat_tanggal_request"><?= $Page->renderSort($Page->tanggal_request) ?></div></th>
+        <th data-name="tanggal_request" class="<?= $Page->tanggal_request->headerCellClass() ?>"><div id="elh_v_kajari_tanggal_request" class="v_kajari_tanggal_request"><?= $Page->renderSort($Page->tanggal_request) ?></div></th>
 <?php } ?>
 <?php if ($Page->nip->Visible) { // nip ?>
-        <th data-name="nip" class="<?= $Page->nip->headerCellClass() ?>"><div id="elh_v_sekretariat_nip" class="v_sekretariat_nip"><?= $Page->renderSort($Page->nip) ?></div></th>
+        <th data-name="nip" class="<?= $Page->nip->headerCellClass() ?>"><div id="elh_v_kajari_nip" class="v_kajari_nip"><?= $Page->renderSort($Page->nip) ?></div></th>
 <?php } ?>
 <?php if ($Page->nrp->Visible) { // nrp ?>
-        <th data-name="nrp" class="<?= $Page->nrp->headerCellClass() ?>"><div id="elh_v_sekretariat_nrp" class="v_sekretariat_nrp"><?= $Page->renderSort($Page->nrp) ?></div></th>
+        <th data-name="nrp" class="<?= $Page->nrp->headerCellClass() ?>"><div id="elh_v_kajari_nrp" class="v_kajari_nrp"><?= $Page->renderSort($Page->nrp) ?></div></th>
 <?php } ?>
 <?php if ($Page->nama->Visible) { // nama ?>
-        <th data-name="nama" class="<?= $Page->nama->headerCellClass() ?>"><div id="elh_v_sekretariat_nama" class="v_sekretariat_nama"><?= $Page->renderSort($Page->nama) ?></div></th>
+        <th data-name="nama" class="<?= $Page->nama->headerCellClass() ?>"><div id="elh_v_kajari_nama" class="v_kajari_nama"><?= $Page->renderSort($Page->nama) ?></div></th>
 <?php } ?>
 <?php if ($Page->unit_organisasi->Visible) { // unit_organisasi ?>
-        <th data-name="unit_organisasi" class="<?= $Page->unit_organisasi->headerCellClass() ?>"><div id="elh_v_sekretariat_unit_organisasi" class="v_sekretariat_unit_organisasi"><?= $Page->renderSort($Page->unit_organisasi) ?></div></th>
+        <th data-name="unit_organisasi" class="<?= $Page->unit_organisasi->headerCellClass() ?>"><div id="elh_v_kajari_unit_organisasi" class="v_kajari_unit_organisasi"><?= $Page->renderSort($Page->unit_organisasi) ?></div></th>
 <?php } ?>
 <?php if ($Page->keperluan->Visible) { // keperluan ?>
-        <th data-name="keperluan" class="<?= $Page->keperluan->headerCellClass() ?>"><div id="elh_v_sekretariat_keperluan" class="v_sekretariat_keperluan"><?= $Page->renderSort($Page->keperluan) ?></div></th>
+        <th data-name="keperluan" class="<?= $Page->keperluan->headerCellClass() ?>"><div id="elh_v_kajari_keperluan" class="v_kajari_keperluan"><?= $Page->renderSort($Page->keperluan) ?></div></th>
 <?php } ?>
 <?php if ($Page->status->Visible) { // status ?>
-        <th data-name="status" class="<?= $Page->status->headerCellClass() ?>"><div id="elh_v_sekretariat_status" class="v_sekretariat_status"><?= $Page->renderSort($Page->status) ?></div></th>
+        <th data-name="status" class="<?= $Page->status->headerCellClass() ?>"><div id="elh_v_kajari_status" class="v_kajari_status"><?= $Page->renderSort($Page->status) ?></div></th>
 <?php } ?>
 <?php
 // Render list options (header, right)
@@ -187,7 +186,7 @@ while ($Page->RecordCount < $Page->StopRecord) {
         $Page->RowType = ROWTYPE_VIEW; // Render view
 
         // Set up row id / data-rowindex
-        $Page->RowAttrs->merge(["data-rowindex" => $Page->RowCount, "id" => "r" . $Page->RowCount . "_v_sekretariat", "data-rowtype" => $Page->RowType]);
+        $Page->RowAttrs->merge(["data-rowindex" => $Page->RowCount, "id" => "r" . $Page->RowCount . "_v_kajari", "data-rowtype" => $Page->RowType]);
 
         // Render row
         $Page->renderRow();
@@ -202,7 +201,7 @@ $Page->ListOptions->render("body", "left", $Page->RowCount);
 ?>
     <?php if ($Page->tanggal_request->Visible) { // tanggal_request ?>
         <td data-name="tanggal_request" <?= $Page->tanggal_request->cellAttributes() ?>>
-<span id="el<?= $Page->RowCount ?>_v_sekretariat_tanggal_request">
+<span id="el<?= $Page->RowCount ?>_v_kajari_tanggal_request">
 <span<?= $Page->tanggal_request->viewAttributes() ?>>
 <?= $Page->tanggal_request->getViewValue() ?></span>
 </span>
@@ -210,7 +209,7 @@ $Page->ListOptions->render("body", "left", $Page->RowCount);
     <?php } ?>
     <?php if ($Page->nip->Visible) { // nip ?>
         <td data-name="nip" <?= $Page->nip->cellAttributes() ?>>
-<span id="el<?= $Page->RowCount ?>_v_sekretariat_nip">
+<span id="el<?= $Page->RowCount ?>_v_kajari_nip">
 <span<?= $Page->nip->viewAttributes() ?>>
 <?= $Page->nip->getViewValue() ?></span>
 </span>
@@ -218,7 +217,7 @@ $Page->ListOptions->render("body", "left", $Page->RowCount);
     <?php } ?>
     <?php if ($Page->nrp->Visible) { // nrp ?>
         <td data-name="nrp" <?= $Page->nrp->cellAttributes() ?>>
-<span id="el<?= $Page->RowCount ?>_v_sekretariat_nrp">
+<span id="el<?= $Page->RowCount ?>_v_kajari_nrp">
 <span<?= $Page->nrp->viewAttributes() ?>>
 <?= $Page->nrp->getViewValue() ?></span>
 </span>
@@ -226,7 +225,7 @@ $Page->ListOptions->render("body", "left", $Page->RowCount);
     <?php } ?>
     <?php if ($Page->nama->Visible) { // nama ?>
         <td data-name="nama" <?= $Page->nama->cellAttributes() ?>>
-<span id="el<?= $Page->RowCount ?>_v_sekretariat_nama">
+<span id="el<?= $Page->RowCount ?>_v_kajari_nama">
 <span<?= $Page->nama->viewAttributes() ?>>
 <?= $Page->nama->getViewValue() ?></span>
 </span>
@@ -234,7 +233,7 @@ $Page->ListOptions->render("body", "left", $Page->RowCount);
     <?php } ?>
     <?php if ($Page->unit_organisasi->Visible) { // unit_organisasi ?>
         <td data-name="unit_organisasi" <?= $Page->unit_organisasi->cellAttributes() ?>>
-<span id="el<?= $Page->RowCount ?>_v_sekretariat_unit_organisasi">
+<span id="el<?= $Page->RowCount ?>_v_kajari_unit_organisasi">
 <span<?= $Page->unit_organisasi->viewAttributes() ?>>
 <?= $Page->unit_organisasi->getViewValue() ?></span>
 </span>
@@ -242,7 +241,7 @@ $Page->ListOptions->render("body", "left", $Page->RowCount);
     <?php } ?>
     <?php if ($Page->keperluan->Visible) { // keperluan ?>
         <td data-name="keperluan" <?= $Page->keperluan->cellAttributes() ?>>
-<span id="el<?= $Page->RowCount ?>_v_sekretariat_keperluan">
+<span id="el<?= $Page->RowCount ?>_v_kajari_keperluan">
 <span<?= $Page->keperluan->viewAttributes() ?>>
 <?= $Page->keperluan->getViewValue() ?></span>
 </span>
@@ -250,7 +249,7 @@ $Page->ListOptions->render("body", "left", $Page->RowCount);
     <?php } ?>
     <?php if ($Page->status->Visible) { // status ?>
         <td data-name="status" <?= $Page->status->cellAttributes() ?>>
-<span id="el<?= $Page->RowCount ?>_v_sekretariat_status">
+<span id="el<?= $Page->RowCount ?>_v_kajari_status">
 <span<?= $Page->status->viewAttributes() ?>>
 <?= $Page->status->getViewValue() ?></span>
 </span>
@@ -311,7 +310,7 @@ echo GetDebugMessage();
 <script>
 // Field event handlers
 loadjs.ready("head", function() {
-    ew.addEventHandlers("v_sekretariat");
+    ew.addEventHandlers("v_kajari");
 });
 </script>
 <script>

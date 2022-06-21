@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<ew-language date="2022/6/20" version="17.0.5" id="en" name="English" desc="English" author="e.World Technology Limited">
+<ew-language date="2022/6/21" version="17.0.5" id="en" name="English" desc="English" author="e.World Technology Limited">
   <!--
     *** Important Notes:
     1. Language ID should follow: https://developers.google.com/recaptcha/docs/language,
@@ -938,6 +938,9 @@
     <menu id="2">
       <phrase id="menutext" value="Pengajuan Permohonan" />
     </menu>
+    <menu id="43">
+      <phrase id="menutext" value="ACC Kajari" />
+    </menu>
     <menu id="28">
       <phrase id="menutext" value="ACC Sekretariat" />
     </menu>
@@ -1113,10 +1116,10 @@
     <table id="userlevels">
       <phrase id="tblcaption" value="User Categories" />
       <field id="userlevelid">
-        <phrase id="fldcaption" value="userlevelid" />
+        <phrase id="fldcaption" value="ID" />
       </field>
       <field id="userlevelname">
-        <phrase id="fldcaption" value="userlevelname" />
+        <phrase id="fldcaption" value="Kategori" />
       </field>
     </table>
     <table id="cetak_skk" />
@@ -1192,17 +1195,17 @@
       <field id="keperluan">
         <phrase id="fldcaption" value="Keperluan" />
       </field>
-      <field id="scan_lhkpn">
-        <phrase id="fldcaption" value="Lampiran LHKPN" />
-      </field>
-      <field id="scan_lhkasn">
-        <phrase id="fldcaption" value="Lampiran LHKASN" />
-      </field>
       <field id="kategori_pemohon">
         <phrase id="fldtagvalue1" value="Wajib LHKPN" />
         <phrase id="fldtagcaption1" value="Wajib LHKPN" />
         <phrase id="fldtagvalue2" value="Tata Usaha / Wajib LHKASN" />
         <phrase id="fldtagcaption2" value="Tata Usaha / Wajib LHKASN" />
+      </field>
+      <field id="scan_lhkpn">
+        <phrase id="fldcaption" value="Lampiran LHKPN" />
+      </field>
+      <field id="scan_lhkasn">
+        <phrase id="fldcaption" value="Lampiran LHKASN" />
       </field>
       <field id="keterangan">
         <phrase id="fldcaption" value="Keterangan" />
@@ -1495,7 +1498,7 @@
         <phrase id="fldcaption" value="Tgl SK Kode Perilaku" />
       </field>
       <field id="status_hukuman_kode_perilaku">
-        <phrase id="fldcaption" value="Hukuman Kode Perilaku" />
+        <phrase id="fldcaption" value="ID Request SKK" />
         <phrase id="fldtagvalue1" value="Selesai" />
         <phrase id="fldtagcaption1" value="Selesai" />
         <phrase id="fldtagvalue2" value="Sedang" />
@@ -1505,7 +1508,7 @@
     <table id="v_aswas">
       <phrase id="tblcaption" value="ACC Aswas" />
       <field id="id_request">
-        <phrase id="fldcaption" value="ID Reques SKK" />
+        <phrase id="fldcaption" value="ID Request SKK" />
       </field>
       <field id="tanggal_request">
         <phrase id="fldcaption" value="Tgl. Request" />
@@ -1519,26 +1522,26 @@
       <field id="nama">
         <phrase id="fldcaption" value="Nama Pemohon" />
       </field>
+      <field id="unit_organisasi">
+        <phrase id="fldcaption" value="Satuan Kerja" />
+      </field>
       <field id="pangkat">
         <phrase id="fldcaption" value="Pangkat" />
       </field>
       <field id="jabatan">
         <phrase id="fldcaption" value="Jabatan" />
       </field>
-      <field id="unit_organisasi">
-        <phrase id="fldcaption" value="Satuan Kerja" />
+      <field id="kategori_pemohon">
+        <phrase id="fldtagvalue1" value="Wajib LHKPN" />
+        <phrase id="fldtagcaption1" value="Wajib LHKPN" />
+        <phrase id="fldtagvalue2" value="Tata Usaha / Wajib LHKASN" />
+        <phrase id="fldtagcaption2" value="Tata Usaha / Wajib LHKASN" />
       </field>
       <field id="scan_lhkpn">
         <phrase id="fldcaption" value="Lampiran LHKPN" />
       </field>
       <field id="scan_lhkasn">
         <phrase id="fldcaption" value="Lampiran LHKASN" />
-      </field>
-      <field id="kategori_pemohon">
-        <phrase id="fldtagvalue1" value="Wajib LHKPN" />
-        <phrase id="fldtagcaption1" value="Wajib LHKPN" />
-        <phrase id="fldtagvalue2" value="Tata Usaha / Wajib LHKASN" />
-        <phrase id="fldtagcaption2" value="Tata Usaha / Wajib LHKASN" />
       </field>
       <field id="keperluan">
         <phrase id="fldcaption" value="Keperluan" />
@@ -1650,7 +1653,7 @@
         <phrase id="fldtagcaption2" value="Sedang" />
       </field>
       <field id="sk_banding_nomor">
-        <phrase id="fldcaption" value="Tgl. SK Kode Perilaku" />
+        <phrase id="fldcaption" value="Pernah Dijatuhi Hukuman" />
       </field>
     </table>
     <table id="v_kirim_skk">
@@ -2097,6 +2100,53 @@
       </field>
       <field id="config_value">
         <phrase id="fldcaption" value="Paraf" />
+      </field>
+    </table>
+    <table id="v_kajari">
+      <phrase id="tblcaption" value="ACC Kajari" />
+      <field id="id_request">
+        <phrase id="fldcaption" value="ID Request SKK" />
+      </field>
+      <field id="tanggal_request">
+        <phrase id="fldcaption" value="Tgl. Request" />
+      </field>
+      <field id="nip">
+        <phrase id="fldcaption" value="NIP" />
+      </field>
+      <field id="nrp">
+        <phrase id="fldcaption" value="NRP" />
+      </field>
+      <field id="nama">
+        <phrase id="fldcaption" value="Nama Pemohon" />
+      </field>
+      <field id="unit_organisasi">
+        <phrase id="fldcaption" value="Satuan Kerja" />
+      </field>
+      <field id="pangkat">
+        <phrase id="fldcaption" value="Pangkat" />
+      </field>
+      <field id="jabatan">
+        <phrase id="fldcaption" value="Jabatan" />
+      </field>
+      <field id="keperluan">
+        <phrase id="fldcaption" value="Keperluan" />
+      </field>
+      <field id="kategori_pemohon" />
+      <field id="scan_lhkpn">
+        <phrase id="fldcaption" value="Scan LHKPN" />
+      </field>
+      <field id="scan_lhkasn">
+        <phrase id="fldcaption" value="Scan LHKASN" />
+      </field>
+      <field id="keterangan">
+        <phrase id="fldcaption" value="Keterangan" />
+      </field>
+      <field id="status">
+        <phrase id="fldcaption" value="Status" />
+        <phrase id="fldtagvalue1" value="ACC_KAJARI" />
+        <phrase id="fldtagcaption1" value="ACC Request" />
+        <phrase id="fldtagvalue2" value="REJECT_KAJARI" />
+        <phrase id="fldtagcaption2" value="Tolak Request" />
       </field>
     </table>
   </project>

@@ -75,17 +75,6 @@ $v_sekretariat = Container("v_sekretariat");
 </td>
         </tr>
 <?php } ?>
-<?php if ($v_sekretariat->keterangan->Visible) { // keterangan ?>
-        <tr id="r_keterangan">
-            <td class="<?= $v_sekretariat->TableLeftColumnClass ?>"><?= $v_sekretariat->keterangan->caption() ?></td>
-            <td <?= $v_sekretariat->keterangan->cellAttributes() ?>>
-<span id="el_v_sekretariat_keterangan">
-<span<?= $v_sekretariat->keterangan->viewAttributes() ?>>
-<?= $v_sekretariat->keterangan->getViewValue() ?></span>
-</span>
-</td>
-        </tr>
-<?php } ?>
 <?php if ($v_sekretariat->status->Visible) { // status ?>
         <tr id="r_status">
             <td class="<?= $v_sekretariat->TableLeftColumnClass ?>"><?= $v_sekretariat->status->caption() ?></td>

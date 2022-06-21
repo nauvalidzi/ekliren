@@ -344,6 +344,17 @@ return function (App $app) {
         }
     );
 
+    // v_kajari
+    $app->any('/VKajariList[/{id_request}]', VKajariController::class . ':list')->add(PermissionMiddleware::class)->setName('VKajariList-v_kajari-list'); // list
+    $app->any('/VKajariEdit[/{id_request}]', VKajariController::class . ':edit')->add(PermissionMiddleware::class)->setName('VKajariEdit-v_kajari-edit'); // edit
+    $app->group(
+        '/v_kajari',
+        function (RouteCollectorProxy $group) {
+            $group->any('/' . Config("LIST_ACTION") . '[/{id_request}]', VKajariController::class . ':list')->add(PermissionMiddleware::class)->setName('v_kajari/list-v_kajari-list-2'); // list
+            $group->any('/' . Config("EDIT_ACTION") . '[/{id_request}]', VKajariController::class . ':edit')->add(PermissionMiddleware::class)->setName('v_kajari/edit-v_kajari-edit-2'); // edit
+        }
+    );
+
     // error
     $app->any('/error', OthersController::class . ':error')->add(PermissionMiddleware::class)->setName('error');
 

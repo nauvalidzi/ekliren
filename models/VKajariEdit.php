@@ -7,7 +7,7 @@ use Doctrine\DBAL\ParameterType;
 /**
  * Page class
  */
-class VSekretariatEdit extends VSekretariat
+class VKajariEdit extends VKajari
 {
     use MessagesTrait;
 
@@ -18,10 +18,10 @@ class VSekretariatEdit extends VSekretariat
     public $ProjectID = PROJECT_ID;
 
     // Table name
-    public $TableName = 'v_sekretariat';
+    public $TableName = 'v_kajari';
 
     // Page object name
-    public $PageObjName = "VSekretariatEdit";
+    public $PageObjName = "VKajariEdit";
 
     // Rendering View
     public $RenderingView = false;
@@ -127,9 +127,9 @@ class VSekretariatEdit extends VSekretariat
         // Parent constuctor
         parent::__construct();
 
-        // Table object (v_sekretariat)
-        if (!isset($GLOBALS["v_sekretariat"]) || get_class($GLOBALS["v_sekretariat"]) == PROJECT_NAMESPACE . "v_sekretariat") {
-            $GLOBALS["v_sekretariat"] = &$this;
+        // Table object (v_kajari)
+        if (!isset($GLOBALS["v_kajari"]) || get_class($GLOBALS["v_kajari"]) == PROJECT_NAMESPACE . "v_kajari") {
+            $GLOBALS["v_kajari"] = &$this;
         }
 
         // Page URL
@@ -137,7 +137,7 @@ class VSekretariatEdit extends VSekretariat
 
         // Table name (for backward compatibility only)
         if (!defined(PROJECT_NAMESPACE . "TABLE_NAME")) {
-            define(PROJECT_NAMESPACE . "TABLE_NAME", 'v_sekretariat');
+            define(PROJECT_NAMESPACE . "TABLE_NAME", 'v_kajari');
         }
 
         // Start timer
@@ -222,7 +222,7 @@ class VSekretariatEdit extends VSekretariat
             }
             $class = PROJECT_NAMESPACE . Config("EXPORT_CLASSES." . $this->CustomExport);
             if (class_exists($class)) {
-                $doc = new $class(Container("v_sekretariat"));
+                $doc = new $class(Container("v_kajari"));
                 $doc->Text = @$content;
                 if ($this->isExport("email")) {
                     echo $this->exportEmail($doc->Text);
@@ -266,7 +266,7 @@ class VSekretariatEdit extends VSekretariat
                 $pageName = GetPageName($url);
                 if ($pageName != $this->getListUrl()) { // Not List page
                     $row["caption"] = $this->getModalCaption($pageName);
-                    if ($pageName == "VSekretariatView") {
+                    if ($pageName == "VKajariView") {
                         $row["view"] = "1";
                     }
                 } else { // List page should not be shown as modal => error
@@ -450,7 +450,6 @@ class VSekretariatEdit extends VSekretariat
     public $TotalRecords = 0;
     public $RecordRange = 10;
     public $RecordCount;
-    public $DetailPages; // Detail pages object
 
     /**
      * Page run
@@ -477,24 +476,20 @@ class VSekretariatEdit extends VSekretariat
         $this->pangkat->setVisibility();
         $this->jabatan->setVisibility();
         $this->keperluan->setVisibility();
-        $this->kategori_pemohon->Visible = false;
+        $this->kategori_pemohon->setVisibility();
         $this->scan_lhkpn->setVisibility();
         $this->scan_lhkasn->setVisibility();
         $this->keterangan->setVisibility();
-        $this->nomor_surat->setVisibility();
-        $this->acc->setVisibility();
         $this->status->setVisibility();
         $this->hideFieldsForAddEdit();
         $this->nip->Required = false;
         $this->nrp->Required = false;
         $this->nama->Required = false;
         $this->keperluan->Required = false;
+        $this->kategori_pemohon->Required = false;
 
         // Do not use lookup cache
         $this->setUseLookupCache(false);
-
-        // Set up detail page object
-        $this->setupDetailPages();
 
         // Global Page Loading event (in userfn*.php)
         Page_Loading();
@@ -508,7 +503,6 @@ class VSekretariatEdit extends VSekretariat
         $this->setupLookupOptions($this->unit_organisasi);
         $this->setupLookupOptions($this->pangkat);
         $this->setupLookupOptions($this->jabatan);
-        $this->setupLookupOptions($this->keperluan);
 
         // Check modal
         if ($this->IsModal) {
@@ -578,9 +572,6 @@ class VSekretariatEdit extends VSekretariat
         // Process form if post back
         if ($postBack) {
             $this->loadFormValues(); // Get form values
-
-            // Set up detail parameters
-            $this->setupDetailParms();
         }
 
         // Validate form if post back
@@ -604,16 +595,13 @@ class VSekretariatEdit extends VSekretariat
                     if ($this->getFailureMessage() == "") {
                         $this->setFailureMessage($Language->phrase("NoRecord")); // No record found
                     }
-                    $this->terminate("VSekretariatList"); // No matching record, return to list
+                    $this->terminate("VKajariList"); // No matching record, return to list
                     return;
                 }
-
-                // Set up detail parameters
-                $this->setupDetailParms();
                 break;
             case "update": // Update
-                $returnUrl = "VSekretariatList";
-                if (GetPageName($returnUrl) == "VSekretariatList") {
+                $returnUrl = $this->getReturnUrl();
+                if (GetPageName($returnUrl) == "VKajariList") {
                     $returnUrl = $this->addMasterUrl($returnUrl); // List page, return to List page with correct master key if necessary
                 }
                 $this->SendEmail = true; // Send email on update success
@@ -637,9 +625,6 @@ class VSekretariatEdit extends VSekretariat
                 } else {
                     $this->EventCancelled = true; // Event cancelled
                     $this->restoreFormValues(); // Restore form values if update failed
-
-                    // Set up detail parameters
-                    $this->setupDetailParms();
                 }
         }
 
@@ -765,6 +750,16 @@ class VSekretariatEdit extends VSekretariat
             }
         }
 
+        // Check field name 'kategori_pemohon' first before field var 'x_kategori_pemohon'
+        $val = $CurrentForm->hasValue("kategori_pemohon") ? $CurrentForm->getValue("kategori_pemohon") : $CurrentForm->getValue("x_kategori_pemohon");
+        if (!$this->kategori_pemohon->IsDetailKey) {
+            if (IsApi() && $val === null) {
+                $this->kategori_pemohon->Visible = false; // Disable update for API request
+            } else {
+                $this->kategori_pemohon->setFormValue($val);
+            }
+        }
+
         // Check field name 'scan_lhkpn' first before field var 'x_scan_lhkpn'
         $val = $CurrentForm->hasValue("scan_lhkpn") ? $CurrentForm->getValue("scan_lhkpn") : $CurrentForm->getValue("x_scan_lhkpn");
         if (!$this->scan_lhkpn->IsDetailKey) {
@@ -793,27 +788,6 @@ class VSekretariatEdit extends VSekretariat
             } else {
                 $this->keterangan->setFormValue($val);
             }
-        }
-
-        // Check field name 'nomor_surat' first before field var 'x_nomor_surat'
-        $val = $CurrentForm->hasValue("nomor_surat") ? $CurrentForm->getValue("nomor_surat") : $CurrentForm->getValue("x_nomor_surat");
-        if (!$this->nomor_surat->IsDetailKey) {
-            if (IsApi() && $val === null) {
-                $this->nomor_surat->Visible = false; // Disable update for API request
-            } else {
-                $this->nomor_surat->setFormValue($val);
-            }
-        }
-
-        // Check field name 'acc' first before field var 'x_acc'
-        $val = $CurrentForm->hasValue("acc") ? $CurrentForm->getValue("acc") : $CurrentForm->getValue("x_acc");
-        if (!$this->acc->IsDetailKey) {
-            if (IsApi() && $val === null) {
-                $this->acc->Visible = false; // Disable update for API request
-            } else {
-                $this->acc->setFormValue($val);
-            }
-            $this->acc->CurrentValue = UnFormatDateTime($this->acc->CurrentValue, 0);
         }
 
         // Check field name 'status' first before field var 'x_status'
@@ -847,12 +821,10 @@ class VSekretariatEdit extends VSekretariat
         $this->pangkat->CurrentValue = $this->pangkat->FormValue;
         $this->jabatan->CurrentValue = $this->jabatan->FormValue;
         $this->keperluan->CurrentValue = $this->keperluan->FormValue;
+        $this->kategori_pemohon->CurrentValue = $this->kategori_pemohon->FormValue;
         $this->scan_lhkpn->CurrentValue = $this->scan_lhkpn->FormValue;
         $this->scan_lhkasn->CurrentValue = $this->scan_lhkasn->FormValue;
         $this->keterangan->CurrentValue = $this->keterangan->FormValue;
-        $this->nomor_surat->CurrentValue = $this->nomor_surat->FormValue;
-        $this->acc->CurrentValue = $this->acc->FormValue;
-        $this->acc->CurrentValue = UnFormatDateTime($this->acc->CurrentValue, 0);
         $this->status->CurrentValue = $this->status->FormValue;
     }
 
@@ -916,8 +888,6 @@ class VSekretariatEdit extends VSekretariat
         $this->scan_lhkpn->setDbValue($row['scan_lhkpn']);
         $this->scan_lhkasn->setDbValue($row['scan_lhkasn']);
         $this->keterangan->setDbValue($row['keterangan']);
-        $this->nomor_surat->setDbValue($row['nomor_surat']);
-        $this->acc->setDbValue($row['acc']);
         $this->status->setDbValue($row['status']);
     }
 
@@ -938,8 +908,6 @@ class VSekretariatEdit extends VSekretariat
         $row['scan_lhkpn'] = null;
         $row['scan_lhkasn'] = null;
         $row['keterangan'] = null;
-        $row['nomor_surat'] = null;
-        $row['acc'] = null;
         $row['status'] = null;
         return $row;
     }
@@ -998,12 +966,12 @@ class VSekretariatEdit extends VSekretariat
 
         // keterangan
 
-        // nomor_surat
-
-        // acc
-
         // status
         if ($this->RowType == ROWTYPE_VIEW) {
+            // id_request
+            $this->id_request->ViewValue = $this->id_request->CurrentValue;
+            $this->id_request->ViewCustomAttributes = "";
+
             // tanggal_request
             $this->tanggal_request->ViewValue = $this->tanggal_request->CurrentValue;
             $this->tanggal_request->ViewValue = FormatDateTime($this->tanggal_request->ViewValue, 117);
@@ -1022,7 +990,6 @@ class VSekretariatEdit extends VSekretariat
             $this->nama->ViewCustomAttributes = "";
 
             // unit_organisasi
-            $this->unit_organisasi->ViewValue = $this->unit_organisasi->CurrentValue;
             $curVal = trim(strval($this->unit_organisasi->CurrentValue));
             if ($curVal != "") {
                 $this->unit_organisasi->ViewValue = $this->unit_organisasi->lookupCacheOption($curVal);
@@ -1086,32 +1053,12 @@ class VSekretariatEdit extends VSekretariat
             $this->jabatan->ViewCustomAttributes = "";
 
             // keperluan
-            $curVal = trim(strval($this->keperluan->CurrentValue));
-            if ($curVal != "") {
-                $this->keperluan->ViewValue = $this->keperluan->lookupCacheOption($curVal);
-                if ($this->keperluan->ViewValue === null) { // Lookup from database
-                    $filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
-                    $sqlWrk = $this->keperluan->Lookup->getSql(false, $filterWrk, '', $this, true, true);
-                    $rswrk = Conn()->executeQuery($sqlWrk)->fetchAll(\PDO::FETCH_BOTH);
-                    $ari = count($rswrk);
-                    if ($ari > 0) { // Lookup values found
-                        $arwrk = $this->keperluan->Lookup->renderViewRow($rswrk[0]);
-                        $this->keperluan->ViewValue = $this->keperluan->displayValue($arwrk);
-                    } else {
-                        $this->keperluan->ViewValue = $this->keperluan->CurrentValue;
-                    }
-                }
-            } else {
-                $this->keperluan->ViewValue = null;
-            }
+            $this->keperluan->ViewValue = $this->keperluan->CurrentValue;
+            $this->keperluan->ViewValue = FormatNumber($this->keperluan->ViewValue, 0, -2, -2, -2);
             $this->keperluan->ViewCustomAttributes = "";
 
             // kategori_pemohon
-            if (strval($this->kategori_pemohon->CurrentValue) != "") {
-                $this->kategori_pemohon->ViewValue = $this->kategori_pemohon->optionCaption($this->kategori_pemohon->CurrentValue);
-            } else {
-                $this->kategori_pemohon->ViewValue = null;
-            }
+            $this->kategori_pemohon->ViewValue = $this->kategori_pemohon->CurrentValue;
             $this->kategori_pemohon->ViewCustomAttributes = "";
 
             // scan_lhkpn
@@ -1125,15 +1072,6 @@ class VSekretariatEdit extends VSekretariat
             // keterangan
             $this->keterangan->ViewValue = $this->keterangan->CurrentValue;
             $this->keterangan->ViewCustomAttributes = "";
-
-            // nomor_surat
-            $this->nomor_surat->ViewValue = $this->nomor_surat->CurrentValue;
-            $this->nomor_surat->ViewCustomAttributes = "";
-
-            // acc
-            $this->acc->ViewValue = $this->acc->CurrentValue;
-            $this->acc->ViewValue = FormatDateTime($this->acc->ViewValue, 0);
-            $this->acc->ViewCustomAttributes = "";
 
             // status
             if (strval($this->status->CurrentValue) != "") {
@@ -1183,6 +1121,11 @@ class VSekretariatEdit extends VSekretariat
             $this->keperluan->HrefValue = "";
             $this->keperluan->TooltipValue = "";
 
+            // kategori_pemohon
+            $this->kategori_pemohon->LinkCustomAttributes = "";
+            $this->kategori_pemohon->HrefValue = "";
+            $this->kategori_pemohon->TooltipValue = "";
+
             // scan_lhkpn
             $this->scan_lhkpn->LinkCustomAttributes = "data-toggle=\"modal\"";
             if (!EmptyValue($this->scan_lhkpn->CurrentValue)) {
@@ -1213,16 +1156,6 @@ class VSekretariatEdit extends VSekretariat
             $this->keterangan->LinkCustomAttributes = "";
             $this->keterangan->HrefValue = "";
             $this->keterangan->TooltipValue = "";
-
-            // nomor_surat
-            $this->nomor_surat->LinkCustomAttributes = "";
-            $this->nomor_surat->HrefValue = "";
-            $this->nomor_surat->TooltipValue = "";
-
-            // acc
-            $this->acc->LinkCustomAttributes = "";
-            $this->acc->HrefValue = "";
-            $this->acc->TooltipValue = "";
 
             // status
             $this->status->LinkCustomAttributes = "";
@@ -1257,7 +1190,6 @@ class VSekretariatEdit extends VSekretariat
             // unit_organisasi
             $this->unit_organisasi->EditAttrs["class"] = "form-control";
             $this->unit_organisasi->EditCustomAttributes = "";
-            $this->unit_organisasi->EditValue = $this->unit_organisasi->CurrentValue;
             $curVal = trim(strval($this->unit_organisasi->CurrentValue));
             if ($curVal != "") {
                 $this->unit_organisasi->EditValue = $this->unit_organisasi->lookupCacheOption($curVal);
@@ -1327,25 +1259,15 @@ class VSekretariatEdit extends VSekretariat
             // keperluan
             $this->keperluan->EditAttrs["class"] = "form-control";
             $this->keperluan->EditCustomAttributes = "";
-            $curVal = trim(strval($this->keperluan->CurrentValue));
-            if ($curVal != "") {
-                $this->keperluan->EditValue = $this->keperluan->lookupCacheOption($curVal);
-                if ($this->keperluan->EditValue === null) { // Lookup from database
-                    $filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
-                    $sqlWrk = $this->keperluan->Lookup->getSql(false, $filterWrk, '', $this, true, true);
-                    $rswrk = Conn()->executeQuery($sqlWrk)->fetchAll(\PDO::FETCH_BOTH);
-                    $ari = count($rswrk);
-                    if ($ari > 0) { // Lookup values found
-                        $arwrk = $this->keperluan->Lookup->renderViewRow($rswrk[0]);
-                        $this->keperluan->EditValue = $this->keperluan->displayValue($arwrk);
-                    } else {
-                        $this->keperluan->EditValue = $this->keperluan->CurrentValue;
-                    }
-                }
-            } else {
-                $this->keperluan->EditValue = null;
-            }
+            $this->keperluan->EditValue = $this->keperluan->CurrentValue;
+            $this->keperluan->EditValue = FormatNumber($this->keperluan->EditValue, 0, -2, -2, -2);
             $this->keperluan->ViewCustomAttributes = "";
+
+            // kategori_pemohon
+            $this->kategori_pemohon->EditAttrs["class"] = "form-control";
+            $this->kategori_pemohon->EditCustomAttributes = "";
+            $this->kategori_pemohon->EditValue = $this->kategori_pemohon->CurrentValue;
+            $this->kategori_pemohon->ViewCustomAttributes = "";
 
             // scan_lhkpn
             $this->scan_lhkpn->EditAttrs["class"] = "form-control";
@@ -1364,21 +1286,6 @@ class VSekretariatEdit extends VSekretariat
             $this->keterangan->EditCustomAttributes = "";
             $this->keterangan->EditValue = $this->keterangan->CurrentValue;
             $this->keterangan->ViewCustomAttributes = "";
-
-            // nomor_surat
-            $this->nomor_surat->EditAttrs["class"] = "form-control";
-            $this->nomor_surat->EditCustomAttributes = "";
-            if (!$this->nomor_surat->Raw) {
-                $this->nomor_surat->CurrentValue = HtmlDecode($this->nomor_surat->CurrentValue);
-            }
-            $this->nomor_surat->EditValue = HtmlEncode($this->nomor_surat->CurrentValue);
-            $this->nomor_surat->PlaceHolder = RemoveHtml($this->nomor_surat->caption());
-
-            // acc
-            $this->acc->EditAttrs["class"] = "form-control";
-            $this->acc->EditCustomAttributes = "";
-            $this->acc->EditValue = HtmlEncode(FormatDateTime($this->acc->CurrentValue, 8));
-            $this->acc->PlaceHolder = RemoveHtml($this->acc->caption());
 
             // status
             $this->status->EditCustomAttributes = "";
@@ -1427,6 +1334,11 @@ class VSekretariatEdit extends VSekretariat
             $this->keperluan->HrefValue = "";
             $this->keperluan->TooltipValue = "";
 
+            // kategori_pemohon
+            $this->kategori_pemohon->LinkCustomAttributes = "";
+            $this->kategori_pemohon->HrefValue = "";
+            $this->kategori_pemohon->TooltipValue = "";
+
             // scan_lhkpn
             $this->scan_lhkpn->LinkCustomAttributes = "data-toggle=\"modal\"";
             if (!EmptyValue($this->scan_lhkpn->CurrentValue)) {
@@ -1457,14 +1369,6 @@ class VSekretariatEdit extends VSekretariat
             $this->keterangan->LinkCustomAttributes = "";
             $this->keterangan->HrefValue = "";
             $this->keterangan->TooltipValue = "";
-
-            // nomor_surat
-            $this->nomor_surat->LinkCustomAttributes = "";
-            $this->nomor_surat->HrefValue = "";
-
-            // acc
-            $this->acc->LinkCustomAttributes = "";
-            $this->acc->HrefValue = "";
 
             // status
             $this->status->LinkCustomAttributes = "";
@@ -1529,6 +1433,11 @@ class VSekretariatEdit extends VSekretariat
                 $this->keperluan->addErrorMessage(str_replace("%s", $this->keperluan->caption(), $this->keperluan->RequiredErrorMessage));
             }
         }
+        if ($this->kategori_pemohon->Required) {
+            if (!$this->kategori_pemohon->IsDetailKey && EmptyValue($this->kategori_pemohon->FormValue)) {
+                $this->kategori_pemohon->addErrorMessage(str_replace("%s", $this->kategori_pemohon->caption(), $this->kategori_pemohon->RequiredErrorMessage));
+            }
+        }
         if ($this->scan_lhkpn->Required) {
             if (!$this->scan_lhkpn->IsDetailKey && EmptyValue($this->scan_lhkpn->FormValue)) {
                 $this->scan_lhkpn->addErrorMessage(str_replace("%s", $this->scan_lhkpn->caption(), $this->scan_lhkpn->RequiredErrorMessage));
@@ -1544,42 +1453,10 @@ class VSekretariatEdit extends VSekretariat
                 $this->keterangan->addErrorMessage(str_replace("%s", $this->keterangan->caption(), $this->keterangan->RequiredErrorMessage));
             }
         }
-        if ($this->nomor_surat->Required) {
-            if (!$this->nomor_surat->IsDetailKey && EmptyValue($this->nomor_surat->FormValue)) {
-                $this->nomor_surat->addErrorMessage(str_replace("%s", $this->nomor_surat->caption(), $this->nomor_surat->RequiredErrorMessage));
-            }
-        }
-        if ($this->acc->Required) {
-            if (!$this->acc->IsDetailKey && EmptyValue($this->acc->FormValue)) {
-                $this->acc->addErrorMessage(str_replace("%s", $this->acc->caption(), $this->acc->RequiredErrorMessage));
-            }
-        }
-        if (!CheckDate($this->acc->FormValue)) {
-            $this->acc->addErrorMessage($this->acc->getErrorMessage(false));
-        }
         if ($this->status->Required) {
             if ($this->status->FormValue == "") {
                 $this->status->addErrorMessage(str_replace("%s", $this->status->caption(), $this->status->RequiredErrorMessage));
             }
-        }
-
-        // Validate detail grid
-        $detailTblVar = explode(",", $this->getCurrentDetailTable());
-        $detailPage = Container("HukumanDisiplinGrid");
-        if (in_array("hukuman_disiplin", $detailTblVar) && $detailPage->DetailEdit) {
-            $detailPage->validateGridForm();
-        }
-        $detailPage = Container("BandingGrid");
-        if (in_array("banding", $detailTblVar) && $detailPage->DetailEdit) {
-            $detailPage->validateGridForm();
-        }
-        $detailPage = Container("InspeksiGrid");
-        if (in_array("inspeksi", $detailTblVar) && $detailPage->DetailEdit) {
-            $detailPage->validateGridForm();
-        }
-        $detailPage = Container("SidangKodePerilakuGrid");
-        if (in_array("sidang_kode_perilaku", $detailTblVar) && $detailPage->DetailEdit) {
-            $detailPage->validateGridForm();
         }
 
         // Return validate result
@@ -1609,20 +1486,9 @@ class VSekretariatEdit extends VSekretariat
             $this->setFailureMessage($Language->phrase("NoRecord")); // Set no record message
             $editRow = false; // Update Failed
         } else {
-            // Begin transaction
-            if ($this->getCurrentDetailTable() != "") {
-                $conn->beginTransaction();
-            }
-
             // Save old values
             $this->loadDbValues($rsold);
             $rsnew = [];
-
-            // nomor_surat
-            $this->nomor_surat->setDbValueDef($rsnew, $this->nomor_surat->CurrentValue, null, $this->nomor_surat->ReadOnly);
-
-            // acc
-            $this->acc->setDbValueDef($rsnew, UnFormatDateTime($this->acc->CurrentValue, 0), null, $this->acc->ReadOnly);
 
             // status
             $this->status->setDbValueDef($rsnew, $this->status->CurrentValue, null, $this->status->ReadOnly);
@@ -1640,50 +1506,6 @@ class VSekretariatEdit extends VSekretariat
                     $editRow = true; // No field to update
                 }
                 if ($editRow) {
-                }
-
-                // Update detail records
-                $detailTblVar = explode(",", $this->getCurrentDetailTable());
-                if ($editRow) {
-                    $detailPage = Container("HukumanDisiplinGrid");
-                    if (in_array("hukuman_disiplin", $detailTblVar) && $detailPage->DetailEdit) {
-                        $Security->loadCurrentUserLevel($this->ProjectID . "hukuman_disiplin"); // Load user level of detail table
-                        $editRow = $detailPage->gridUpdate();
-                        $Security->loadCurrentUserLevel($this->ProjectID . $this->TableName); // Restore user level of master table
-                    }
-                }
-                if ($editRow) {
-                    $detailPage = Container("BandingGrid");
-                    if (in_array("banding", $detailTblVar) && $detailPage->DetailEdit) {
-                        $Security->loadCurrentUserLevel($this->ProjectID . "banding"); // Load user level of detail table
-                        $editRow = $detailPage->gridUpdate();
-                        $Security->loadCurrentUserLevel($this->ProjectID . $this->TableName); // Restore user level of master table
-                    }
-                }
-                if ($editRow) {
-                    $detailPage = Container("InspeksiGrid");
-                    if (in_array("inspeksi", $detailTblVar) && $detailPage->DetailEdit) {
-                        $Security->loadCurrentUserLevel($this->ProjectID . "inspeksi"); // Load user level of detail table
-                        $editRow = $detailPage->gridUpdate();
-                        $Security->loadCurrentUserLevel($this->ProjectID . $this->TableName); // Restore user level of master table
-                    }
-                }
-                if ($editRow) {
-                    $detailPage = Container("SidangKodePerilakuGrid");
-                    if (in_array("sidang_kode_perilaku", $detailTblVar) && $detailPage->DetailEdit) {
-                        $Security->loadCurrentUserLevel($this->ProjectID . "sidang_kode_perilaku"); // Load user level of detail table
-                        $editRow = $detailPage->gridUpdate();
-                        $Security->loadCurrentUserLevel($this->ProjectID . $this->TableName); // Restore user level of master table
-                    }
-                }
-
-                // Commit/Rollback transaction
-                if ($this->getCurrentDetailTable() != "") {
-                    if ($editRow) {
-                        $conn->commit(); // Commit transaction
-                    } else {
-                        $conn->rollback(); // Rollback transaction
-                    }
                 }
             } else {
                 if ($this->getSuccessMessage() != "" || $this->getFailureMessage() != "") {
@@ -1715,98 +1537,15 @@ class VSekretariatEdit extends VSekretariat
         return $editRow;
     }
 
-    // Set up detail parms based on QueryString
-    protected function setupDetailParms()
-    {
-        // Get the keys for master table
-        $detailTblVar = Get(Config("TABLE_SHOW_DETAIL"));
-        if ($detailTblVar !== null) {
-            $this->setCurrentDetailTable($detailTblVar);
-        } else {
-            $detailTblVar = $this->getCurrentDetailTable();
-        }
-        if ($detailTblVar != "") {
-            $detailTblVar = explode(",", $detailTblVar);
-            if (in_array("hukuman_disiplin", $detailTblVar)) {
-                $detailPageObj = Container("HukumanDisiplinGrid");
-                if ($detailPageObj->DetailEdit) {
-                    $detailPageObj->CurrentMode = "edit";
-                    $detailPageObj->CurrentAction = "gridedit";
-
-                    // Save current master table to detail table
-                    $detailPageObj->setCurrentMasterTable($this->TableVar);
-                    $detailPageObj->setStartRecordNumber(1);
-                    $detailPageObj->pid_request_skk->IsDetailKey = true;
-                    $detailPageObj->pid_request_skk->CurrentValue = $this->id_request->CurrentValue;
-                    $detailPageObj->pid_request_skk->setSessionValue($detailPageObj->pid_request_skk->CurrentValue);
-                }
-            }
-            if (in_array("banding", $detailTblVar)) {
-                $detailPageObj = Container("BandingGrid");
-                if ($detailPageObj->DetailEdit) {
-                    $detailPageObj->CurrentMode = "edit";
-                    $detailPageObj->CurrentAction = "gridedit";
-
-                    // Save current master table to detail table
-                    $detailPageObj->setCurrentMasterTable($this->TableVar);
-                    $detailPageObj->setStartRecordNumber(1);
-                    $detailPageObj->pid_request_skk->IsDetailKey = true;
-                    $detailPageObj->pid_request_skk->CurrentValue = $this->id_request->CurrentValue;
-                    $detailPageObj->pid_request_skk->setSessionValue($detailPageObj->pid_request_skk->CurrentValue);
-                }
-            }
-            if (in_array("inspeksi", $detailTblVar)) {
-                $detailPageObj = Container("InspeksiGrid");
-                if ($detailPageObj->DetailEdit) {
-                    $detailPageObj->CurrentMode = "edit";
-                    $detailPageObj->CurrentAction = "gridedit";
-
-                    // Save current master table to detail table
-                    $detailPageObj->setCurrentMasterTable($this->TableVar);
-                    $detailPageObj->setStartRecordNumber(1);
-                    $detailPageObj->pid_request_skk->IsDetailKey = true;
-                    $detailPageObj->pid_request_skk->CurrentValue = $this->id_request->CurrentValue;
-                    $detailPageObj->pid_request_skk->setSessionValue($detailPageObj->pid_request_skk->CurrentValue);
-                }
-            }
-            if (in_array("sidang_kode_perilaku", $detailTblVar)) {
-                $detailPageObj = Container("SidangKodePerilakuGrid");
-                if ($detailPageObj->DetailEdit) {
-                    $detailPageObj->CurrentMode = "edit";
-                    $detailPageObj->CurrentAction = "gridedit";
-
-                    // Save current master table to detail table
-                    $detailPageObj->setCurrentMasterTable($this->TableVar);
-                    $detailPageObj->setStartRecordNumber(1);
-                    $detailPageObj->pid_request_skk->IsDetailKey = true;
-                    $detailPageObj->pid_request_skk->CurrentValue = $this->id_request->CurrentValue;
-                    $detailPageObj->pid_request_skk->setSessionValue($detailPageObj->pid_request_skk->CurrentValue);
-                }
-            }
-        }
-    }
-
     // Set up Breadcrumb
     protected function setupBreadcrumb()
     {
         global $Breadcrumb, $Language;
         $Breadcrumb = new Breadcrumb("index");
         $url = CurrentUrl();
-        $Breadcrumb->add("list", $this->TableVar, $this->addMasterUrl("VSekretariatList"), "", $this->TableVar, true);
+        $Breadcrumb->add("list", $this->TableVar, $this->addMasterUrl("VKajariList"), "", $this->TableVar, true);
         $pageId = "edit";
         $Breadcrumb->add("edit", $pageId, $url);
-    }
-
-    // Set up detail pages
-    protected function setupDetailPages()
-    {
-        $pages = new SubPages();
-        $pages->Style = "tabs";
-        $pages->add('hukuman_disiplin');
-        $pages->add('banding');
-        $pages->add('inspeksi');
-        $pages->add('sidang_kode_perilaku');
-        $this->DetailPages = $pages;
     }
 
     // Setup lookup options
@@ -1827,10 +1566,6 @@ class VSekretariatEdit extends VSekretariat
                 case "x_pangkat":
                     break;
                 case "x_jabatan":
-                    break;
-                case "x_keperluan":
-                    break;
-                case "x_kategori_pemohon":
                     break;
                 case "x_status":
                     break;

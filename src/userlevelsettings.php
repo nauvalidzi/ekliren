@@ -10,8 +10,8 @@ $USER_LEVELS = [["-2","Anonymous"],
     ["1","Pemohon"],
     ["2","Sekretariat"],
     ["3","Aswas"],
-    ["4","Kajati"],
-    ["5","Pemeriksa"]];
+    ["4","Pemeriksa"],
+    ["5","Kajari"]];
 // User level priv info
 $USER_LEVEL_PRIVS = [["{200E8565-2236-41C6-8CFB-5B83286F42BD}data_request_skk","-2","0"],
     ["{200E8565-2236-41C6-8CFB-5B83286F42BD}data_request_skk","0","0"],
@@ -116,8 +116,8 @@ $USER_LEVEL_PRIVS = [["{200E8565-2236-41C6-8CFB-5B83286F42BD}data_request_skk","
     ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_pemeriksa","1","0"],
     ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_pemeriksa","2","0"],
     ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_pemeriksa","3","0"],
-    ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_pemeriksa","4","0"],
-    ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_pemeriksa","5","44"],
+    ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_pemeriksa","4","44"],
+    ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_pemeriksa","5","0"],
     ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_aswas","-2","0"],
     ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_aswas","0","0"],
     ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_aswas","1","0"],
@@ -157,8 +157,8 @@ $USER_LEVEL_PRIVS = [["{200E8565-2236-41C6-8CFB-5B83286F42BD}data_request_skk","
     ["{200E8565-2236-41C6-8CFB-5B83286F42BD}print_skk.php","0","0"],
     ["{200E8565-2236-41C6-8CFB-5B83286F42BD}print_skk.php","1","0"],
     ["{200E8565-2236-41C6-8CFB-5B83286F42BD}print_skk.php","2","40"],
-    ["{200E8565-2236-41C6-8CFB-5B83286F42BD}print_skk.php","3","0"],
-    ["{200E8565-2236-41C6-8CFB-5B83286F42BD}print_skk.php","4","0"],
+    ["{200E8565-2236-41C6-8CFB-5B83286F42BD}print_skk.php","3","32"],
+    ["{200E8565-2236-41C6-8CFB-5B83286F42BD}print_skk.php","4","32"],
     ["{200E8565-2236-41C6-8CFB-5B83286F42BD}print_skk.php","5","32"],
     ["{200E8565-2236-41C6-8CFB-5B83286F42BD}dashboard.php","-2","0"],
     ["{200E8565-2236-41C6-8CFB-5B83286F42BD}dashboard.php","0","0"],
@@ -172,7 +172,7 @@ $USER_LEVEL_PRIVS = [["{200E8565-2236-41C6-8CFB-5B83286F42BD}data_request_skk","
     ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_kajati","1","0"],
     ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_kajati","2","0"],
     ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_kajati","3","0"],
-    ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_kajati","4","44"],
+    ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_kajati","4","0"],
     ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_kajati","5","0"],
     ["{200E8565-2236-41C6-8CFB-5B83286F42BD}m_surat_keputusan","-2","0"],
     ["{200E8565-2236-41C6-8CFB-5B83286F42BD}m_surat_keputusan","0","0"],
@@ -201,7 +201,14 @@ $USER_LEVEL_PRIVS = [["{200E8565-2236-41C6-8CFB-5B83286F42BD}data_request_skk","
     ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_paraf_konfigurasi","2","0"],
     ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_paraf_konfigurasi","3","0"],
     ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_paraf_konfigurasi","4","0"],
-    ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_paraf_konfigurasi","5","0"]];
+    ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_paraf_konfigurasi","5","0"],
+    ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_kajari","-2","0"],
+    ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_kajari","0","0"],
+    ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_kajari","1","0"],
+    ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_kajari","2","0"],
+    ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_kajari","3","0"],
+    ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_kajari","4","0"],
+    ["{200E8565-2236-41C6-8CFB-5B83286F42BD}v_kajari","5","44"]];
 // User level table info
 $USER_LEVEL_TABLES = [["data_request_skk","data_request_skk","Data Pengajuan Permohonan",true,"{200E8565-2236-41C6-8CFB-5B83286F42BD}","DataRequestSkkList"],
     ["data_user","data_user","Data User",true,"{200E8565-2236-41C6-8CFB-5B83286F42BD}","DataUserList"],
@@ -229,4 +236,5 @@ $USER_LEVEL_TABLES = [["data_request_skk","data_request_skk","Data Pengajuan Per
     ["m_surat_keputusan","m_surat_keputusan","Surat Keputusan",true,"{200E8565-2236-41C6-8CFB-5B83286F42BD}","MSuratKeputusanList"],
     ["konfigurasi","konfigurasi","Konfigurasi",true,"{200E8565-2236-41C6-8CFB-5B83286F42BD}","KonfigurasiList"],
     ["v_kajati_konfigurasi","v_kajati_konfigurasi","Konfigurasi Kajati",true,"{200E8565-2236-41C6-8CFB-5B83286F42BD}","VKajatiKonfigurasiList"],
-    ["v_paraf_konfigurasi","v_paraf_konfigurasi","Konfigurasi Paraf",true,"{200E8565-2236-41C6-8CFB-5B83286F42BD}","VParafKonfigurasiList"]];
+    ["v_paraf_konfigurasi","v_paraf_konfigurasi","Konfigurasi Paraf",true,"{200E8565-2236-41C6-8CFB-5B83286F42BD}","VParafKonfigurasiList"],
+    ["v_kajari","v_kajari","ACC Kajari",true,"{200E8565-2236-41C6-8CFB-5B83286F42BD}","VKajariList"]];

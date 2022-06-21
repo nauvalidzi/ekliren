@@ -129,9 +129,6 @@ $Page->ListOptions->render("header", "left");
 <?php if ($Page->keperluan->Visible) { // keperluan ?>
         <th data-name="keperluan" class="<?= $Page->keperluan->headerCellClass() ?>"><div id="elh_data_request_skk_keperluan" class="data_request_skk_keperluan"><?= $Page->renderSort($Page->keperluan) ?></div></th>
 <?php } ?>
-<?php if ($Page->kategori_pemohon->Visible) { // kategori_pemohon ?>
-        <th data-name="kategori_pemohon" class="<?= $Page->kategori_pemohon->headerCellClass() ?>"><div id="elh_data_request_skk_kategori_pemohon" class="data_request_skk_kategori_pemohon"><?= $Page->renderSort($Page->kategori_pemohon) ?></div></th>
-<?php } ?>
 <?php if ($Page->status->Visible) { // status ?>
         <th data-name="status" class="<?= $Page->status->headerCellClass() ?>"><div id="elh_data_request_skk_status" class="data_request_skk_status"><?= $Page->renderSort($Page->status) ?></div></th>
 <?php } ?>
@@ -247,14 +244,6 @@ $Page->ListOptions->render("body", "left", $Page->RowCount);
 <span id="el<?= $Page->RowCount ?>_data_request_skk_keperluan">
 <span<?= $Page->keperluan->viewAttributes() ?>>
 <?= $Page->keperluan->getViewValue() ?></span>
-</span>
-</td>
-    <?php } ?>
-    <?php if ($Page->kategori_pemohon->Visible) { // kategori_pemohon ?>
-        <td data-name="kategori_pemohon" <?= $Page->kategori_pemohon->cellAttributes() ?>>
-<span id="el<?= $Page->RowCount ?>_data_request_skk_kategori_pemohon">
-<span<?= $Page->kategori_pemohon->viewAttributes() ?>>
-<?= $Page->kategori_pemohon->getViewValue() ?></span>
 </span>
 </td>
     <?php } ?>

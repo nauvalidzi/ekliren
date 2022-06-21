@@ -7,7 +7,7 @@ use Doctrine\DBAL\ParameterType;
 /**
  * Page class
  */
-class VSekretariatList extends VSekretariat
+class VKajariList extends VKajari
 {
     use MessagesTrait;
 
@@ -18,16 +18,16 @@ class VSekretariatList extends VSekretariat
     public $ProjectID = PROJECT_ID;
 
     // Table name
-    public $TableName = 'v_sekretariat';
+    public $TableName = 'v_kajari';
 
     // Page object name
-    public $PageObjName = "VSekretariatList";
+    public $PageObjName = "VKajariList";
 
     // Rendering View
     public $RenderingView = false;
 
     // Grid form hidden field names
-    public $FormName = "fv_sekretariatlist";
+    public $FormName = "fv_kajarilist";
     public $FormActionName = "k_action";
     public $FormBlankRowName = "k_blankrow";
     public $FormKeyCountName = "key_count";
@@ -165,9 +165,9 @@ class VSekretariatList extends VSekretariat
         // Parent constuctor
         parent::__construct();
 
-        // Table object (v_sekretariat)
-        if (!isset($GLOBALS["v_sekretariat"]) || get_class($GLOBALS["v_sekretariat"]) == PROJECT_NAMESPACE . "v_sekretariat") {
-            $GLOBALS["v_sekretariat"] = &$this;
+        // Table object (v_kajari)
+        if (!isset($GLOBALS["v_kajari"]) || get_class($GLOBALS["v_kajari"]) == PROJECT_NAMESPACE . "v_kajari") {
+            $GLOBALS["v_kajari"] = &$this;
         }
 
         // Page URL
@@ -181,16 +181,16 @@ class VSekretariatList extends VSekretariat
         $this->ExportHtmlUrl = $pageUrl . "export=html";
         $this->ExportXmlUrl = $pageUrl . "export=xml";
         $this->ExportCsvUrl = $pageUrl . "export=csv";
-        $this->AddUrl = "VSekretariatAdd?" . Config("TABLE_SHOW_DETAIL") . "=";
+        $this->AddUrl = "VKajariAdd";
         $this->InlineAddUrl = $pageUrl . "action=add";
         $this->GridAddUrl = $pageUrl . "action=gridadd";
         $this->GridEditUrl = $pageUrl . "action=gridedit";
-        $this->MultiDeleteUrl = "VSekretariatDelete";
-        $this->MultiUpdateUrl = "VSekretariatUpdate";
+        $this->MultiDeleteUrl = "VKajariDelete";
+        $this->MultiUpdateUrl = "VKajariUpdate";
 
         // Table name (for backward compatibility only)
         if (!defined(PROJECT_NAMESPACE . "TABLE_NAME")) {
-            define(PROJECT_NAMESPACE . "TABLE_NAME", 'v_sekretariat');
+            define(PROJECT_NAMESPACE . "TABLE_NAME", 'v_kajari');
         }
 
         // Start timer
@@ -230,7 +230,7 @@ class VSekretariatList extends VSekretariat
 
         // Filter options
         $this->FilterOptions = new ListOptions("div");
-        $this->FilterOptions->TagClassName = "ew-filter-option fv_sekretariatlistsrch";
+        $this->FilterOptions->TagClassName = "ew-filter-option fv_kajarilistsrch";
 
         // List actions
         $this->ListActions = new ListActions();
@@ -305,7 +305,7 @@ class VSekretariatList extends VSekretariat
             }
             $class = PROJECT_NAMESPACE . Config("EXPORT_CLASSES." . $this->CustomExport);
             if (class_exists($class)) {
-                $doc = new $class(Container("v_sekretariat"));
+                $doc = new $class(Container("v_kajari"));
                 $doc->Text = @$content;
                 if ($this->isExport("email")) {
                     echo $this->exportEmail($doc->Text);
@@ -581,8 +581,6 @@ class VSekretariatList extends VSekretariat
         $this->scan_lhkpn->Visible = false;
         $this->scan_lhkasn->Visible = false;
         $this->keterangan->Visible = false;
-        $this->nomor_surat->Visible = false;
-        $this->acc->Visible = false;
         $this->status->setVisibility();
         $this->hideFieldsForAddEdit();
 
@@ -614,7 +612,6 @@ class VSekretariatList extends VSekretariat
         $this->setupLookupOptions($this->unit_organisasi);
         $this->setupLookupOptions($this->pangkat);
         $this->setupLookupOptions($this->jabatan);
-        $this->setupLookupOptions($this->keperluan);
 
         // Search filters
         $srchAdvanced = ""; // Advanced search filter
@@ -891,8 +888,6 @@ class VSekretariatList extends VSekretariat
         $filterList = Concat($filterList, $this->scan_lhkpn->AdvancedSearch->toJson(), ","); // Field scan_lhkpn
         $filterList = Concat($filterList, $this->scan_lhkasn->AdvancedSearch->toJson(), ","); // Field scan_lhkasn
         $filterList = Concat($filterList, $this->keterangan->AdvancedSearch->toJson(), ","); // Field keterangan
-        $filterList = Concat($filterList, $this->nomor_surat->AdvancedSearch->toJson(), ","); // Field nomor_surat
-        $filterList = Concat($filterList, $this->acc->AdvancedSearch->toJson(), ","); // Field acc
         $filterList = Concat($filterList, $this->status->AdvancedSearch->toJson(), ","); // Field status
         if ($this->BasicSearch->Keyword != "") {
             $wrk = "\"" . Config("TABLE_BASIC_SEARCH") . "\":\"" . JsEncode($this->BasicSearch->Keyword) . "\",\"" . Config("TABLE_BASIC_SEARCH_TYPE") . "\":\"" . JsEncode($this->BasicSearch->Type) . "\"";
@@ -915,7 +910,7 @@ class VSekretariatList extends VSekretariat
         global $UserProfile;
         if (Post("ajax") == "savefilters") { // Save filter request (Ajax)
             $filters = Post("filters");
-            $UserProfile->setSearchFilters(CurrentUserName(), "fv_sekretariatlistsrch", $filters);
+            $UserProfile->setSearchFilters(CurrentUserName(), "fv_kajarilistsrch", $filters);
             WriteJson([["success" => true]]); // Success
             return true;
         } elseif (Post("cmd") == "resetfilter") {
@@ -1038,22 +1033,6 @@ class VSekretariatList extends VSekretariat
         $this->keterangan->AdvancedSearch->SearchOperator2 = @$filter["w_keterangan"];
         $this->keterangan->AdvancedSearch->save();
 
-        // Field nomor_surat
-        $this->nomor_surat->AdvancedSearch->SearchValue = @$filter["x_nomor_surat"];
-        $this->nomor_surat->AdvancedSearch->SearchOperator = @$filter["z_nomor_surat"];
-        $this->nomor_surat->AdvancedSearch->SearchCondition = @$filter["v_nomor_surat"];
-        $this->nomor_surat->AdvancedSearch->SearchValue2 = @$filter["y_nomor_surat"];
-        $this->nomor_surat->AdvancedSearch->SearchOperator2 = @$filter["w_nomor_surat"];
-        $this->nomor_surat->AdvancedSearch->save();
-
-        // Field acc
-        $this->acc->AdvancedSearch->SearchValue = @$filter["x_acc"];
-        $this->acc->AdvancedSearch->SearchOperator = @$filter["z_acc"];
-        $this->acc->AdvancedSearch->SearchCondition = @$filter["v_acc"];
-        $this->acc->AdvancedSearch->SearchValue2 = @$filter["y_acc"];
-        $this->acc->AdvancedSearch->SearchOperator2 = @$filter["w_acc"];
-        $this->acc->AdvancedSearch->save();
-
         // Field status
         $this->status->AdvancedSearch->SearchValue = @$filter["x_status"];
         $this->status->AdvancedSearch->SearchOperator = @$filter["z_status"];
@@ -1072,10 +1051,10 @@ class VSekretariatList extends VSekretariat
         $this->buildBasicSearchSql($where, $this->nip, $arKeywords, $type);
         $this->buildBasicSearchSql($where, $this->nrp, $arKeywords, $type);
         $this->buildBasicSearchSql($where, $this->nama, $arKeywords, $type);
+        $this->buildBasicSearchSql($where, $this->kategori_pemohon, $arKeywords, $type);
         $this->buildBasicSearchSql($where, $this->scan_lhkpn, $arKeywords, $type);
         $this->buildBasicSearchSql($where, $this->scan_lhkasn, $arKeywords, $type);
         $this->buildBasicSearchSql($where, $this->keterangan, $arKeywords, $type);
-        $this->buildBasicSearchSql($where, $this->nomor_surat, $arKeywords, $type);
         $this->buildBasicSearchSql($where, $this->status, $arKeywords, $type);
         return $where;
     }
@@ -1255,14 +1234,10 @@ class VSekretariatList extends VSekretariat
     {
         $orderBy = $this->getSessionOrderBy(); // Get ORDER BY from Session
         if ($orderBy == "") {
-            $this->DefaultSort = "`id_request` DESC";
+            $this->DefaultSort = "";
             if ($this->getSqlOrderBy() != "") {
                 $useDefaultSort = true;
-                if ($this->id_request->getSort() != "") {
-                    $useDefaultSort = false;
-                }
                 if ($useDefaultSort) {
-                    $this->id_request->setSort("DESC");
                     $orderBy = $this->getSqlOrderBy();
                     $this->setSessionOrderBy($orderBy);
                 } else {
@@ -1302,8 +1277,6 @@ class VSekretariatList extends VSekretariat
                 $this->scan_lhkpn->setSort("");
                 $this->scan_lhkasn->setSort("");
                 $this->keterangan->setSort("");
-                $this->nomor_surat->setSort("");
-                $this->acc->setSort("");
                 $this->status->setSort("");
             }
 
@@ -1329,51 +1302,6 @@ class VSekretariatList extends VSekretariat
         $item->CssClass = "text-nowrap";
         $item->Visible = $Security->canEdit();
         $item->OnLeft = false;
-
-        // "detail_hukuman_disiplin"
-        $item = &$this->ListOptions->add("detail_hukuman_disiplin");
-        $item->CssClass = "text-nowrap";
-        $item->Visible = $Security->allowList(CurrentProjectID() . 'hukuman_disiplin') && !$this->ShowMultipleDetails;
-        $item->OnLeft = false;
-        $item->ShowInButtonGroup = false;
-
-        // "detail_banding"
-        $item = &$this->ListOptions->add("detail_banding");
-        $item->CssClass = "text-nowrap";
-        $item->Visible = $Security->allowList(CurrentProjectID() . 'banding') && !$this->ShowMultipleDetails;
-        $item->OnLeft = false;
-        $item->ShowInButtonGroup = false;
-
-        // "detail_inspeksi"
-        $item = &$this->ListOptions->add("detail_inspeksi");
-        $item->CssClass = "text-nowrap";
-        $item->Visible = $Security->allowList(CurrentProjectID() . 'inspeksi') && !$this->ShowMultipleDetails;
-        $item->OnLeft = false;
-        $item->ShowInButtonGroup = false;
-
-        // "detail_sidang_kode_perilaku"
-        $item = &$this->ListOptions->add("detail_sidang_kode_perilaku");
-        $item->CssClass = "text-nowrap";
-        $item->Visible = $Security->allowList(CurrentProjectID() . 'sidang_kode_perilaku') && !$this->ShowMultipleDetails;
-        $item->OnLeft = false;
-        $item->ShowInButtonGroup = false;
-
-        // Multiple details
-        if ($this->ShowMultipleDetails) {
-            $item = &$this->ListOptions->add("details");
-            $item->CssClass = "text-nowrap";
-            $item->Visible = $this->ShowMultipleDetails;
-            $item->OnLeft = false;
-            $item->ShowInButtonGroup = false;
-        }
-
-        // Set up detail pages
-        $pages = new SubPages();
-        $pages->add("hukuman_disiplin");
-        $pages->add("banding");
-        $pages->add("inspeksi");
-        $pages->add("sidang_kode_perilaku");
-        $this->DetailPages = $pages;
 
         // List actions
         $item = &$this->ListOptions->add("listactions");
@@ -1458,138 +1386,6 @@ class VSekretariatList extends VSekretariat
                 $opt->Visible = true;
             }
         }
-        $detailViewTblVar = "";
-        $detailCopyTblVar = "";
-        $detailEditTblVar = "";
-
-        // "detail_hukuman_disiplin"
-        $opt = $this->ListOptions["detail_hukuman_disiplin"];
-        if ($Security->allowList(CurrentProjectID() . 'hukuman_disiplin')) {
-            $body = $Language->phrase("DetailLink") . $Language->TablePhrase("hukuman_disiplin", "TblCaption");
-            $body = "<a class=\"btn btn-default ew-row-link ew-detail\" data-action=\"list\" href=\"" . HtmlEncode("HukumanDisiplinList?" . Config("TABLE_SHOW_MASTER") . "=v_sekretariat&" . GetForeignKeyUrl("fk_id_request", $this->id_request->CurrentValue) . "") . "\">" . $body . "</a>";
-            $links = "";
-            $detailPage = Container("HukumanDisiplinGrid");
-            if ($detailPage->DetailEdit && $Security->canEdit() && $Security->allowEdit(CurrentProjectID() . 'v_sekretariat')) {
-                $caption = $Language->phrase("MasterDetailEditLink");
-                $url = $this->getEditUrl(Config("TABLE_SHOW_DETAIL") . "=hukuman_disiplin");
-                $links .= "<li><a class=\"dropdown-item ew-row-link ew-detail-edit\" data-action=\"edit\" data-caption=\"" . HtmlTitle($caption) . "\" href=\"" . HtmlEncode($url) . "\">" . HtmlImageAndText($caption) . "</a></li>";
-                if ($detailEditTblVar != "") {
-                    $detailEditTblVar .= ",";
-                }
-                $detailEditTblVar .= "hukuman_disiplin";
-            }
-            if ($links != "") {
-                $body .= "<button class=\"dropdown-toggle btn btn-default ew-detail\" data-toggle=\"dropdown\"></button>";
-                $body .= "<ul class=\"dropdown-menu\">" . $links . "</ul>";
-            }
-            $body = "<div class=\"btn-group btn-group-sm ew-btn-group\">" . $body . "</div>";
-            $opt->Body = $body;
-            if ($this->ShowMultipleDetails) {
-                $opt->Visible = false;
-            }
-        }
-
-        // "detail_banding"
-        $opt = $this->ListOptions["detail_banding"];
-        if ($Security->allowList(CurrentProjectID() . 'banding')) {
-            $body = $Language->phrase("DetailLink") . $Language->TablePhrase("banding", "TblCaption");
-            $body = "<a class=\"btn btn-default ew-row-link ew-detail\" data-action=\"list\" href=\"" . HtmlEncode("BandingList?" . Config("TABLE_SHOW_MASTER") . "=v_sekretariat&" . GetForeignKeyUrl("fk_id_request", $this->id_request->CurrentValue) . "") . "\">" . $body . "</a>";
-            $links = "";
-            $detailPage = Container("BandingGrid");
-            if ($detailPage->DetailEdit && $Security->canEdit() && $Security->allowEdit(CurrentProjectID() . 'v_sekretariat')) {
-                $caption = $Language->phrase("MasterDetailEditLink");
-                $url = $this->getEditUrl(Config("TABLE_SHOW_DETAIL") . "=banding");
-                $links .= "<li><a class=\"dropdown-item ew-row-link ew-detail-edit\" data-action=\"edit\" data-caption=\"" . HtmlTitle($caption) . "\" href=\"" . HtmlEncode($url) . "\">" . HtmlImageAndText($caption) . "</a></li>";
-                if ($detailEditTblVar != "") {
-                    $detailEditTblVar .= ",";
-                }
-                $detailEditTblVar .= "banding";
-            }
-            if ($links != "") {
-                $body .= "<button class=\"dropdown-toggle btn btn-default ew-detail\" data-toggle=\"dropdown\"></button>";
-                $body .= "<ul class=\"dropdown-menu\">" . $links . "</ul>";
-            }
-            $body = "<div class=\"btn-group btn-group-sm ew-btn-group\">" . $body . "</div>";
-            $opt->Body = $body;
-            if ($this->ShowMultipleDetails) {
-                $opt->Visible = false;
-            }
-        }
-
-        // "detail_inspeksi"
-        $opt = $this->ListOptions["detail_inspeksi"];
-        if ($Security->allowList(CurrentProjectID() . 'inspeksi')) {
-            $body = $Language->phrase("DetailLink") . $Language->TablePhrase("inspeksi", "TblCaption");
-            $body = "<a class=\"btn btn-default ew-row-link ew-detail\" data-action=\"list\" href=\"" . HtmlEncode("InspeksiList?" . Config("TABLE_SHOW_MASTER") . "=v_sekretariat&" . GetForeignKeyUrl("fk_id_request", $this->id_request->CurrentValue) . "") . "\">" . $body . "</a>";
-            $links = "";
-            $detailPage = Container("InspeksiGrid");
-            if ($detailPage->DetailEdit && $Security->canEdit() && $Security->allowEdit(CurrentProjectID() . 'v_sekretariat')) {
-                $caption = $Language->phrase("MasterDetailEditLink");
-                $url = $this->getEditUrl(Config("TABLE_SHOW_DETAIL") . "=inspeksi");
-                $links .= "<li><a class=\"dropdown-item ew-row-link ew-detail-edit\" data-action=\"edit\" data-caption=\"" . HtmlTitle($caption) . "\" href=\"" . HtmlEncode($url) . "\">" . HtmlImageAndText($caption) . "</a></li>";
-                if ($detailEditTblVar != "") {
-                    $detailEditTblVar .= ",";
-                }
-                $detailEditTblVar .= "inspeksi";
-            }
-            if ($links != "") {
-                $body .= "<button class=\"dropdown-toggle btn btn-default ew-detail\" data-toggle=\"dropdown\"></button>";
-                $body .= "<ul class=\"dropdown-menu\">" . $links . "</ul>";
-            }
-            $body = "<div class=\"btn-group btn-group-sm ew-btn-group\">" . $body . "</div>";
-            $opt->Body = $body;
-            if ($this->ShowMultipleDetails) {
-                $opt->Visible = false;
-            }
-        }
-
-        // "detail_sidang_kode_perilaku"
-        $opt = $this->ListOptions["detail_sidang_kode_perilaku"];
-        if ($Security->allowList(CurrentProjectID() . 'sidang_kode_perilaku')) {
-            $body = $Language->phrase("DetailLink") . $Language->TablePhrase("sidang_kode_perilaku", "TblCaption");
-            $body = "<a class=\"btn btn-default ew-row-link ew-detail\" data-action=\"list\" href=\"" . HtmlEncode("SidangKodePerilakuList?" . Config("TABLE_SHOW_MASTER") . "=v_sekretariat&" . GetForeignKeyUrl("fk_id_request", $this->id_request->CurrentValue) . "") . "\">" . $body . "</a>";
-            $links = "";
-            $detailPage = Container("SidangKodePerilakuGrid");
-            if ($detailPage->DetailEdit && $Security->canEdit() && $Security->allowEdit(CurrentProjectID() . 'v_sekretariat')) {
-                $caption = $Language->phrase("MasterDetailEditLink");
-                $url = $this->getEditUrl(Config("TABLE_SHOW_DETAIL") . "=sidang_kode_perilaku");
-                $links .= "<li><a class=\"dropdown-item ew-row-link ew-detail-edit\" data-action=\"edit\" data-caption=\"" . HtmlTitle($caption) . "\" href=\"" . HtmlEncode($url) . "\">" . HtmlImageAndText($caption) . "</a></li>";
-                if ($detailEditTblVar != "") {
-                    $detailEditTblVar .= ",";
-                }
-                $detailEditTblVar .= "sidang_kode_perilaku";
-            }
-            if ($links != "") {
-                $body .= "<button class=\"dropdown-toggle btn btn-default ew-detail\" data-toggle=\"dropdown\"></button>";
-                $body .= "<ul class=\"dropdown-menu\">" . $links . "</ul>";
-            }
-            $body = "<div class=\"btn-group btn-group-sm ew-btn-group\">" . $body . "</div>";
-            $opt->Body = $body;
-            if ($this->ShowMultipleDetails) {
-                $opt->Visible = false;
-            }
-        }
-        if ($this->ShowMultipleDetails) {
-            $body = "<div class=\"btn-group btn-group-sm ew-btn-group\">";
-            $links = "";
-            if ($detailViewTblVar != "") {
-                $links .= "<li><a class=\"dropdown-item ew-row-link ew-detail-view\" data-action=\"view\" data-caption=\"" . HtmlTitle($Language->phrase("MasterDetailViewLink")) . "\" href=\"" . HtmlEncode($this->getViewUrl(Config("TABLE_SHOW_DETAIL") . "=" . $detailViewTblVar)) . "\">" . HtmlImageAndText($Language->phrase("MasterDetailViewLink")) . "</a></li>";
-            }
-            if ($detailEditTblVar != "") {
-                $links .= "<li><a class=\"dropdown-item ew-row-link ew-detail-edit\" data-action=\"edit\" data-caption=\"" . HtmlTitle($Language->phrase("MasterDetailEditLink")) . "\" href=\"" . HtmlEncode($this->getEditUrl(Config("TABLE_SHOW_DETAIL") . "=" . $detailEditTblVar)) . "\">" . HtmlImageAndText($Language->phrase("MasterDetailEditLink")) . "</a></li>";
-            }
-            if ($detailCopyTblVar != "") {
-                $links .= "<li><a class=\"dropdown-item ew-row-link ew-detail-copy\" data-action=\"add\" data-caption=\"" . HtmlTitle($Language->phrase("MasterDetailCopyLink")) . "\" href=\"" . HtmlEncode($this->GetCopyUrl(Config("TABLE_SHOW_DETAIL") . "=" . $detailCopyTblVar)) . "\">" . HtmlImageAndText($Language->phrase("MasterDetailCopyLink")) . "</a></li>";
-            }
-            if ($links != "") {
-                $body .= "<button class=\"dropdown-toggle btn btn-default ew-master-detail\" title=\"" . HtmlTitle($Language->phrase("MultipleMasterDetails")) . "\" data-toggle=\"dropdown\">" . $Language->phrase("MultipleMasterDetails") . "</button>";
-                $body .= "<ul class=\"dropdown-menu ew-menu\">" . $links . "</ul>";
-            }
-            $body .= "</div>";
-            // Multiple details
-            $opt = $this->ListOptions["details"];
-            $opt->Body = $body;
-        }
 
         // "checkbox"
         $opt = $this->ListOptions["checkbox"];
@@ -1622,10 +1418,10 @@ class VSekretariatList extends VSekretariat
 
         // Filter button
         $item = &$this->FilterOptions->add("savecurrentfilter");
-        $item->Body = "<a class=\"ew-save-filter\" data-form=\"fv_sekretariatlistsrch\" href=\"#\" onclick=\"return false;\">" . $Language->phrase("SaveCurrentFilter") . "</a>";
+        $item->Body = "<a class=\"ew-save-filter\" data-form=\"fv_kajarilistsrch\" href=\"#\" onclick=\"return false;\">" . $Language->phrase("SaveCurrentFilter") . "</a>";
         $item->Visible = true;
         $item = &$this->FilterOptions->add("deletefilter");
-        $item->Body = "<a class=\"ew-delete-filter\" data-form=\"fv_sekretariatlistsrch\" href=\"#\" onclick=\"return false;\">" . $Language->phrase("DeleteFilter") . "</a>";
+        $item->Body = "<a class=\"ew-delete-filter\" data-form=\"fv_kajarilistsrch\" href=\"#\" onclick=\"return false;\">" . $Language->phrase("DeleteFilter") . "</a>";
         $item->Visible = true;
         $this->FilterOptions->UseDropDownButton = true;
         $this->FilterOptions->UseButtonGroup = !$this->FilterOptions->UseDropDownButton;
@@ -1649,7 +1445,7 @@ class VSekretariatList extends VSekretariat
                 $item = &$option->add("custom_" . $listaction->Action);
                 $caption = $listaction->Caption;
                 $icon = ($listaction->Icon != "") ? '<i class="' . HtmlEncode($listaction->Icon) . '" data-caption="' . HtmlEncode($caption) . '"></i>' . $caption : $caption;
-                $item->Body = '<a class="ew-action ew-list-action" title="' . HtmlEncode($caption) . '" data-caption="' . HtmlEncode($caption) . '" href="#" onclick="return ew.submitAction(event,jQuery.extend({f:document.fv_sekretariatlist},' . $listaction->toJson(true) . '));">' . $icon . '</a>';
+                $item->Body = '<a class="ew-action ew-list-action" title="' . HtmlEncode($caption) . '" data-caption="' . HtmlEncode($caption) . '" href="#" onclick="return ew.submitAction(event,jQuery.extend({f:document.fv_kajarilist},' . $listaction->toJson(true) . '));">' . $icon . '</a>';
                 $item->Visible = $listaction->Allow;
             }
         }
@@ -1849,8 +1645,6 @@ class VSekretariatList extends VSekretariat
         $this->scan_lhkpn->setDbValue($row['scan_lhkpn']);
         $this->scan_lhkasn->setDbValue($row['scan_lhkasn']);
         $this->keterangan->setDbValue($row['keterangan']);
-        $this->nomor_surat->setDbValue($row['nomor_surat']);
-        $this->acc->setDbValue($row['acc']);
         $this->status->setDbValue($row['status']);
     }
 
@@ -1871,8 +1665,6 @@ class VSekretariatList extends VSekretariat
         $row['scan_lhkpn'] = null;
         $row['scan_lhkasn'] = null;
         $row['keterangan'] = null;
-        $row['nomor_surat'] = null;
-        $row['acc'] = null;
         $row['status'] = null;
         return $row;
     }
@@ -1937,12 +1729,12 @@ class VSekretariatList extends VSekretariat
 
         // keterangan
 
-        // nomor_surat
-
-        // acc
-
         // status
         if ($this->RowType == ROWTYPE_VIEW) {
+            // id_request
+            $this->id_request->ViewValue = $this->id_request->CurrentValue;
+            $this->id_request->ViewCustomAttributes = "";
+
             // tanggal_request
             $this->tanggal_request->ViewValue = $this->tanggal_request->CurrentValue;
             $this->tanggal_request->ViewValue = FormatDateTime($this->tanggal_request->ViewValue, 117);
@@ -1961,7 +1753,6 @@ class VSekretariatList extends VSekretariat
             $this->nama->ViewCustomAttributes = "";
 
             // unit_organisasi
-            $this->unit_organisasi->ViewValue = $this->unit_organisasi->CurrentValue;
             $curVal = trim(strval($this->unit_organisasi->CurrentValue));
             if ($curVal != "") {
                 $this->unit_organisasi->ViewValue = $this->unit_organisasi->lookupCacheOption($curVal);
@@ -2025,32 +1816,12 @@ class VSekretariatList extends VSekretariat
             $this->jabatan->ViewCustomAttributes = "";
 
             // keperluan
-            $curVal = trim(strval($this->keperluan->CurrentValue));
-            if ($curVal != "") {
-                $this->keperluan->ViewValue = $this->keperluan->lookupCacheOption($curVal);
-                if ($this->keperluan->ViewValue === null) { // Lookup from database
-                    $filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
-                    $sqlWrk = $this->keperluan->Lookup->getSql(false, $filterWrk, '', $this, true, true);
-                    $rswrk = Conn()->executeQuery($sqlWrk)->fetchAll(\PDO::FETCH_BOTH);
-                    $ari = count($rswrk);
-                    if ($ari > 0) { // Lookup values found
-                        $arwrk = $this->keperluan->Lookup->renderViewRow($rswrk[0]);
-                        $this->keperluan->ViewValue = $this->keperluan->displayValue($arwrk);
-                    } else {
-                        $this->keperluan->ViewValue = $this->keperluan->CurrentValue;
-                    }
-                }
-            } else {
-                $this->keperluan->ViewValue = null;
-            }
+            $this->keperluan->ViewValue = $this->keperluan->CurrentValue;
+            $this->keperluan->ViewValue = FormatNumber($this->keperluan->ViewValue, 0, -2, -2, -2);
             $this->keperluan->ViewCustomAttributes = "";
 
             // kategori_pemohon
-            if (strval($this->kategori_pemohon->CurrentValue) != "") {
-                $this->kategori_pemohon->ViewValue = $this->kategori_pemohon->optionCaption($this->kategori_pemohon->CurrentValue);
-            } else {
-                $this->kategori_pemohon->ViewValue = null;
-            }
+            $this->kategori_pemohon->ViewValue = $this->kategori_pemohon->CurrentValue;
             $this->kategori_pemohon->ViewCustomAttributes = "";
 
             // scan_lhkpn
@@ -2064,15 +1835,6 @@ class VSekretariatList extends VSekretariat
             // keterangan
             $this->keterangan->ViewValue = $this->keterangan->CurrentValue;
             $this->keterangan->ViewCustomAttributes = "";
-
-            // nomor_surat
-            $this->nomor_surat->ViewValue = $this->nomor_surat->CurrentValue;
-            $this->nomor_surat->ViewCustomAttributes = "";
-
-            // acc
-            $this->acc->ViewValue = $this->acc->CurrentValue;
-            $this->acc->ViewValue = FormatDateTime($this->acc->ViewValue, 0);
-            $this->acc->ViewCustomAttributes = "";
 
             // status
             if (strval($this->status->CurrentValue) != "") {
@@ -2135,7 +1897,7 @@ class VSekretariatList extends VSekretariat
         // Search button
         $item = &$this->SearchOptions->add("searchtoggle");
         $searchToggleClass = ($this->SearchWhere != "") ? " active" : " active";
-        $item->Body = "<a class=\"btn btn-default ew-search-toggle" . $searchToggleClass . "\" href=\"#\" role=\"button\" title=\"" . $Language->phrase("SearchPanel") . "\" data-caption=\"" . $Language->phrase("SearchPanel") . "\" data-toggle=\"button\" data-form=\"fv_sekretariatlistsrch\" aria-pressed=\"" . ($searchToggleClass == " active" ? "true" : "false") . "\">" . $Language->phrase("SearchLink") . "</a>";
+        $item->Body = "<a class=\"btn btn-default ew-search-toggle" . $searchToggleClass . "\" href=\"#\" role=\"button\" title=\"" . $Language->phrase("SearchPanel") . "\" data-caption=\"" . $Language->phrase("SearchPanel") . "\" data-toggle=\"button\" data-form=\"fv_kajarilistsrch\" aria-pressed=\"" . ($searchToggleClass == " active" ? "true" : "false") . "\">" . $Language->phrase("SearchLink") . "</a>";
         $item->Visible = true;
 
         // Show all button
@@ -2191,10 +1953,6 @@ class VSekretariatList extends VSekretariat
                 case "x_pangkat":
                     break;
                 case "x_jabatan":
-                    break;
-                case "x_keperluan":
-                    break;
-                case "x_kategori_pemohon":
                     break;
                 case "x_status":
                     break;

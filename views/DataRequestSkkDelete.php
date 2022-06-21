@@ -62,9 +62,6 @@ $Page->showMessage();
 <?php if ($Page->keperluan->Visible) { // keperluan ?>
         <th class="<?= $Page->keperluan->headerCellClass() ?>"><span id="elh_data_request_skk_keperluan" class="data_request_skk_keperluan"><?= $Page->keperluan->caption() ?></span></th>
 <?php } ?>
-<?php if ($Page->kategori_pemohon->Visible) { // kategori_pemohon ?>
-        <th class="<?= $Page->kategori_pemohon->headerCellClass() ?>"><span id="elh_data_request_skk_kategori_pemohon" class="data_request_skk_kategori_pemohon"><?= $Page->kategori_pemohon->caption() ?></span></th>
-<?php } ?>
 <?php if ($Page->status->Visible) { // status ?>
         <th class="<?= $Page->status->headerCellClass() ?>"><span id="elh_data_request_skk_status" class="data_request_skk_status"><?= $Page->status->caption() ?></span></th>
 <?php } ?>
@@ -134,14 +131,6 @@ while (!$Page->Recordset->EOF) {
 <span id="el<?= $Page->RowCount ?>_data_request_skk_keperluan" class="data_request_skk_keperluan">
 <span<?= $Page->keperluan->viewAttributes() ?>>
 <?= $Page->keperluan->getViewValue() ?></span>
-</span>
-</td>
-<?php } ?>
-<?php if ($Page->kategori_pemohon->Visible) { // kategori_pemohon ?>
-        <td <?= $Page->kategori_pemohon->cellAttributes() ?>>
-<span id="el<?= $Page->RowCount ?>_data_request_skk_kategori_pemohon" class="data_request_skk_kategori_pemohon">
-<span<?= $Page->kategori_pemohon->viewAttributes() ?>>
-<?= $Page->kategori_pemohon->getViewValue() ?></span>
 </span>
 </td>
 <?php } ?>

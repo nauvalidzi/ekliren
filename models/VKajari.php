@@ -5,9 +5,9 @@ namespace PHPMaker2021\eclearance;
 use Doctrine\DBAL\ParameterType;
 
 /**
- * Table class for v_sekretariat
+ * Table class for v_kajari
  */
-class VSekretariat extends DbTable
+class VKajari extends DbTable
 {
     protected $SqlFrom = "";
     protected $SqlSelect = null;
@@ -41,8 +41,6 @@ class VSekretariat extends DbTable
     public $scan_lhkpn;
     public $scan_lhkasn;
     public $keterangan;
-    public $nomor_surat;
-    public $acc;
     public $status;
 
     // Page ID
@@ -56,12 +54,12 @@ class VSekretariat extends DbTable
 
         // Language object
         $Language = Container("language");
-        $this->TableVar = 'v_sekretariat';
-        $this->TableName = 'v_sekretariat';
+        $this->TableVar = 'v_kajari';
+        $this->TableName = 'v_kajari';
         $this->TableType = 'VIEW';
 
         // Update Table
-        $this->UpdateTable = "`v_sekretariat`";
+        $this->UpdateTable = "`v_kajari`";
         $this->Dbid = 'DB';
         $this->ExportAll = true;
         $this->ExportPageBreakCount = 0; // Page break per every n record (PDF only)
@@ -72,26 +70,25 @@ class VSekretariat extends DbTable
         $this->ExportWordPageOrientation = "portrait"; // Page orientation (PHPWord only)
         $this->ExportWordColumnWidth = null; // Cell width (PHPWord only)
         $this->DetailAdd = false; // Allow detail add
-        $this->DetailEdit = true; // Allow detail edit
+        $this->DetailEdit = false; // Allow detail edit
         $this->DetailView = false; // Allow detail view
-        $this->ShowMultipleDetails = true; // Show multiple details
+        $this->ShowMultipleDetails = false; // Show multiple details
         $this->GridAddRowCount = 1;
         $this->AllowAddDeleteRow = true; // Allow add/delete row
         $this->UserIDAllowSecurity = Config("DEFAULT_USER_ID_ALLOW_SECURITY"); // Default User ID allowed permissions
         $this->BasicSearch = new BasicSearch($this->TableVar);
 
         // id_request
-        $this->id_request = new DbField('v_sekretariat', 'v_sekretariat', 'x_id_request', 'id_request', '`id_request`', '`id_request`', 20, 20, -1, false, '`id_request`', false, false, false, 'FORMATTED TEXT', 'NO');
+        $this->id_request = new DbField('v_kajari', 'v_kajari', 'x_id_request', 'id_request', '`id_request`', '`id_request`', 20, 20, -1, false, '`id_request`', false, false, false, 'FORMATTED TEXT', 'NO');
         $this->id_request->IsAutoIncrement = true; // Autoincrement field
         $this->id_request->IsPrimaryKey = true; // Primary key field
-        $this->id_request->IsForeignKey = true; // Foreign key field
-        $this->id_request->Sortable = false; // Allow sort
+        $this->id_request->Sortable = true; // Allow sort
         $this->id_request->DefaultErrorMessage = $Language->phrase("IncorrectInteger");
         $this->id_request->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->id_request->Param, "CustomMsg");
         $this->Fields['id_request'] = &$this->id_request;
 
         // tanggal_request
-        $this->tanggal_request = new DbField('v_sekretariat', 'v_sekretariat', 'x_tanggal_request', 'tanggal_request', '`tanggal_request`', CastDateFieldForLike("`tanggal_request`", 117, "DB"), 135, 19, 117, false, '`tanggal_request`', false, false, false, 'FORMATTED TEXT', 'TEXT');
+        $this->tanggal_request = new DbField('v_kajari', 'v_kajari', 'x_tanggal_request', 'tanggal_request', '`tanggal_request`', CastDateFieldForLike("`tanggal_request`", 117, "DB"), 135, 19, 117, false, '`tanggal_request`', false, false, false, 'FORMATTED TEXT', 'TEXT');
         $this->tanggal_request->Nullable = false; // NOT NULL field
         $this->tanggal_request->Sortable = true; // Allow sort
         $this->tanggal_request->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_SEPARATOR"], $Language->phrase("IncorrectShortDateDMY"));
@@ -99,7 +96,7 @@ class VSekretariat extends DbTable
         $this->Fields['tanggal_request'] = &$this->tanggal_request;
 
         // nip
-        $this->nip = new DbField('v_sekretariat', 'v_sekretariat', 'x_nip', 'nip', '`nip`', '`nip`', 200, 255, -1, false, '`nip`', false, false, false, 'FORMATTED TEXT', 'TEXT');
+        $this->nip = new DbField('v_kajari', 'v_kajari', 'x_nip', 'nip', '`nip`', '`nip`', 200, 255, -1, false, '`nip`', false, false, false, 'FORMATTED TEXT', 'TEXT');
         $this->nip->Nullable = false; // NOT NULL field
         $this->nip->Required = true; // Required field
         $this->nip->Sortable = true; // Allow sort
@@ -107,7 +104,7 @@ class VSekretariat extends DbTable
         $this->Fields['nip'] = &$this->nip;
 
         // nrp
-        $this->nrp = new DbField('v_sekretariat', 'v_sekretariat', 'x_nrp', 'nrp', '`nrp`', '`nrp`', 200, 255, -1, false, '`nrp`', false, false, false, 'FORMATTED TEXT', 'TEXT');
+        $this->nrp = new DbField('v_kajari', 'v_kajari', 'x_nrp', 'nrp', '`nrp`', '`nrp`', 200, 255, -1, false, '`nrp`', false, false, false, 'FORMATTED TEXT', 'TEXT');
         $this->nrp->Nullable = false; // NOT NULL field
         $this->nrp->Required = true; // Required field
         $this->nrp->Sortable = true; // Allow sort
@@ -115,7 +112,7 @@ class VSekretariat extends DbTable
         $this->Fields['nrp'] = &$this->nrp;
 
         // nama
-        $this->nama = new DbField('v_sekretariat', 'v_sekretariat', 'x_nama', 'nama', '`nama`', '`nama`', 200, 255, -1, false, '`nama`', false, false, false, 'FORMATTED TEXT', 'TEXT');
+        $this->nama = new DbField('v_kajari', 'v_kajari', 'x_nama', 'nama', '`nama`', '`nama`', 200, 255, -1, false, '`nama`', false, false, false, 'FORMATTED TEXT', 'TEXT');
         $this->nama->Nullable = false; // NOT NULL field
         $this->nama->Required = true; // Required field
         $this->nama->Sortable = true; // Allow sort
@@ -123,9 +120,11 @@ class VSekretariat extends DbTable
         $this->Fields['nama'] = &$this->nama;
 
         // unit_organisasi
-        $this->unit_organisasi = new DbField('v_sekretariat', 'v_sekretariat', 'x_unit_organisasi', 'unit_organisasi', '`unit_organisasi`', '`unit_organisasi`', 3, 11, -1, false, '`unit_organisasi`', false, false, false, 'FORMATTED TEXT', 'TEXT');
+        $this->unit_organisasi = new DbField('v_kajari', 'v_kajari', 'x_unit_organisasi', 'unit_organisasi', '`unit_organisasi`', '`unit_organisasi`', 3, 11, -1, false, '`unit_organisasi`', false, false, false, 'FORMATTED TEXT', 'SELECT');
         $this->unit_organisasi->Nullable = false; // NOT NULL field
         $this->unit_organisasi->Sortable = true; // Allow sort
+        $this->unit_organisasi->UsePleaseSelect = true; // Use PleaseSelect by default
+        $this->unit_organisasi->PleaseSelectText = $Language->phrase("PleaseSelect"); // "PleaseSelect" text
         switch ($CurrentLanguage) {
             case "en":
                 $this->unit_organisasi->Lookup = new Lookup('unit_organisasi', 'm_satuan_kerja', false, 'id', ["satuan_kerja","","",""], [], [], [], [], [], [], '', '');
@@ -139,7 +138,7 @@ class VSekretariat extends DbTable
         $this->Fields['unit_organisasi'] = &$this->unit_organisasi;
 
         // pangkat
-        $this->pangkat = new DbField('v_sekretariat', 'v_sekretariat', 'x_pangkat', 'pangkat', '`pangkat`', '`pangkat`', 3, 11, -1, false, '`pangkat`', false, false, false, 'FORMATTED TEXT', 'SELECT');
+        $this->pangkat = new DbField('v_kajari', 'v_kajari', 'x_pangkat', 'pangkat', '`pangkat`', '`pangkat`', 3, 11, -1, false, '`pangkat`', false, false, false, 'FORMATTED TEXT', 'SELECT');
         $this->pangkat->Nullable = false; // NOT NULL field
         $this->pangkat->Sortable = true; // Allow sort
         $this->pangkat->UsePleaseSelect = true; // Use PleaseSelect by default
@@ -157,7 +156,7 @@ class VSekretariat extends DbTable
         $this->Fields['pangkat'] = &$this->pangkat;
 
         // jabatan
-        $this->jabatan = new DbField('v_sekretariat', 'v_sekretariat', 'x_jabatan', 'jabatan', '`jabatan`', '`jabatan`', 3, 11, -1, false, '`jabatan`', false, false, false, 'FORMATTED TEXT', 'SELECT');
+        $this->jabatan = new DbField('v_kajari', 'v_kajari', 'x_jabatan', 'jabatan', '`jabatan`', '`jabatan`', 3, 11, -1, false, '`jabatan`', false, false, false, 'FORMATTED TEXT', 'SELECT');
         $this->jabatan->Nullable = false; // NOT NULL field
         $this->jabatan->Sortable = true; // Allow sort
         $this->jabatan->UsePleaseSelect = true; // Use PleaseSelect by default
@@ -175,81 +174,49 @@ class VSekretariat extends DbTable
         $this->Fields['jabatan'] = &$this->jabatan;
 
         // keperluan
-        $this->keperluan = new DbField('v_sekretariat', 'v_sekretariat', 'x_keperluan', 'keperluan', '`keperluan`', '`keperluan`', 3, 11, -1, false, '`keperluan`', false, false, false, 'FORMATTED TEXT', 'SELECT');
+        $this->keperluan = new DbField('v_kajari', 'v_kajari', 'x_keperluan', 'keperluan', '`keperluan`', '`keperluan`', 3, 11, -1, false, '`keperluan`', false, false, false, 'FORMATTED TEXT', 'TEXT');
         $this->keperluan->Nullable = false; // NOT NULL field
         $this->keperluan->Required = true; // Required field
         $this->keperluan->Sortable = true; // Allow sort
-        $this->keperluan->UsePleaseSelect = true; // Use PleaseSelect by default
-        $this->keperluan->PleaseSelectText = $Language->phrase("PleaseSelect"); // "PleaseSelect" text
-        switch ($CurrentLanguage) {
-            case "en":
-                $this->keperluan->Lookup = new Lookup('keperluan', 'm_keperluan', false, 'id', ["keperluan","","",""], [], [], [], [], [], [], '', '');
-                break;
-            default:
-                $this->keperluan->Lookup = new Lookup('keperluan', 'm_keperluan', false, 'id', ["keperluan","","",""], [], [], [], [], [], [], '', '');
-                break;
-        }
         $this->keperluan->DefaultErrorMessage = $Language->phrase("IncorrectInteger");
         $this->keperluan->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->keperluan->Param, "CustomMsg");
         $this->Fields['keperluan'] = &$this->keperluan;
 
         // kategori_pemohon
-        $this->kategori_pemohon = new DbField('v_sekretariat', 'v_sekretariat', 'x_kategori_pemohon', 'kategori_pemohon', '`kategori_pemohon`', '`kategori_pemohon`', 200, 255, -1, false, '`kategori_pemohon`', false, false, false, 'FORMATTED TEXT', 'RADIO');
+        $this->kategori_pemohon = new DbField('v_kajari', 'v_kajari', 'x_kategori_pemohon', 'kategori_pemohon', '`kategori_pemohon`', '`kategori_pemohon`', 200, 255, -1, false, '`kategori_pemohon`', false, false, false, 'FORMATTED TEXT', 'TEXT');
         $this->kategori_pemohon->Nullable = false; // NOT NULL field
         $this->kategori_pemohon->Required = true; // Required field
         $this->kategori_pemohon->Sortable = true; // Allow sort
-        switch ($CurrentLanguage) {
-            case "en":
-                $this->kategori_pemohon->Lookup = new Lookup('kategori_pemohon', 'v_sekretariat', false, '', ["","","",""], [], [], [], [], [], [], '', '');
-                break;
-            default:
-                $this->kategori_pemohon->Lookup = new Lookup('kategori_pemohon', 'v_sekretariat', false, '', ["","","",""], [], [], [], [], [], [], '', '');
-                break;
-        }
-        $this->kategori_pemohon->OptionCount = 2;
         $this->kategori_pemohon->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->kategori_pemohon->Param, "CustomMsg");
         $this->Fields['kategori_pemohon'] = &$this->kategori_pemohon;
 
         // scan_lhkpn
-        $this->scan_lhkpn = new DbField('v_sekretariat', 'v_sekretariat', 'x_scan_lhkpn', 'scan_lhkpn', '`scan_lhkpn`', '`scan_lhkpn`', 200, 255, -1, false, '`scan_lhkpn`', false, false, false, 'FORMATTED TEXT', 'TEXT');
+        $this->scan_lhkpn = new DbField('v_kajari', 'v_kajari', 'x_scan_lhkpn', 'scan_lhkpn', '`scan_lhkpn`', '`scan_lhkpn`', 200, 255, -1, false, '`scan_lhkpn`', false, false, false, 'FORMATTED TEXT', 'TEXT');
         $this->scan_lhkpn->Sortable = true; // Allow sort
         $this->scan_lhkpn->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->scan_lhkpn->Param, "CustomMsg");
         $this->Fields['scan_lhkpn'] = &$this->scan_lhkpn;
 
         // scan_lhkasn
-        $this->scan_lhkasn = new DbField('v_sekretariat', 'v_sekretariat', 'x_scan_lhkasn', 'scan_lhkasn', '`scan_lhkasn`', '`scan_lhkasn`', 200, 255, -1, false, '`scan_lhkasn`', false, false, false, 'FORMATTED TEXT', 'TEXT');
+        $this->scan_lhkasn = new DbField('v_kajari', 'v_kajari', 'x_scan_lhkasn', 'scan_lhkasn', '`scan_lhkasn`', '`scan_lhkasn`', 200, 255, -1, false, '`scan_lhkasn`', false, false, false, 'FORMATTED TEXT', 'TEXT');
         $this->scan_lhkasn->Sortable = true; // Allow sort
         $this->scan_lhkasn->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->scan_lhkasn->Param, "CustomMsg");
         $this->Fields['scan_lhkasn'] = &$this->scan_lhkasn;
 
         // keterangan
-        $this->keterangan = new DbField('v_sekretariat', 'v_sekretariat', 'x_keterangan', 'keterangan', '`keterangan`', '`keterangan`', 200, 255, -1, false, '`keterangan`', false, false, false, 'FORMATTED TEXT', 'TEXT');
+        $this->keterangan = new DbField('v_kajari', 'v_kajari', 'x_keterangan', 'keterangan', '`keterangan`', '`keterangan`', 200, 255, -1, false, '`keterangan`', false, false, false, 'FORMATTED TEXT', 'TEXT');
         $this->keterangan->Sortable = true; // Allow sort
         $this->keterangan->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->keterangan->Param, "CustomMsg");
         $this->Fields['keterangan'] = &$this->keterangan;
 
-        // nomor_surat
-        $this->nomor_surat = new DbField('v_sekretariat', 'v_sekretariat', 'x_nomor_surat', 'nomor_surat', '`nomor_surat`', '`nomor_surat`', 200, 10, -1, false, '`nomor_surat`', false, false, false, 'FORMATTED TEXT', 'TEXT');
-        $this->nomor_surat->Sortable = true; // Allow sort
-        $this->nomor_surat->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->nomor_surat->Param, "CustomMsg");
-        $this->Fields['nomor_surat'] = &$this->nomor_surat;
-
-        // acc
-        $this->acc = new DbField('v_sekretariat', 'v_sekretariat', 'x_acc', 'acc', '`acc`', CastDateFieldForLike("`acc`", 0, "DB"), 133, 10, 0, false, '`acc`', false, false, false, 'FORMATTED TEXT', 'TEXT');
-        $this->acc->Sortable = true; // Allow sort
-        $this->acc->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_FORMAT"], $Language->phrase("IncorrectDate"));
-        $this->acc->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->acc->Param, "CustomMsg");
-        $this->Fields['acc'] = &$this->acc;
-
         // status
-        $this->status = new DbField('v_sekretariat', 'v_sekretariat', 'x_status', 'status', '`status`', '`status`', 200, 255, -1, false, '`status`', false, false, false, 'FORMATTED TEXT', 'RADIO');
-        $this->status->Sortable = false; // Allow sort
+        $this->status = new DbField('v_kajari', 'v_kajari', 'x_status', 'status', '`status`', '`status`', 200, 255, -1, false, '`status`', false, false, false, 'FORMATTED TEXT', 'RADIO');
+        $this->status->Sortable = true; // Allow sort
         switch ($CurrentLanguage) {
             case "en":
-                $this->status->Lookup = new Lookup('status', 'v_sekretariat', false, '', ["","","",""], [], [], [], [], [], [], '', '');
+                $this->status->Lookup = new Lookup('status', 'v_kajari', false, '', ["","","",""], [], [], [], [], [], [], '', '');
                 break;
             default:
-                $this->status->Lookup = new Lookup('status', 'v_sekretariat', false, '', ["","","",""], [], [], [], [], [], [], '', '');
+                $this->status->Lookup = new Lookup('status', 'v_kajari', false, '', ["","","",""], [], [], [], [], [], [], '', '');
                 break;
         }
         $this->status->OptionCount = 2;
@@ -294,48 +261,10 @@ class VSekretariat extends DbTable
         }
     }
 
-    // Current detail table name
-    public function getCurrentDetailTable()
-    {
-        return Session(PROJECT_NAME . "_" . $this->TableVar . "_" . Config("TABLE_DETAIL_TABLE"));
-    }
-
-    public function setCurrentDetailTable($v)
-    {
-        $_SESSION[PROJECT_NAME . "_" . $this->TableVar . "_" . Config("TABLE_DETAIL_TABLE")] = $v;
-    }
-
-    // Get detail url
-    public function getDetailUrl()
-    {
-        // Detail url
-        $detailUrl = "";
-        if ($this->getCurrentDetailTable() == "hukuman_disiplin") {
-            $detailUrl = Container("hukuman_disiplin")->getListUrl() . "?" . Config("TABLE_SHOW_MASTER") . "=" . $this->TableVar;
-            $detailUrl .= "&" . GetForeignKeyUrl("fk_id_request", $this->id_request->CurrentValue);
-        }
-        if ($this->getCurrentDetailTable() == "banding") {
-            $detailUrl = Container("banding")->getListUrl() . "?" . Config("TABLE_SHOW_MASTER") . "=" . $this->TableVar;
-            $detailUrl .= "&" . GetForeignKeyUrl("fk_id_request", $this->id_request->CurrentValue);
-        }
-        if ($this->getCurrentDetailTable() == "inspeksi") {
-            $detailUrl = Container("inspeksi")->getListUrl() . "?" . Config("TABLE_SHOW_MASTER") . "=" . $this->TableVar;
-            $detailUrl .= "&" . GetForeignKeyUrl("fk_id_request", $this->id_request->CurrentValue);
-        }
-        if ($this->getCurrentDetailTable() == "sidang_kode_perilaku") {
-            $detailUrl = Container("sidang_kode_perilaku")->getListUrl() . "?" . Config("TABLE_SHOW_MASTER") . "=" . $this->TableVar;
-            $detailUrl .= "&" . GetForeignKeyUrl("fk_id_request", $this->id_request->CurrentValue);
-        }
-        if ($detailUrl == "") {
-            $detailUrl = "VSekretariatList";
-        }
-        return $detailUrl;
-    }
-
     // Table level SQL
     public function getSqlFrom() // From
     {
-        return ($this->SqlFrom != "") ? $this->SqlFrom : "`v_sekretariat`";
+        return ($this->SqlFrom != "") ? $this->SqlFrom : "`v_kajari`";
     }
 
     public function sqlFrom() // For backward compatibility
@@ -719,8 +648,6 @@ class VSekretariat extends DbTable
         $this->scan_lhkpn->DbValue = $row['scan_lhkpn'];
         $this->scan_lhkasn->DbValue = $row['scan_lhkasn'];
         $this->keterangan->DbValue = $row['keterangan'];
-        $this->nomor_surat->DbValue = $row['nomor_surat'];
-        $this->acc->DbValue = $row['acc'];
         $this->status->DbValue = $row['status'];
     }
 
@@ -793,7 +720,7 @@ class VSekretariat extends DbTable
         if ($referUrl != "" && $referPageName != CurrentPageName() && $referPageName != "login") { // Referer not same page or login page
             $_SESSION[$name] = $referUrl; // Save to Session
         }
-        return $_SESSION[$name] ?? GetUrl("VSekretariatList");
+        return $_SESSION[$name] ?? GetUrl("VKajariList");
     }
 
     // Set return page URL
@@ -806,11 +733,11 @@ class VSekretariat extends DbTable
     public function getModalCaption($pageName)
     {
         global $Language;
-        if ($pageName == "VSekretariatView") {
+        if ($pageName == "VKajariView") {
             return $Language->phrase("View");
-        } elseif ($pageName == "VSekretariatEdit") {
+        } elseif ($pageName == "VKajariEdit") {
             return $Language->phrase("Edit");
-        } elseif ($pageName == "VSekretariatAdd") {
+        } elseif ($pageName == "VKajariAdd") {
             return $Language->phrase("Add");
         } else {
             return "";
@@ -822,15 +749,15 @@ class VSekretariat extends DbTable
     {
         switch (strtolower($action)) {
             case Config("API_VIEW_ACTION"):
-                return "VSekretariatView";
+                return "VKajariView";
             case Config("API_ADD_ACTION"):
-                return "VSekretariatAdd";
+                return "VKajariAdd";
             case Config("API_EDIT_ACTION"):
-                return "VSekretariatEdit";
+                return "VKajariEdit";
             case Config("API_DELETE_ACTION"):
-                return "VSekretariatDelete";
+                return "VKajariDelete";
             case Config("API_LIST_ACTION"):
-                return "VSekretariatList";
+                return "VKajariList";
             default:
                 return "";
         }
@@ -839,16 +766,16 @@ class VSekretariat extends DbTable
     // List URL
     public function getListUrl()
     {
-        return "VSekretariatList";
+        return "VKajariList";
     }
 
     // View URL
     public function getViewUrl($parm = "")
     {
         if ($parm != "") {
-            $url = $this->keyUrl("VSekretariatView", $this->getUrlParm($parm));
+            $url = $this->keyUrl("VKajariView", $this->getUrlParm($parm));
         } else {
-            $url = $this->keyUrl("VSekretariatView", $this->getUrlParm(Config("TABLE_SHOW_DETAIL") . "="));
+            $url = $this->keyUrl("VKajariView", $this->getUrlParm(Config("TABLE_SHOW_DETAIL") . "="));
         }
         return $this->addMasterUrl($url);
     }
@@ -857,9 +784,9 @@ class VSekretariat extends DbTable
     public function getAddUrl($parm = "")
     {
         if ($parm != "") {
-            $url = "VSekretariatAdd?" . $this->getUrlParm($parm);
+            $url = "VKajariAdd?" . $this->getUrlParm($parm);
         } else {
-            $url = "VSekretariatAdd";
+            $url = "VKajariAdd";
         }
         return $this->addMasterUrl($url);
     }
@@ -867,11 +794,7 @@ class VSekretariat extends DbTable
     // Edit URL
     public function getEditUrl($parm = "")
     {
-        if ($parm != "") {
-            $url = $this->keyUrl("VSekretariatEdit", $this->getUrlParm($parm));
-        } else {
-            $url = $this->keyUrl("VSekretariatEdit", $this->getUrlParm(Config("TABLE_SHOW_DETAIL") . "="));
-        }
+        $url = $this->keyUrl("VKajariEdit", $this->getUrlParm($parm));
         return $this->addMasterUrl($url);
     }
 
@@ -885,11 +808,7 @@ class VSekretariat extends DbTable
     // Copy URL
     public function getCopyUrl($parm = "")
     {
-        if ($parm != "") {
-            $url = $this->keyUrl("VSekretariatAdd", $this->getUrlParm($parm));
-        } else {
-            $url = $this->keyUrl("VSekretariatAdd", $this->getUrlParm(Config("TABLE_SHOW_DETAIL") . "="));
-        }
+        $url = $this->keyUrl("VKajariAdd", $this->getUrlParm($parm));
         return $this->addMasterUrl($url);
     }
 
@@ -903,7 +822,7 @@ class VSekretariat extends DbTable
     // Delete URL
     public function getDeleteUrl()
     {
-        return $this->keyUrl("VSekretariatDelete", $this->getUrlParm());
+        return $this->keyUrl("VKajariDelete", $this->getUrlParm());
     }
 
     // Add master url
@@ -1063,8 +982,6 @@ SORTHTML;
         $this->scan_lhkpn->setDbValue($row['scan_lhkpn']);
         $this->scan_lhkasn->setDbValue($row['scan_lhkasn']);
         $this->keterangan->setDbValue($row['keterangan']);
-        $this->nomor_surat->setDbValue($row['nomor_surat']);
-        $this->acc->setDbValue($row['acc']);
         $this->status->setDbValue($row['status']);
     }
 
@@ -1104,10 +1021,6 @@ SORTHTML;
 
         // keterangan
 
-        // nomor_surat
-
-        // acc
-
         // status
 
         // id_request
@@ -1132,7 +1045,6 @@ SORTHTML;
         $this->nama->ViewCustomAttributes = "";
 
         // unit_organisasi
-        $this->unit_organisasi->ViewValue = $this->unit_organisasi->CurrentValue;
         $curVal = trim(strval($this->unit_organisasi->CurrentValue));
         if ($curVal != "") {
             $this->unit_organisasi->ViewValue = $this->unit_organisasi->lookupCacheOption($curVal);
@@ -1196,32 +1108,12 @@ SORTHTML;
         $this->jabatan->ViewCustomAttributes = "";
 
         // keperluan
-        $curVal = trim(strval($this->keperluan->CurrentValue));
-        if ($curVal != "") {
-            $this->keperluan->ViewValue = $this->keperluan->lookupCacheOption($curVal);
-            if ($this->keperluan->ViewValue === null) { // Lookup from database
-                $filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
-                $sqlWrk = $this->keperluan->Lookup->getSql(false, $filterWrk, '', $this, true, true);
-                $rswrk = Conn()->executeQuery($sqlWrk)->fetchAll(\PDO::FETCH_BOTH);
-                $ari = count($rswrk);
-                if ($ari > 0) { // Lookup values found
-                    $arwrk = $this->keperluan->Lookup->renderViewRow($rswrk[0]);
-                    $this->keperluan->ViewValue = $this->keperluan->displayValue($arwrk);
-                } else {
-                    $this->keperluan->ViewValue = $this->keperluan->CurrentValue;
-                }
-            }
-        } else {
-            $this->keperluan->ViewValue = null;
-        }
+        $this->keperluan->ViewValue = $this->keperluan->CurrentValue;
+        $this->keperluan->ViewValue = FormatNumber($this->keperluan->ViewValue, 0, -2, -2, -2);
         $this->keperluan->ViewCustomAttributes = "";
 
         // kategori_pemohon
-        if (strval($this->kategori_pemohon->CurrentValue) != "") {
-            $this->kategori_pemohon->ViewValue = $this->kategori_pemohon->optionCaption($this->kategori_pemohon->CurrentValue);
-        } else {
-            $this->kategori_pemohon->ViewValue = null;
-        }
+        $this->kategori_pemohon->ViewValue = $this->kategori_pemohon->CurrentValue;
         $this->kategori_pemohon->ViewCustomAttributes = "";
 
         // scan_lhkpn
@@ -1235,15 +1127,6 @@ SORTHTML;
         // keterangan
         $this->keterangan->ViewValue = $this->keterangan->CurrentValue;
         $this->keterangan->ViewCustomAttributes = "";
-
-        // nomor_surat
-        $this->nomor_surat->ViewValue = $this->nomor_surat->CurrentValue;
-        $this->nomor_surat->ViewCustomAttributes = "";
-
-        // acc
-        $this->acc->ViewValue = $this->acc->CurrentValue;
-        $this->acc->ViewValue = FormatDateTime($this->acc->ViewValue, 0);
-        $this->acc->ViewCustomAttributes = "";
 
         // status
         if (strval($this->status->CurrentValue) != "") {
@@ -1334,16 +1217,6 @@ SORTHTML;
         $this->keterangan->HrefValue = "";
         $this->keterangan->TooltipValue = "";
 
-        // nomor_surat
-        $this->nomor_surat->LinkCustomAttributes = "";
-        $this->nomor_surat->HrefValue = "";
-        $this->nomor_surat->TooltipValue = "";
-
-        // acc
-        $this->acc->LinkCustomAttributes = "";
-        $this->acc->HrefValue = "";
-        $this->acc->TooltipValue = "";
-
         // status
         $this->status->LinkCustomAttributes = "";
         $this->status->HrefValue = "";
@@ -1398,7 +1271,6 @@ SORTHTML;
         // unit_organisasi
         $this->unit_organisasi->EditAttrs["class"] = "form-control";
         $this->unit_organisasi->EditCustomAttributes = "";
-        $this->unit_organisasi->EditValue = $this->unit_organisasi->CurrentValue;
         $curVal = trim(strval($this->unit_organisasi->CurrentValue));
         if ($curVal != "") {
             $this->unit_organisasi->EditValue = $this->unit_organisasi->lookupCacheOption($curVal);
@@ -1468,30 +1340,15 @@ SORTHTML;
         // keperluan
         $this->keperluan->EditAttrs["class"] = "form-control";
         $this->keperluan->EditCustomAttributes = "";
-        $curVal = trim(strval($this->keperluan->CurrentValue));
-        if ($curVal != "") {
-            $this->keperluan->EditValue = $this->keperluan->lookupCacheOption($curVal);
-            if ($this->keperluan->EditValue === null) { // Lookup from database
-                $filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
-                $sqlWrk = $this->keperluan->Lookup->getSql(false, $filterWrk, '', $this, true, true);
-                $rswrk = Conn()->executeQuery($sqlWrk)->fetchAll(\PDO::FETCH_BOTH);
-                $ari = count($rswrk);
-                if ($ari > 0) { // Lookup values found
-                    $arwrk = $this->keperluan->Lookup->renderViewRow($rswrk[0]);
-                    $this->keperluan->EditValue = $this->keperluan->displayValue($arwrk);
-                } else {
-                    $this->keperluan->EditValue = $this->keperluan->CurrentValue;
-                }
-            }
-        } else {
-            $this->keperluan->EditValue = null;
-        }
+        $this->keperluan->EditValue = $this->keperluan->CurrentValue;
+        $this->keperluan->EditValue = FormatNumber($this->keperluan->EditValue, 0, -2, -2, -2);
         $this->keperluan->ViewCustomAttributes = "";
 
         // kategori_pemohon
+        $this->kategori_pemohon->EditAttrs["class"] = "form-control";
         $this->kategori_pemohon->EditCustomAttributes = "";
-        $this->kategori_pemohon->EditValue = $this->kategori_pemohon->options(false);
-        $this->kategori_pemohon->PlaceHolder = RemoveHtml($this->kategori_pemohon->caption());
+        $this->kategori_pemohon->EditValue = $this->kategori_pemohon->CurrentValue;
+        $this->kategori_pemohon->ViewCustomAttributes = "";
 
         // scan_lhkpn
         $this->scan_lhkpn->EditAttrs["class"] = "form-control";
@@ -1510,21 +1367,6 @@ SORTHTML;
         $this->keterangan->EditCustomAttributes = "";
         $this->keterangan->EditValue = $this->keterangan->CurrentValue;
         $this->keterangan->ViewCustomAttributes = "";
-
-        // nomor_surat
-        $this->nomor_surat->EditAttrs["class"] = "form-control";
-        $this->nomor_surat->EditCustomAttributes = "";
-        if (!$this->nomor_surat->Raw) {
-            $this->nomor_surat->CurrentValue = HtmlDecode($this->nomor_surat->CurrentValue);
-        }
-        $this->nomor_surat->EditValue = $this->nomor_surat->CurrentValue;
-        $this->nomor_surat->PlaceHolder = RemoveHtml($this->nomor_surat->caption());
-
-        // acc
-        $this->acc->EditAttrs["class"] = "form-control";
-        $this->acc->EditCustomAttributes = "";
-        $this->acc->EditValue = FormatDateTime($this->acc->CurrentValue, 8);
-        $this->acc->PlaceHolder = RemoveHtml($this->acc->caption());
 
         // status
         $this->status->EditCustomAttributes = "";
@@ -1559,21 +1401,7 @@ SORTHTML;
             if ($doc->Horizontal) { // Horizontal format, write header
                 $doc->beginExportRow();
                 if ($exportPageType == "view") {
-                    $doc->exportCaption($this->tanggal_request);
-                    $doc->exportCaption($this->nip);
-                    $doc->exportCaption($this->nrp);
-                    $doc->exportCaption($this->nama);
-                    $doc->exportCaption($this->unit_organisasi);
-                    $doc->exportCaption($this->pangkat);
-                    $doc->exportCaption($this->jabatan);
-                    $doc->exportCaption($this->keperluan);
-                    $doc->exportCaption($this->scan_lhkpn);
-                    $doc->exportCaption($this->scan_lhkasn);
-                    $doc->exportCaption($this->keterangan);
-                    $doc->exportCaption($this->nomor_surat);
-                    $doc->exportCaption($this->acc);
-                    $doc->exportCaption($this->status);
-                } else {
+                    $doc->exportCaption($this->id_request);
                     $doc->exportCaption($this->tanggal_request);
                     $doc->exportCaption($this->nip);
                     $doc->exportCaption($this->nrp);
@@ -1586,8 +1414,21 @@ SORTHTML;
                     $doc->exportCaption($this->scan_lhkpn);
                     $doc->exportCaption($this->scan_lhkasn);
                     $doc->exportCaption($this->keterangan);
-                    $doc->exportCaption($this->nomor_surat);
-                    $doc->exportCaption($this->acc);
+                    $doc->exportCaption($this->status);
+                } else {
+                    $doc->exportCaption($this->id_request);
+                    $doc->exportCaption($this->tanggal_request);
+                    $doc->exportCaption($this->nip);
+                    $doc->exportCaption($this->nrp);
+                    $doc->exportCaption($this->nama);
+                    $doc->exportCaption($this->unit_organisasi);
+                    $doc->exportCaption($this->pangkat);
+                    $doc->exportCaption($this->jabatan);
+                    $doc->exportCaption($this->keperluan);
+                    $doc->exportCaption($this->kategori_pemohon);
+                    $doc->exportCaption($this->scan_lhkpn);
+                    $doc->exportCaption($this->scan_lhkasn);
+                    $doc->exportCaption($this->keterangan);
                     $doc->exportCaption($this->status);
                 }
                 $doc->endExportRow();
@@ -1618,21 +1459,7 @@ SORTHTML;
                 if (!$doc->ExportCustom) {
                     $doc->beginExportRow($rowCnt); // Allow CSS styles if enabled
                     if ($exportPageType == "view") {
-                        $doc->exportField($this->tanggal_request);
-                        $doc->exportField($this->nip);
-                        $doc->exportField($this->nrp);
-                        $doc->exportField($this->nama);
-                        $doc->exportField($this->unit_organisasi);
-                        $doc->exportField($this->pangkat);
-                        $doc->exportField($this->jabatan);
-                        $doc->exportField($this->keperluan);
-                        $doc->exportField($this->scan_lhkpn);
-                        $doc->exportField($this->scan_lhkasn);
-                        $doc->exportField($this->keterangan);
-                        $doc->exportField($this->nomor_surat);
-                        $doc->exportField($this->acc);
-                        $doc->exportField($this->status);
-                    } else {
+                        $doc->exportField($this->id_request);
                         $doc->exportField($this->tanggal_request);
                         $doc->exportField($this->nip);
                         $doc->exportField($this->nrp);
@@ -1645,8 +1472,21 @@ SORTHTML;
                         $doc->exportField($this->scan_lhkpn);
                         $doc->exportField($this->scan_lhkasn);
                         $doc->exportField($this->keterangan);
-                        $doc->exportField($this->nomor_surat);
-                        $doc->exportField($this->acc);
+                        $doc->exportField($this->status);
+                    } else {
+                        $doc->exportField($this->id_request);
+                        $doc->exportField($this->tanggal_request);
+                        $doc->exportField($this->nip);
+                        $doc->exportField($this->nrp);
+                        $doc->exportField($this->nama);
+                        $doc->exportField($this->unit_organisasi);
+                        $doc->exportField($this->pangkat);
+                        $doc->exportField($this->jabatan);
+                        $doc->exportField($this->keperluan);
+                        $doc->exportField($this->kategori_pemohon);
+                        $doc->exportField($this->scan_lhkpn);
+                        $doc->exportField($this->scan_lhkasn);
+                        $doc->exportField($this->keterangan);
                         $doc->exportField($this->status);
                     }
                     $doc->endExportRow($rowCnt);
@@ -1675,11 +1515,11 @@ SORTHTML;
     // Recordset Selecting event
     public function recordsetSelecting(&$filter)
     {
-    	$status = 'ACC_KAJARI';
+        // Enter your code here
+        $status = 'DIAJUKAN';
     	if($status != '' OR $status != FALSE) {
     		AddFilter($filter, "status = '{$status}'");
     	}
-        // Enter your code here
     }
 
     // Recordset Selected event
@@ -1730,70 +1570,10 @@ SORTHTML;
     // Row Updating event
     public function rowUpdating($rsold, &$rsnew)
     {
-    	$rsnew['nomor_surat'];
-    	$rsnew['acc'];	
-    	$rsnew['status'] = empty($rsnew['status']) ? $rsold['status'] : $rsnew['status'];
-        $this->UpdateTable = "data_request_skk";
-    	/*$pernah_dijatuhi_hukuman = $rsnew['pernah_dijatuhi_hukuman'];
-    	$id_request = $rsold['id_request_sktm'];
-    	if($pernah_dijatuhi_hukuman == 'Ya'){
-    		$jenis_hukuman = $rsnew['jenis_hukuman'];
-    		$hukuman = $rsnew['hukuman'];
-    		$pasal = $rsnew['pasal'];
-    		$sk_nomor = $rsnew['sk_nomor'];
-    		$tanggal_sk = $rsnew['tanggal_sk'];
-    		$status_hukuman = $rsnew['status_hukuman'];
-            ExecuteUpdate("INSERT INTO hukuman_disiplin (pid_request_sktm, pernah_dijatuhi_hukuman, jenis_hukuman, hukuman, pasal, sk_nomor, tanggal_sk, status_hukuman) VALUES ('$id_request', '$pernah_dijatuhi_hukuman','$jenis_hukuman', '$hukuman', '$pasal', '$sk_nomor', '$tanggal_sk', '$status_hukuman')");
-    	} else {
-            ExecuteUpdate("INSERT INTO hukuman_disiplin (pid_request_sktm, pernah_dijatuhi_hukuman) VALUES ('$id_request', '$pernah_dijatuhi_hukuman')");		
-    	}
-        $banding = $rsnew['mengajukan_keberatan_banding'];
-        if($banding == 'Ya'){
-            $sk_banding = $rsnew['sk_bandng_nomor'];
-            $tgl_banding = $rsnew['tgl_sk_banding'];
-            ExecuteUpdate("INSERT INTO banding (pid_request_sktm, mengajukan_keberatan_banding, sk_banding_nomor, tgl_sk_banding) VALUES ('$id_request', '$banding','$sk_banding', '$tgl_banding')");
-        } else {
-            ExecuteUpdate("INSERT INTO banding (pid_request_sktm, mengajukan_keberatan_banding) VALUES ('$id_request', '$banding')");
-        }
-        $inspeksi_kasus = $rsnew['inspeksi_kasus'];
-        if($inspeksi_kasus == 'Ya'){
-            $pelanggaran_disiplin = $rsnew['pelanggaran_disiplin'];
-            ExecuteUpdate("INSERT INTO inspeksi (pid_request_sktm, inspeksi_kasus, pelanggaran_disiplin) VALUES ('$id_request', '$inspeksi_kasus', '$pelanggaran_disiplin')");
-        } else {
-            ExecuteUpdate("INSERT INTO inspeksi (pid_request_sktm, inspeksi_kasus) VALUES ('$id_request', '$inspeksi_kasus')");
-        }
-        $sidang_kode_perilaku_jaksa = $rsnew['sidang_kode_perilaku_jaksa'];
-        if($sidang_kode_perilaku_jaksa == 'Ya'){
-            $tempat_sidang_kode_perilaku = $rsnew['tempat_sidang_kode_perilaku'];
-            $hukuman_administratif = $rsnew['hukuman_administratif'];   
-            $sk_nomor_kode_perilaku = $rsnew['sk_nomor_kode_perilaku'];   
-            $tgl_sk_kode_perilaku = $rsnew['tgl_sk_kode_perilaku'];   
-            $status_hukuman_kode_perilaku = $rsnew['status_hukuman_kode_perilaku'];   
-            ExecuteUpdate("INSERT INTO sidang_kode_perilaku (pid_request_sktm, sidang_kode_perilaku_jaksa, tempat_sidang_kode_perilaku, hukuman_administratif, sk_nomor_kode_perilaku, tgl_sk_kode_perilaku, status_hukuman_kode_perilaku) VALUES ('$id_request', '$sidang_kode_perilaku_jaksa', '$tempat_sidang_kode_perilaku','$hukuman_administratif', '$sk_nomor_kode_perilaku', '$tgl_sk_kode_perilaku', '$status_hukuman_kode_perilaku')");
-        } else {
-            ExecuteUpdate("INSERT INTO sidang_kode_perilaku (pid_request_sktm, sidang_kode_perilaku_jaksa) VALUES ('$id_request', '$sidang_kode_perilaku_jaksa')");
-        }
-        $this->UpdateTable = "data_request_sktm";
-        unset($rsnew['pernah_dijatuhi_hukuman']);
-        unset($rsnew['jenis_hukuman']);
-        unset($rsnew['hukuman']);
-        unset($rsnew['pasal']);
-        unset($rsnew['sk_nomor']);
-        unset($rsnew['tanggal_sk']);
-        unset($rsnew['status_hukuman']);
-        unset($rsnew['mengajukan_keberatan_banding']);
-        unset($rsnew['sk_bandng_nomor']);
-        unset($rsnew['tgl_sk_banding']);
-        unset($rsnew['inspeksi_kasus']);
-        unset($rsnew['pelanggaran_disiplin']);
-        unset($rsnew['sidang_kode_perilaku_jaksa']);
-        unset($rsnew['tempat_sidang_kode_perilaku']);
-        unset($rsnew['hukuman_administratif']);
-        unset($rsnew['sk_nomor_kode_perilaku']);
-        unset($rsnew['tgl_sk_kode_perilaku']);
-        unset($rsnew['status_hukuman_kode_perilaku']);*/
         // Enter your code here
         // To cancel, set return value to false
+        $rsnew['status'] = empty($rsnew['status']) ? $rsold['status'] : $rsnew['status'];
+        $this->UpdateTable = "data_request_skk";
         return true;
     }
 
@@ -1801,9 +1581,7 @@ SORTHTML;
     public function rowUpdated($rsold, &$rsnew)
     {
         //Log("Row Updated");
-        if ($rsnew['status'] != $rsold['status']) {
-        	ExecuteUpdate("INSERT INTO riwayat_acc (id_skk, status, verifikator, tanggal) VALUES ({$rsold['id_request']}, '{$rsnew['status']}', 'sekretariat', '".date('Y-m-d H:i:s')."')");
-        }
+        ExecuteUpdate("INSERT INTO riwayat_acc (id_skk, status, verifikator, tanggal) VALUES ({$rsold['id_request']}, '{$rsnew['status']}', 'kajari', '".date('Y-m-d H:i:s')."')");
     }
 
     // Row Update Conflict event

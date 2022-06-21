@@ -79,6 +79,7 @@ return [
     "konfigurasi" => \DI\create(Konfigurasi::class),
     "v_kajati_konfigurasi" => \DI\create(VKajatiKonfigurasi::class),
     "v_paraf_konfigurasi" => \DI\create(VParafKonfigurasi::class),
+    "v_kajari" => \DI\create(VKajari::class),
 
     // User table
     "usertable" => \DI\get("data_user"),
