@@ -2011,7 +2011,7 @@ SORTHTML;
     {
         //var_dump($email); var_dump($args); exit();
         if (CurrentPageID() == "add") { // If Add page
-        $email->Recipient = "sego.yellow@gmail.com";
+        $email->Recipient = $args['rsnew']['email_pemohon'];
         $email->Subject = "[BARU] Permohonan SKK ({$args['rsnew']['kategori_pemohon']})";
         $email->Content = "Berikut adalah data Pengajuan Permohonan ".$args["rsnew"]["kategori_pemohon"]." oleh:";
         $email->Content .= "<br>Nama: ".$args["rsnew"]["nama"];
