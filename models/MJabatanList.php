@@ -568,8 +568,8 @@ class MJabatanList extends MJabatan
 
         // Set up list options
         $this->setupListOptions();
+        $this->id->Visible = false;
         $this->nama_jabatan->setVisibility();
-        $this->id->setVisibility();
         $this->hideFieldsForAddEdit();
 
         // Global Page Loading event (in userfn*.php)
@@ -860,8 +860,8 @@ class MJabatanList extends MJabatan
         // Initialize
         $filterList = "";
         $savedFilterList = "";
-        $filterList = Concat($filterList, $this->nama_jabatan->AdvancedSearch->toJson(), ","); // Field nama_jabatan
         $filterList = Concat($filterList, $this->id->AdvancedSearch->toJson(), ","); // Field id
+        $filterList = Concat($filterList, $this->nama_jabatan->AdvancedSearch->toJson(), ","); // Field nama_jabatan
         if ($this->BasicSearch->Keyword != "") {
             $wrk = "\"" . Config("TABLE_BASIC_SEARCH") . "\":\"" . JsEncode($this->BasicSearch->Keyword) . "\",\"" . Config("TABLE_BASIC_SEARCH_TYPE") . "\":\"" . JsEncode($this->BasicSearch->Type) . "\"";
             $filterList = Concat($filterList, $wrk, ",");
@@ -902,14 +902,6 @@ class MJabatanList extends MJabatan
         $filter = json_decode(Post("filter"), true);
         $this->Command = "search";
 
-        // Field nama_jabatan
-        $this->nama_jabatan->AdvancedSearch->SearchValue = @$filter["x_nama_jabatan"];
-        $this->nama_jabatan->AdvancedSearch->SearchOperator = @$filter["z_nama_jabatan"];
-        $this->nama_jabatan->AdvancedSearch->SearchCondition = @$filter["v_nama_jabatan"];
-        $this->nama_jabatan->AdvancedSearch->SearchValue2 = @$filter["y_nama_jabatan"];
-        $this->nama_jabatan->AdvancedSearch->SearchOperator2 = @$filter["w_nama_jabatan"];
-        $this->nama_jabatan->AdvancedSearch->save();
-
         // Field id
         $this->id->AdvancedSearch->SearchValue = @$filter["x_id"];
         $this->id->AdvancedSearch->SearchOperator = @$filter["z_id"];
@@ -917,6 +909,14 @@ class MJabatanList extends MJabatan
         $this->id->AdvancedSearch->SearchValue2 = @$filter["y_id"];
         $this->id->AdvancedSearch->SearchOperator2 = @$filter["w_id"];
         $this->id->AdvancedSearch->save();
+
+        // Field nama_jabatan
+        $this->nama_jabatan->AdvancedSearch->SearchValue = @$filter["x_nama_jabatan"];
+        $this->nama_jabatan->AdvancedSearch->SearchOperator = @$filter["z_nama_jabatan"];
+        $this->nama_jabatan->AdvancedSearch->SearchCondition = @$filter["v_nama_jabatan"];
+        $this->nama_jabatan->AdvancedSearch->SearchValue2 = @$filter["y_nama_jabatan"];
+        $this->nama_jabatan->AdvancedSearch->SearchOperator2 = @$filter["w_nama_jabatan"];
+        $this->nama_jabatan->AdvancedSearch->save();
         $this->BasicSearch->setKeyword(@$filter[Config("TABLE_BASIC_SEARCH")]);
         $this->BasicSearch->setType(@$filter[Config("TABLE_BASIC_SEARCH_TYPE")]);
     }
@@ -1089,7 +1089,6 @@ class MJabatanList extends MJabatan
             $this->CurrentOrder = Get("order");
             $this->CurrentOrderType = Get("ordertype", "");
             $this->updateSort($this->nama_jabatan); // nama_jabatan
-            $this->updateSort($this->id); // id
             $this->setStartRecordNumber(1); // Reset start position
         }
     }
@@ -1129,8 +1128,8 @@ class MJabatanList extends MJabatan
             if ($this->Command == "resetsort") {
                 $orderBy = "";
                 $this->setSessionOrderBy($orderBy);
-                $this->nama_jabatan->setSort("");
                 $this->id->setSort("");
+                $this->nama_jabatan->setSort("");
             }
 
             // Reset start position
@@ -1190,6 +1189,14 @@ class MJabatanList extends MJabatan
         $item->ShowInDropDown = false;
         $item->ShowInButtonGroup = false;
 
+        // "sequence"
+        $item = &$this->ListOptions->add("sequence");
+        $item->CssClass = "text-nowrap";
+        $item->Visible = true;
+        $item->OnLeft = true; // Always on left
+        $item->ShowInDropDown = false;
+        $item->ShowInButtonGroup = false;
+
         // Drop down button for ListOptions
         $this->ListOptions->UseDropDownButton = false;
         $this->ListOptions->DropDownButtonPhrase = $Language->phrase("ButtonListOptions");
@@ -1215,6 +1222,10 @@ class MJabatanList extends MJabatan
 
         // Call ListOptions_Rendering event
         $this->listOptionsRendering();
+
+        // "sequence"
+        $opt = $this->ListOptions["sequence"];
+        $opt->Body = FormatSequenceNumber($this->RecordCount);
         $pageUrl = $this->pageUrl();
         if ($this->CurrentMode == "view") {
             // "view"
@@ -1536,16 +1547,16 @@ class MJabatanList extends MJabatan
         if (!$rs) {
             return;
         }
-        $this->nama_jabatan->setDbValue($row['nama_jabatan']);
         $this->id->setDbValue($row['id']);
+        $this->nama_jabatan->setDbValue($row['nama_jabatan']);
     }
 
     // Return a row with default values
     protected function newRow()
     {
         $row = [];
-        $row['nama_jabatan'] = null;
         $row['id'] = null;
+        $row['nama_jabatan'] = null;
         return $row;
     }
 
@@ -1583,27 +1594,22 @@ class MJabatanList extends MJabatan
 
         // Common render codes for all row types
 
-        // nama_jabatan
-
         // id
-        if ($this->RowType == ROWTYPE_VIEW) {
-            // nama_jabatan
-            $this->nama_jabatan->ViewValue = $this->nama_jabatan->CurrentValue;
-            $this->nama_jabatan->ViewCustomAttributes = "";
 
+        // nama_jabatan
+        if ($this->RowType == ROWTYPE_VIEW) {
             // id
             $this->id->ViewValue = $this->id->CurrentValue;
             $this->id->ViewCustomAttributes = "";
 
             // nama_jabatan
+            $this->nama_jabatan->ViewValue = $this->nama_jabatan->CurrentValue;
+            $this->nama_jabatan->ViewCustomAttributes = "";
+
+            // nama_jabatan
             $this->nama_jabatan->LinkCustomAttributes = "";
             $this->nama_jabatan->HrefValue = "";
             $this->nama_jabatan->TooltipValue = "";
-
-            // id
-            $this->id->LinkCustomAttributes = "";
-            $this->id->HrefValue = "";
-            $this->id->TooltipValue = "";
         }
 
         // Call Row Rendered event

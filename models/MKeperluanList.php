@@ -568,8 +568,8 @@ class MKeperluanList extends MKeperluan
 
         // Set up list options
         $this->setupListOptions();
-        $this->keperluan->setVisibility();
         $this->id->setVisibility();
+        $this->keperluan->setVisibility();
         $this->hideFieldsForAddEdit();
 
         // Global Page Loading event (in userfn*.php)
@@ -860,8 +860,8 @@ class MKeperluanList extends MKeperluan
         // Initialize
         $filterList = "";
         $savedFilterList = "";
-        $filterList = Concat($filterList, $this->keperluan->AdvancedSearch->toJson(), ","); // Field keperluan
         $filterList = Concat($filterList, $this->id->AdvancedSearch->toJson(), ","); // Field id
+        $filterList = Concat($filterList, $this->keperluan->AdvancedSearch->toJson(), ","); // Field keperluan
         if ($this->BasicSearch->Keyword != "") {
             $wrk = "\"" . Config("TABLE_BASIC_SEARCH") . "\":\"" . JsEncode($this->BasicSearch->Keyword) . "\",\"" . Config("TABLE_BASIC_SEARCH_TYPE") . "\":\"" . JsEncode($this->BasicSearch->Type) . "\"";
             $filterList = Concat($filterList, $wrk, ",");
@@ -902,14 +902,6 @@ class MKeperluanList extends MKeperluan
         $filter = json_decode(Post("filter"), true);
         $this->Command = "search";
 
-        // Field keperluan
-        $this->keperluan->AdvancedSearch->SearchValue = @$filter["x_keperluan"];
-        $this->keperluan->AdvancedSearch->SearchOperator = @$filter["z_keperluan"];
-        $this->keperluan->AdvancedSearch->SearchCondition = @$filter["v_keperluan"];
-        $this->keperluan->AdvancedSearch->SearchValue2 = @$filter["y_keperluan"];
-        $this->keperluan->AdvancedSearch->SearchOperator2 = @$filter["w_keperluan"];
-        $this->keperluan->AdvancedSearch->save();
-
         // Field id
         $this->id->AdvancedSearch->SearchValue = @$filter["x_id"];
         $this->id->AdvancedSearch->SearchOperator = @$filter["z_id"];
@@ -917,6 +909,14 @@ class MKeperluanList extends MKeperluan
         $this->id->AdvancedSearch->SearchValue2 = @$filter["y_id"];
         $this->id->AdvancedSearch->SearchOperator2 = @$filter["w_id"];
         $this->id->AdvancedSearch->save();
+
+        // Field keperluan
+        $this->keperluan->AdvancedSearch->SearchValue = @$filter["x_keperluan"];
+        $this->keperluan->AdvancedSearch->SearchOperator = @$filter["z_keperluan"];
+        $this->keperluan->AdvancedSearch->SearchCondition = @$filter["v_keperluan"];
+        $this->keperluan->AdvancedSearch->SearchValue2 = @$filter["y_keperluan"];
+        $this->keperluan->AdvancedSearch->SearchOperator2 = @$filter["w_keperluan"];
+        $this->keperluan->AdvancedSearch->save();
         $this->BasicSearch->setKeyword(@$filter[Config("TABLE_BASIC_SEARCH")]);
         $this->BasicSearch->setType(@$filter[Config("TABLE_BASIC_SEARCH_TYPE")]);
     }
@@ -1088,8 +1088,8 @@ class MKeperluanList extends MKeperluan
         if (Get("order") !== null) {
             $this->CurrentOrder = Get("order");
             $this->CurrentOrderType = Get("ordertype", "");
-            $this->updateSort($this->keperluan); // keperluan
             $this->updateSort($this->id); // id
+            $this->updateSort($this->keperluan); // keperluan
             $this->setStartRecordNumber(1); // Reset start position
         }
     }
@@ -1129,8 +1129,8 @@ class MKeperluanList extends MKeperluan
             if ($this->Command == "resetsort") {
                 $orderBy = "";
                 $this->setSessionOrderBy($orderBy);
-                $this->keperluan->setSort("");
                 $this->id->setSort("");
+                $this->keperluan->setSort("");
             }
 
             // Reset start position
@@ -1190,6 +1190,14 @@ class MKeperluanList extends MKeperluan
         $item->ShowInDropDown = false;
         $item->ShowInButtonGroup = false;
 
+        // "sequence"
+        $item = &$this->ListOptions->add("sequence");
+        $item->CssClass = "text-nowrap";
+        $item->Visible = true;
+        $item->OnLeft = true; // Always on left
+        $item->ShowInDropDown = false;
+        $item->ShowInButtonGroup = false;
+
         // Drop down button for ListOptions
         $this->ListOptions->UseDropDownButton = false;
         $this->ListOptions->DropDownButtonPhrase = $Language->phrase("ButtonListOptions");
@@ -1215,6 +1223,10 @@ class MKeperluanList extends MKeperluan
 
         // Call ListOptions_Rendering event
         $this->listOptionsRendering();
+
+        // "sequence"
+        $opt = $this->ListOptions["sequence"];
+        $opt->Body = FormatSequenceNumber($this->RecordCount);
         $pageUrl = $this->pageUrl();
         if ($this->CurrentMode == "view") {
             // "view"
@@ -1536,16 +1548,16 @@ class MKeperluanList extends MKeperluan
         if (!$rs) {
             return;
         }
-        $this->keperluan->setDbValue($row['keperluan']);
         $this->id->setDbValue($row['id']);
+        $this->keperluan->setDbValue($row['keperluan']);
     }
 
     // Return a row with default values
     protected function newRow()
     {
         $row = [];
-        $row['keperluan'] = null;
         $row['id'] = null;
+        $row['keperluan'] = null;
         return $row;
     }
 
@@ -1583,27 +1595,27 @@ class MKeperluanList extends MKeperluan
 
         // Common render codes for all row types
 
-        // keperluan
-
         // id
-        if ($this->RowType == ROWTYPE_VIEW) {
-            // keperluan
-            $this->keperluan->ViewValue = $this->keperluan->CurrentValue;
-            $this->keperluan->ViewCustomAttributes = "";
 
+        // keperluan
+        if ($this->RowType == ROWTYPE_VIEW) {
             // id
             $this->id->ViewValue = $this->id->CurrentValue;
             $this->id->ViewCustomAttributes = "";
 
             // keperluan
-            $this->keperluan->LinkCustomAttributes = "";
-            $this->keperluan->HrefValue = "";
-            $this->keperluan->TooltipValue = "";
+            $this->keperluan->ViewValue = $this->keperluan->CurrentValue;
+            $this->keperluan->ViewCustomAttributes = "";
 
             // id
             $this->id->LinkCustomAttributes = "";
             $this->id->HrefValue = "";
             $this->id->TooltipValue = "";
+
+            // keperluan
+            $this->keperluan->LinkCustomAttributes = "";
+            $this->keperluan->HrefValue = "";
+            $this->keperluan->TooltipValue = "";
         }
 
         // Call Row Rendered event

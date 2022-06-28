@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<ew-language date="2022/6/22" version="17.0.5" id="en" name="English" desc="English" author="e.World Technology Limited">
+<ew-language date="2022/6/28" version="17.0.5" id="en" name="English" desc="English" author="e.World Technology Limited">
   <!--
     *** Important Notes:
     1. Language ID should follow: https://developers.google.com/recaptcha/docs/language,
@@ -1098,7 +1098,7 @@
         <phrase id="fldcaption" value="Email" />
       </field>
       <field id="hak_akses">
-        <phrase id="fldcaption" value="Hak Akses" />
+        <phrase id="fldcaption" value="ID" />
       </field>
     </table>
     <table id="userlevelpermissions">
@@ -1125,26 +1125,26 @@
     <table id="cetak_skk" />
     <table id="m_jabatan">
       <phrase id="tblcaption" value="Jabatan" />
+      <field id="id">
+        <phrase id="fldcaption" value="ID" />
+      </field>
       <field id="nama_jabatan">
         <phrase id="fldcaption" value="Jabatan" />
-      </field>
-      <field id="id">
-        <phrase id="fldcaption" value="id jabatan" />
       </field>
     </table>
     <table id="m_pangkat">
       <phrase id="tblcaption" value="Pangkat" />
+      <field id="id">
+        <phrase id="fldcaption" value="ID" />
+      </field>
       <field id="pangkat">
         <phrase id="fldcaption" value="Pangkat" />
-      </field>
-      <field id="id">
-        <phrase id="fldcaption" value="id pangkat" />
       </field>
     </table>
     <table id="m_satuan_kerja">
       <phrase id="tblcaption" value="Satuan Kerja" />
       <field id="id">
-        <phrase id="fldcaption" value="ID Satker" />
+        <phrase id="fldcaption" value="ID" />
       </field>
       <field id="kode_satker">
         <phrase id="fldcaption" value="Kode Satuan Kerja" />
@@ -1155,11 +1155,11 @@
     </table>
     <table id="m_keperluan">
       <phrase id="tblcaption" value="Keperluan" />
+      <field id="id">
+        <phrase id="fldcaption" value="ID" />
+      </field>
       <field id="keperluan">
         <phrase id="fldcaption" value="Keperluan" />
-      </field>
-      <field id="id">
-        <phrase id="fldcaption" value="id keperluan" />
       </field>
     </table>
     <table id="v_sekretariat">
@@ -1820,16 +1820,16 @@
         <phrase id="fldcaption" value="id" />
       </field>
       <field id="id_skk">
-        <phrase id="fldcaption" value="id sktm" />
+        <phrase id="fldcaption" value="SKK ID" />
       </field>
       <field id="status">
-        <phrase id="fldcaption" value="status" />
+        <phrase id="fldcaption" value="Status" />
       </field>
       <field id="verifikator">
-        <phrase id="fldcaption" value="verifikator" />
+        <phrase id="fldcaption" value="Verifikator" />
       </field>
       <field id="tanggal">
-        <phrase id="fldcaption" value="tanggal" />
+        <phrase id="fldcaption" value="Tanggal" />
       </field>
     </table>
     <table id="v_arsip_skk">
@@ -2060,10 +2060,10 @@
     <table id="m_surat_keputusan">
       <phrase id="tblcaption" value="Surat Keputusan" />
       <field id="id">
-        <phrase id="fldcaption" value="id" />
+        <phrase id="fldcaption" value="ID" />
       </field>
       <field id="title">
-        <phrase id="fldcaption" value="title" />
+        <phrase id="fldcaption" value="Pembuat Surat Keputusan" />
       </field>
     </table>
     <table id="konfigurasi">

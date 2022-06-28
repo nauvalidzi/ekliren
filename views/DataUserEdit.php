@@ -20,7 +20,6 @@ loadjs.ready("head", function () {
     if (!ew.vars.tables.data_user)
         ew.vars.tables.data_user = currentTable;
     fdata_useredit.addFields([
-        ["id_user", [fields.id_user.visible && fields.id_user.required ? ew.Validators.required(fields.id_user.caption) : null], fields.id_user.isInvalid],
         ["_username", [fields._username.visible && fields._username.required ? ew.Validators.required(fields._username.caption) : null], fields._username.isInvalid],
         ["unit_organisasi", [fields.unit_organisasi.visible && fields.unit_organisasi.required ? ew.Validators.required(fields.unit_organisasi.caption) : null], fields.unit_organisasi.isInvalid],
         ["email_satker", [fields.email_satker.visible && fields.email_satker.required ? ew.Validators.required(fields.email_satker.caption) : null], fields.email_satker.isInvalid],
@@ -115,27 +114,15 @@ $Page->showMessage();
 <input type="hidden" name="modal" value="<?= (int)$Page->IsModal ?>">
 <input type="hidden" name="<?= $Page->OldKeyName ?>" value="<?= $Page->OldKey ?>">
 <div class="ew-edit-div"><!-- page* -->
-<?php if ($Page->id_user->Visible) { // id_user ?>
-    <div id="r_id_user" class="form-group row">
-        <label id="elh_data_user_id_user" class="<?= $Page->LeftColumnClass ?>"><?= $Page->id_user->caption() ?><?= $Page->id_user->Required ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
-        <div class="<?= $Page->RightColumnClass ?>"><div <?= $Page->id_user->cellAttributes() ?>>
-<span id="el_data_user_id_user">
-<span<?= $Page->id_user->viewAttributes() ?>>
-<input type="text" readonly class="form-control-plaintext" value="<?= HtmlEncode(RemoveHtml($Page->id_user->getDisplayValue($Page->id_user->EditValue))) ?>"></span>
-</span>
-<input type="hidden" data-table="data_user" data-field="x_id_user" data-hidden="1" name="x_id_user" id="x_id_user" value="<?= HtmlEncode($Page->id_user->CurrentValue) ?>">
-</div></div>
-    </div>
-<?php } ?>
 <?php if ($Page->_username->Visible) { // username ?>
     <div id="r__username" class="form-group row">
         <label id="elh_data_user__username" for="x__username" class="<?= $Page->LeftColumnClass ?>"><?= $Page->_username->caption() ?><?= $Page->_username->Required ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
         <div class="<?= $Page->RightColumnClass ?>"><div <?= $Page->_username->cellAttributes() ?>>
 <span id="el_data_user__username">
-<input type="<?= $Page->_username->getInputTextType() ?>" data-table="data_user" data-field="x__username" name="x__username" id="x__username" size="30" maxlength="255" placeholder="<?= HtmlEncode($Page->_username->getPlaceHolder()) ?>" value="<?= $Page->_username->EditValue ?>"<?= $Page->_username->editAttributes() ?> aria-describedby="x__username_help">
-<?= $Page->_username->getCustomMessage() ?>
-<div class="invalid-feedback"><?= $Page->_username->getErrorMessage() ?></div>
+<span<?= $Page->_username->viewAttributes() ?>>
+<input type="text" readonly class="form-control-plaintext" value="<?= HtmlEncode(RemoveHtml($Page->_username->getDisplayValue($Page->_username->EditValue))) ?>"></span>
 </span>
+<input type="hidden" data-table="data_user" data-field="x__username" data-hidden="1" name="x__username" id="x__username" value="<?= HtmlEncode($Page->_username->CurrentValue) ?>">
 </div></div>
     </div>
 <?php } ?>
@@ -224,6 +211,7 @@ loadjs.ready("head", function() {
     </div>
 <?php } ?>
 </div><!-- /page* -->
+    <input type="hidden" data-table="data_user" data-field="x_id_user" data-hidden="1" name="x_id_user" id="x_id_user" value="<?= HtmlEncode($Page->id_user->CurrentValue) ?>">
 <?php if (!$Page->IsModal) { ?>
 <div class="form-group row"><!-- buttons .form-group -->
     <div class="<?= $Page->OffsetColumnClass ?>"><!-- buttons offset -->

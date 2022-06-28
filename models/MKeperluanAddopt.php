@@ -435,8 +435,8 @@ class MKeperluanAddopt extends MKeperluan
         // Create form object
         $CurrentForm = new HttpForm();
         $this->CurrentAction = Param("action"); // Set up current action
-        $this->keperluan->setVisibility();
         $this->id->Visible = false;
+        $this->keperluan->setVisibility();
         $this->hideFieldsForAddEdit();
 
         // Do not use lookup cache
@@ -491,10 +491,10 @@ class MKeperluanAddopt extends MKeperluan
     // Load default values
     protected function loadDefaultValues()
     {
-        $this->keperluan->CurrentValue = null;
-        $this->keperluan->OldValue = $this->keperluan->CurrentValue;
         $this->id->CurrentValue = null;
         $this->id->OldValue = $this->id->CurrentValue;
+        $this->keperluan->CurrentValue = null;
+        $this->keperluan->OldValue = $this->keperluan->CurrentValue;
     }
 
     // Load form values
@@ -567,8 +567,8 @@ class MKeperluanAddopt extends MKeperluan
         if (!$rs) {
             return;
         }
-        $this->keperluan->setDbValue($row['keperluan']);
         $this->id->setDbValue($row['id']);
+        $this->keperluan->setDbValue($row['keperluan']);
     }
 
     // Return a row with default values
@@ -576,8 +576,8 @@ class MKeperluanAddopt extends MKeperluan
     {
         $this->loadDefaultValues();
         $row = [];
-        $row['keperluan'] = $this->keperluan->CurrentValue;
         $row['id'] = $this->id->CurrentValue;
+        $row['keperluan'] = $this->keperluan->CurrentValue;
         return $row;
     }
 
@@ -593,17 +593,17 @@ class MKeperluanAddopt extends MKeperluan
 
         // Common render codes for all row types
 
-        // keperluan
-
         // id
-        if ($this->RowType == ROWTYPE_VIEW) {
-            // keperluan
-            $this->keperluan->ViewValue = $this->keperluan->CurrentValue;
-            $this->keperluan->ViewCustomAttributes = "";
 
+        // keperluan
+        if ($this->RowType == ROWTYPE_VIEW) {
             // id
             $this->id->ViewValue = $this->id->CurrentValue;
             $this->id->ViewCustomAttributes = "";
+
+            // keperluan
+            $this->keperluan->ViewValue = $this->keperluan->CurrentValue;
+            $this->keperluan->ViewCustomAttributes = "";
 
             // keperluan
             $this->keperluan->LinkCustomAttributes = "";

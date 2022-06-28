@@ -374,8 +374,8 @@ class MJabatanDelete extends MJabatan
     {
         global $ExportType, $CustomExportType, $ExportFileName, $UserProfile, $Language, $Security, $CurrentForm;
         $this->CurrentAction = Param("action"); // Set up current action
+        $this->id->Visible = false;
         $this->nama_jabatan->setVisibility();
-        $this->id->setVisibility();
         $this->hideFieldsForAddEdit();
 
         // Do not use lookup cache
@@ -538,16 +538,16 @@ class MJabatanDelete extends MJabatan
         if (!$rs) {
             return;
         }
-        $this->nama_jabatan->setDbValue($row['nama_jabatan']);
         $this->id->setDbValue($row['id']);
+        $this->nama_jabatan->setDbValue($row['nama_jabatan']);
     }
 
     // Return a row with default values
     protected function newRow()
     {
         $row = [];
-        $row['nama_jabatan'] = null;
         $row['id'] = null;
+        $row['nama_jabatan'] = null;
         return $row;
     }
 
@@ -563,27 +563,22 @@ class MJabatanDelete extends MJabatan
 
         // Common render codes for all row types
 
-        // nama_jabatan
-
         // id
-        if ($this->RowType == ROWTYPE_VIEW) {
-            // nama_jabatan
-            $this->nama_jabatan->ViewValue = $this->nama_jabatan->CurrentValue;
-            $this->nama_jabatan->ViewCustomAttributes = "";
 
+        // nama_jabatan
+        if ($this->RowType == ROWTYPE_VIEW) {
             // id
             $this->id->ViewValue = $this->id->CurrentValue;
             $this->id->ViewCustomAttributes = "";
 
             // nama_jabatan
+            $this->nama_jabatan->ViewValue = $this->nama_jabatan->CurrentValue;
+            $this->nama_jabatan->ViewCustomAttributes = "";
+
+            // nama_jabatan
             $this->nama_jabatan->LinkCustomAttributes = "";
             $this->nama_jabatan->HrefValue = "";
             $this->nama_jabatan->TooltipValue = "";
-
-            // id
-            $this->id->LinkCustomAttributes = "";
-            $this->id->HrefValue = "";
-            $this->id->TooltipValue = "";
         }
 
         // Call Row Rendered event

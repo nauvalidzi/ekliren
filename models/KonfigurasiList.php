@@ -568,7 +568,7 @@ class KonfigurasiList extends Konfigurasi
 
         // Set up list options
         $this->setupListOptions();
-        $this->id->setVisibility();
+        $this->id->Visible = false;
         $this->config_name->setVisibility();
         $this->config_value->Visible = false;
         $this->hideFieldsForAddEdit();
@@ -1099,7 +1099,6 @@ class KonfigurasiList extends Konfigurasi
         if (Get("order") !== null) {
             $this->CurrentOrder = Get("order");
             $this->CurrentOrderType = Get("ordertype", "");
-            $this->updateSort($this->id); // id
             $this->updateSort($this->config_name); // config_name
             $this->setStartRecordNumber(1); // Reset start position
         }
@@ -1588,11 +1587,6 @@ class KonfigurasiList extends Konfigurasi
             // config_name
             $this->config_name->ViewValue = $this->config_name->CurrentValue;
             $this->config_name->ViewCustomAttributes = "";
-
-            // id
-            $this->id->LinkCustomAttributes = "";
-            $this->id->HrefValue = "";
-            $this->id->TooltipValue = "";
 
             // config_name
             $this->config_name->LinkCustomAttributes = "";

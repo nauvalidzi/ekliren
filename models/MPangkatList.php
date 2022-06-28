@@ -568,8 +568,8 @@ class MPangkatList extends MPangkat
 
         // Set up list options
         $this->setupListOptions();
-        $this->pangkat->setVisibility();
         $this->id->setVisibility();
+        $this->pangkat->setVisibility();
         $this->hideFieldsForAddEdit();
 
         // Global Page Loading event (in userfn*.php)
@@ -860,8 +860,8 @@ class MPangkatList extends MPangkat
         // Initialize
         $filterList = "";
         $savedFilterList = "";
-        $filterList = Concat($filterList, $this->pangkat->AdvancedSearch->toJson(), ","); // Field pangkat
         $filterList = Concat($filterList, $this->id->AdvancedSearch->toJson(), ","); // Field id
+        $filterList = Concat($filterList, $this->pangkat->AdvancedSearch->toJson(), ","); // Field pangkat
         if ($this->BasicSearch->Keyword != "") {
             $wrk = "\"" . Config("TABLE_BASIC_SEARCH") . "\":\"" . JsEncode($this->BasicSearch->Keyword) . "\",\"" . Config("TABLE_BASIC_SEARCH_TYPE") . "\":\"" . JsEncode($this->BasicSearch->Type) . "\"";
             $filterList = Concat($filterList, $wrk, ",");
@@ -902,14 +902,6 @@ class MPangkatList extends MPangkat
         $filter = json_decode(Post("filter"), true);
         $this->Command = "search";
 
-        // Field pangkat
-        $this->pangkat->AdvancedSearch->SearchValue = @$filter["x_pangkat"];
-        $this->pangkat->AdvancedSearch->SearchOperator = @$filter["z_pangkat"];
-        $this->pangkat->AdvancedSearch->SearchCondition = @$filter["v_pangkat"];
-        $this->pangkat->AdvancedSearch->SearchValue2 = @$filter["y_pangkat"];
-        $this->pangkat->AdvancedSearch->SearchOperator2 = @$filter["w_pangkat"];
-        $this->pangkat->AdvancedSearch->save();
-
         // Field id
         $this->id->AdvancedSearch->SearchValue = @$filter["x_id"];
         $this->id->AdvancedSearch->SearchOperator = @$filter["z_id"];
@@ -917,6 +909,14 @@ class MPangkatList extends MPangkat
         $this->id->AdvancedSearch->SearchValue2 = @$filter["y_id"];
         $this->id->AdvancedSearch->SearchOperator2 = @$filter["w_id"];
         $this->id->AdvancedSearch->save();
+
+        // Field pangkat
+        $this->pangkat->AdvancedSearch->SearchValue = @$filter["x_pangkat"];
+        $this->pangkat->AdvancedSearch->SearchOperator = @$filter["z_pangkat"];
+        $this->pangkat->AdvancedSearch->SearchCondition = @$filter["v_pangkat"];
+        $this->pangkat->AdvancedSearch->SearchValue2 = @$filter["y_pangkat"];
+        $this->pangkat->AdvancedSearch->SearchOperator2 = @$filter["w_pangkat"];
+        $this->pangkat->AdvancedSearch->save();
         $this->BasicSearch->setKeyword(@$filter[Config("TABLE_BASIC_SEARCH")]);
         $this->BasicSearch->setType(@$filter[Config("TABLE_BASIC_SEARCH_TYPE")]);
     }
@@ -1088,8 +1088,8 @@ class MPangkatList extends MPangkat
         if (Get("order") !== null) {
             $this->CurrentOrder = Get("order");
             $this->CurrentOrderType = Get("ordertype", "");
-            $this->updateSort($this->pangkat); // pangkat
             $this->updateSort($this->id); // id
+            $this->updateSort($this->pangkat); // pangkat
             $this->setStartRecordNumber(1); // Reset start position
         }
     }
@@ -1129,8 +1129,8 @@ class MPangkatList extends MPangkat
             if ($this->Command == "resetsort") {
                 $orderBy = "";
                 $this->setSessionOrderBy($orderBy);
-                $this->pangkat->setSort("");
                 $this->id->setSort("");
+                $this->pangkat->setSort("");
             }
 
             // Reset start position
@@ -1190,6 +1190,14 @@ class MPangkatList extends MPangkat
         $item->ShowInDropDown = false;
         $item->ShowInButtonGroup = false;
 
+        // "sequence"
+        $item = &$this->ListOptions->add("sequence");
+        $item->CssClass = "text-nowrap";
+        $item->Visible = true;
+        $item->OnLeft = true; // Always on left
+        $item->ShowInDropDown = false;
+        $item->ShowInButtonGroup = false;
+
         // Drop down button for ListOptions
         $this->ListOptions->UseDropDownButton = false;
         $this->ListOptions->DropDownButtonPhrase = $Language->phrase("ButtonListOptions");
@@ -1215,6 +1223,10 @@ class MPangkatList extends MPangkat
 
         // Call ListOptions_Rendering event
         $this->listOptionsRendering();
+
+        // "sequence"
+        $opt = $this->ListOptions["sequence"];
+        $opt->Body = FormatSequenceNumber($this->RecordCount);
         $pageUrl = $this->pageUrl();
         if ($this->CurrentMode == "view") {
             // "view"
@@ -1536,16 +1548,16 @@ class MPangkatList extends MPangkat
         if (!$rs) {
             return;
         }
-        $this->pangkat->setDbValue($row['pangkat']);
         $this->id->setDbValue($row['id']);
+        $this->pangkat->setDbValue($row['pangkat']);
     }
 
     // Return a row with default values
     protected function newRow()
     {
         $row = [];
-        $row['pangkat'] = null;
         $row['id'] = null;
+        $row['pangkat'] = null;
         return $row;
     }
 
@@ -1583,27 +1595,27 @@ class MPangkatList extends MPangkat
 
         // Common render codes for all row types
 
-        // pangkat
-
         // id
-        if ($this->RowType == ROWTYPE_VIEW) {
-            // pangkat
-            $this->pangkat->ViewValue = $this->pangkat->CurrentValue;
-            $this->pangkat->ViewCustomAttributes = "";
 
+        // pangkat
+        if ($this->RowType == ROWTYPE_VIEW) {
             // id
             $this->id->ViewValue = $this->id->CurrentValue;
             $this->id->ViewCustomAttributes = "";
 
             // pangkat
-            $this->pangkat->LinkCustomAttributes = "";
-            $this->pangkat->HrefValue = "";
-            $this->pangkat->TooltipValue = "";
+            $this->pangkat->ViewValue = $this->pangkat->CurrentValue;
+            $this->pangkat->ViewCustomAttributes = "";
 
             // id
             $this->id->LinkCustomAttributes = "";
             $this->id->HrefValue = "";
             $this->id->TooltipValue = "";
+
+            // pangkat
+            $this->pangkat->LinkCustomAttributes = "";
+            $this->pangkat->HrefValue = "";
+            $this->pangkat->TooltipValue = "";
         }
 
         // Call Row Rendered event

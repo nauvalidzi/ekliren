@@ -374,7 +374,7 @@ class MSuratKeputusanDelete extends MSuratKeputusan
     {
         global $ExportType, $CustomExportType, $ExportFileName, $UserProfile, $Language, $Security, $CurrentForm;
         $this->CurrentAction = Param("action"); // Set up current action
-        $this->id->setVisibility();
+        $this->id->Visible = false;
         $this->title->setVisibility();
         $this->hideFieldsForAddEdit();
 
@@ -574,11 +574,6 @@ class MSuratKeputusanDelete extends MSuratKeputusan
             // title
             $this->title->ViewValue = $this->title->CurrentValue;
             $this->title->ViewCustomAttributes = "";
-
-            // id
-            $this->id->LinkCustomAttributes = "";
-            $this->id->HrefValue = "";
-            $this->id->TooltipValue = "";
 
             // title
             $this->title->LinkCustomAttributes = "";

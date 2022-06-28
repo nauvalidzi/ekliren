@@ -28,8 +28,8 @@ class MJabatan extends DbTable
     public $ExportDoc;
 
     // Fields
-    public $nama_jabatan;
     public $id;
+    public $nama_jabatan;
 
     // Page ID
     public $PageID = ""; // To be overridden by subclass
@@ -66,12 +66,6 @@ class MJabatan extends DbTable
         $this->UserIDAllowSecurity = Config("DEFAULT_USER_ID_ALLOW_SECURITY"); // Default User ID allowed permissions
         $this->BasicSearch = new BasicSearch($this->TableVar);
 
-        // nama_jabatan
-        $this->nama_jabatan = new DbField('m_jabatan', 'm_jabatan', 'x_nama_jabatan', 'nama_jabatan', '`nama_jabatan`', '`nama_jabatan`', 200, 255, -1, false, '`nama_jabatan`', false, false, false, 'FORMATTED TEXT', 'TEXT');
-        $this->nama_jabatan->Sortable = true; // Allow sort
-        $this->nama_jabatan->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->nama_jabatan->Param, "CustomMsg");
-        $this->Fields['nama_jabatan'] = &$this->nama_jabatan;
-
         // id
         $this->id = new DbField('m_jabatan', 'm_jabatan', 'x_id', 'id', '`id`', '`id`', 3, 11, -1, false, '`id`', false, false, false, 'FORMATTED TEXT', 'NO');
         $this->id->IsAutoIncrement = true; // Autoincrement field
@@ -80,6 +74,12 @@ class MJabatan extends DbTable
         $this->id->DefaultErrorMessage = $Language->phrase("IncorrectInteger");
         $this->id->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->id->Param, "CustomMsg");
         $this->Fields['id'] = &$this->id;
+
+        // nama_jabatan
+        $this->nama_jabatan = new DbField('m_jabatan', 'm_jabatan', 'x_nama_jabatan', 'nama_jabatan', '`nama_jabatan`', '`nama_jabatan`', 200, 255, -1, false, '`nama_jabatan`', false, false, false, 'FORMATTED TEXT', 'TEXT');
+        $this->nama_jabatan->Sortable = true; // Allow sort
+        $this->nama_jabatan->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->nama_jabatan->Param, "CustomMsg");
+        $this->Fields['nama_jabatan'] = &$this->nama_jabatan;
     }
 
     // Field Visibility
@@ -493,8 +493,8 @@ class MJabatan extends DbTable
         if (!is_array($row)) {
             return;
         }
-        $this->nama_jabatan->DbValue = $row['nama_jabatan'];
         $this->id->DbValue = $row['id'];
+        $this->nama_jabatan->DbValue = $row['nama_jabatan'];
     }
 
     // Delete uploaded files
@@ -815,8 +815,8 @@ SORTHTML;
         } else {
             return;
         }
-        $this->nama_jabatan->setDbValue($row['nama_jabatan']);
         $this->id->setDbValue($row['id']);
+        $this->nama_jabatan->setDbValue($row['nama_jabatan']);
     }
 
     // Render list row values
@@ -829,27 +829,27 @@ SORTHTML;
 
         // Common render codes
 
-        // nama_jabatan
-
         // id
 
         // nama_jabatan
-        $this->nama_jabatan->ViewValue = $this->nama_jabatan->CurrentValue;
-        $this->nama_jabatan->ViewCustomAttributes = "";
 
         // id
         $this->id->ViewValue = $this->id->CurrentValue;
         $this->id->ViewCustomAttributes = "";
 
         // nama_jabatan
-        $this->nama_jabatan->LinkCustomAttributes = "";
-        $this->nama_jabatan->HrefValue = "";
-        $this->nama_jabatan->TooltipValue = "";
+        $this->nama_jabatan->ViewValue = $this->nama_jabatan->CurrentValue;
+        $this->nama_jabatan->ViewCustomAttributes = "";
 
         // id
         $this->id->LinkCustomAttributes = "";
         $this->id->HrefValue = "";
         $this->id->TooltipValue = "";
+
+        // nama_jabatan
+        $this->nama_jabatan->LinkCustomAttributes = "";
+        $this->nama_jabatan->HrefValue = "";
+        $this->nama_jabatan->TooltipValue = "";
 
         // Call Row Rendered event
         $this->rowRendered();
@@ -866,6 +866,12 @@ SORTHTML;
         // Call Row Rendering event
         $this->rowRendering();
 
+        // id
+        $this->id->EditAttrs["class"] = "form-control";
+        $this->id->EditCustomAttributes = "";
+        $this->id->EditValue = $this->id->CurrentValue;
+        $this->id->ViewCustomAttributes = "";
+
         // nama_jabatan
         $this->nama_jabatan->EditAttrs["class"] = "form-control";
         $this->nama_jabatan->EditCustomAttributes = "";
@@ -874,12 +880,6 @@ SORTHTML;
         }
         $this->nama_jabatan->EditValue = $this->nama_jabatan->CurrentValue;
         $this->nama_jabatan->PlaceHolder = RemoveHtml($this->nama_jabatan->caption());
-
-        // id
-        $this->id->EditAttrs["class"] = "form-control";
-        $this->id->EditCustomAttributes = "";
-        $this->id->EditValue = $this->id->CurrentValue;
-        $this->id->ViewCustomAttributes = "";
 
         // Call Row Rendered event
         $this->rowRendered();
@@ -909,11 +909,11 @@ SORTHTML;
             if ($doc->Horizontal) { // Horizontal format, write header
                 $doc->beginExportRow();
                 if ($exportPageType == "view") {
-                    $doc->exportCaption($this->nama_jabatan);
                     $doc->exportCaption($this->id);
+                    $doc->exportCaption($this->nama_jabatan);
                 } else {
-                    $doc->exportCaption($this->nama_jabatan);
                     $doc->exportCaption($this->id);
+                    $doc->exportCaption($this->nama_jabatan);
                 }
                 $doc->endExportRow();
             }
@@ -943,11 +943,11 @@ SORTHTML;
                 if (!$doc->ExportCustom) {
                     $doc->beginExportRow($rowCnt); // Allow CSS styles if enabled
                     if ($exportPageType == "view") {
-                        $doc->exportField($this->nama_jabatan);
                         $doc->exportField($this->id);
+                        $doc->exportField($this->nama_jabatan);
                     } else {
-                        $doc->exportField($this->nama_jabatan);
                         $doc->exportField($this->id);
+                        $doc->exportField($this->nama_jabatan);
                     }
                     $doc->endExportRow($rowCnt);
                 }

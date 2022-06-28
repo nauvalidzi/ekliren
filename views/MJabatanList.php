@@ -114,9 +114,6 @@ $Page->ListOptions->render("header", "left");
 <?php if ($Page->nama_jabatan->Visible) { // nama_jabatan ?>
         <th data-name="nama_jabatan" class="<?= $Page->nama_jabatan->headerCellClass() ?>"><div id="elh_m_jabatan_nama_jabatan" class="m_jabatan_nama_jabatan"><?= $Page->renderSort($Page->nama_jabatan) ?></div></th>
 <?php } ?>
-<?php if ($Page->id->Visible) { // id ?>
-        <th data-name="id" class="<?= $Page->id->headerCellClass() ?>"><div id="elh_m_jabatan_id" class="m_jabatan_id"><?= $Page->renderSort($Page->id) ?></div></th>
-<?php } ?>
 <?php
 // Render list options (header, right)
 $Page->ListOptions->render("header", "right");
@@ -189,14 +186,6 @@ $Page->ListOptions->render("body", "left", $Page->RowCount);
 <span id="el<?= $Page->RowCount ?>_m_jabatan_nama_jabatan">
 <span<?= $Page->nama_jabatan->viewAttributes() ?>>
 <?= $Page->nama_jabatan->getViewValue() ?></span>
-</span>
-</td>
-    <?php } ?>
-    <?php if ($Page->id->Visible) { // id ?>
-        <td data-name="id" <?= $Page->id->cellAttributes() ?>>
-<span id="el<?= $Page->RowCount ?>_m_jabatan_id">
-<span<?= $Page->id->viewAttributes() ?>>
-<?= $Page->id->getViewValue() ?></span>
 </span>
 </td>
     <?php } ?>

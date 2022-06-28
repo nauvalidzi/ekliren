@@ -518,8 +518,8 @@ class MPangkatView extends MPangkat
         // Is modal
         $this->IsModal = Param("modal") == "1";
         $this->CurrentAction = Param("action"); // Set up current action
-        $this->pangkat->setVisibility();
         $this->id->setVisibility();
+        $this->pangkat->setVisibility();
         $this->hideFieldsForAddEdit();
 
         // Do not use lookup cache
@@ -733,16 +733,16 @@ class MPangkatView extends MPangkat
         if (!$rs) {
             return;
         }
-        $this->pangkat->setDbValue($row['pangkat']);
         $this->id->setDbValue($row['id']);
+        $this->pangkat->setDbValue($row['pangkat']);
     }
 
     // Return a row with default values
     protected function newRow()
     {
         $row = [];
-        $row['pangkat'] = null;
         $row['id'] = null;
+        $row['pangkat'] = null;
         return $row;
     }
 
@@ -764,27 +764,27 @@ class MPangkatView extends MPangkat
 
         // Common render codes for all row types
 
-        // pangkat
-
         // id
-        if ($this->RowType == ROWTYPE_VIEW) {
-            // pangkat
-            $this->pangkat->ViewValue = $this->pangkat->CurrentValue;
-            $this->pangkat->ViewCustomAttributes = "";
 
+        // pangkat
+        if ($this->RowType == ROWTYPE_VIEW) {
             // id
             $this->id->ViewValue = $this->id->CurrentValue;
             $this->id->ViewCustomAttributes = "";
 
             // pangkat
-            $this->pangkat->LinkCustomAttributes = "";
-            $this->pangkat->HrefValue = "";
-            $this->pangkat->TooltipValue = "";
+            $this->pangkat->ViewValue = $this->pangkat->CurrentValue;
+            $this->pangkat->ViewCustomAttributes = "";
 
             // id
             $this->id->LinkCustomAttributes = "";
             $this->id->HrefValue = "";
             $this->id->TooltipValue = "";
+
+            // pangkat
+            $this->pangkat->LinkCustomAttributes = "";
+            $this->pangkat->HrefValue = "";
+            $this->pangkat->TooltipValue = "";
         }
 
         // Call Row Rendered event

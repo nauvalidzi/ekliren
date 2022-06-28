@@ -20,7 +20,6 @@ loadjs.ready("head", function () {
     if (!ew.vars.tables.m_satuan_kerja)
         ew.vars.tables.m_satuan_kerja = currentTable;
     fm_satuan_kerjaedit.addFields([
-        ["id", [fields.id.visible && fields.id.required ? ew.Validators.required(fields.id.caption) : null], fields.id.isInvalid],
         ["kode_satker", [fields.kode_satker.visible && fields.kode_satker.required ? ew.Validators.required(fields.kode_satker.caption) : null], fields.kode_satker.isInvalid],
         ["satuan_kerja", [fields.satuan_kerja.visible && fields.satuan_kerja.required ? ew.Validators.required(fields.satuan_kerja.caption) : null], fields.satuan_kerja.isInvalid]
     ]);
@@ -111,18 +110,6 @@ $Page->showMessage();
 <input type="hidden" name="modal" value="<?= (int)$Page->IsModal ?>">
 <input type="hidden" name="<?= $Page->OldKeyName ?>" value="<?= $Page->OldKey ?>">
 <div class="ew-edit-div"><!-- page* -->
-<?php if ($Page->id->Visible) { // id ?>
-    <div id="r_id" class="form-group row">
-        <label id="elh_m_satuan_kerja_id" class="<?= $Page->LeftColumnClass ?>"><?= $Page->id->caption() ?><?= $Page->id->Required ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
-        <div class="<?= $Page->RightColumnClass ?>"><div <?= $Page->id->cellAttributes() ?>>
-<span id="el_m_satuan_kerja_id">
-<span<?= $Page->id->viewAttributes() ?>>
-<input type="text" readonly class="form-control-plaintext" value="<?= HtmlEncode(RemoveHtml($Page->id->getDisplayValue($Page->id->EditValue))) ?>"></span>
-</span>
-<input type="hidden" data-table="m_satuan_kerja" data-field="x_id" data-hidden="1" name="x_id" id="x_id" value="<?= HtmlEncode($Page->id->CurrentValue) ?>">
-</div></div>
-    </div>
-<?php } ?>
 <?php if ($Page->kode_satker->Visible) { // kode_satker ?>
     <div id="r_kode_satker" class="form-group row">
         <label id="elh_m_satuan_kerja_kode_satker" for="x_kode_satker" class="<?= $Page->LeftColumnClass ?>"><?= $Page->kode_satker->caption() ?><?= $Page->kode_satker->Required ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
@@ -148,6 +135,7 @@ $Page->showMessage();
     </div>
 <?php } ?>
 </div><!-- /page* -->
+    <input type="hidden" data-table="m_satuan_kerja" data-field="x_id" data-hidden="1" name="x_id" id="x_id" value="<?= HtmlEncode($Page->id->CurrentValue) ?>">
 <?php if (!$Page->IsModal) { ?>
 <div class="form-group row"><!-- buttons .form-group -->
     <div class="<?= $Page->OffsetColumnClass ?>"><!-- buttons offset -->

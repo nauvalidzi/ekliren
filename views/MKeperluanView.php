@@ -45,17 +45,6 @@ $Page->showMessage();
 <input type="hidden" name="t" value="m_keperluan">
 <input type="hidden" name="modal" value="<?= (int)$Page->IsModal ?>">
 <table class="table table-striped table-sm ew-view-table">
-<?php if ($Page->keperluan->Visible) { // keperluan ?>
-    <tr id="r_keperluan">
-        <td class="<?= $Page->TableLeftColumnClass ?>"><span id="elh_m_keperluan_keperluan"><?= $Page->keperluan->caption() ?></span></td>
-        <td data-name="keperluan" <?= $Page->keperluan->cellAttributes() ?>>
-<span id="el_m_keperluan_keperluan">
-<span<?= $Page->keperluan->viewAttributes() ?>>
-<?= $Page->keperluan->getViewValue() ?></span>
-</span>
-</td>
-    </tr>
-<?php } ?>
 <?php if ($Page->id->Visible) { // id ?>
     <tr id="r_id">
         <td class="<?= $Page->TableLeftColumnClass ?>"><span id="elh_m_keperluan_id"><?= $Page->id->caption() ?></span></td>
@@ -63,6 +52,17 @@ $Page->showMessage();
 <span id="el_m_keperluan_id">
 <span<?= $Page->id->viewAttributes() ?>>
 <?= $Page->id->getViewValue() ?></span>
+</span>
+</td>
+    </tr>
+<?php } ?>
+<?php if ($Page->keperluan->Visible) { // keperluan ?>
+    <tr id="r_keperluan">
+        <td class="<?= $Page->TableLeftColumnClass ?>"><span id="elh_m_keperluan_keperluan"><?= $Page->keperluan->caption() ?></span></td>
+        <td data-name="keperluan" <?= $Page->keperluan->cellAttributes() ?>>
+<span id="el_m_keperluan_keperluan">
+<span<?= $Page->keperluan->viewAttributes() ?>>
+<?= $Page->keperluan->getViewValue() ?></span>
 </span>
 </td>
     </tr>

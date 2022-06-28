@@ -374,8 +374,8 @@ class MKeperluanDelete extends MKeperluan
     {
         global $ExportType, $CustomExportType, $ExportFileName, $UserProfile, $Language, $Security, $CurrentForm;
         $this->CurrentAction = Param("action"); // Set up current action
-        $this->keperluan->setVisibility();
         $this->id->setVisibility();
+        $this->keperluan->setVisibility();
         $this->hideFieldsForAddEdit();
 
         // Do not use lookup cache
@@ -538,16 +538,16 @@ class MKeperluanDelete extends MKeperluan
         if (!$rs) {
             return;
         }
-        $this->keperluan->setDbValue($row['keperluan']);
         $this->id->setDbValue($row['id']);
+        $this->keperluan->setDbValue($row['keperluan']);
     }
 
     // Return a row with default values
     protected function newRow()
     {
         $row = [];
-        $row['keperluan'] = null;
         $row['id'] = null;
+        $row['keperluan'] = null;
         return $row;
     }
 
@@ -563,27 +563,27 @@ class MKeperluanDelete extends MKeperluan
 
         // Common render codes for all row types
 
-        // keperluan
-
         // id
-        if ($this->RowType == ROWTYPE_VIEW) {
-            // keperluan
-            $this->keperluan->ViewValue = $this->keperluan->CurrentValue;
-            $this->keperluan->ViewCustomAttributes = "";
 
+        // keperluan
+        if ($this->RowType == ROWTYPE_VIEW) {
             // id
             $this->id->ViewValue = $this->id->CurrentValue;
             $this->id->ViewCustomAttributes = "";
 
             // keperluan
-            $this->keperluan->LinkCustomAttributes = "";
-            $this->keperluan->HrefValue = "";
-            $this->keperluan->TooltipValue = "";
+            $this->keperluan->ViewValue = $this->keperluan->CurrentValue;
+            $this->keperluan->ViewCustomAttributes = "";
 
             // id
             $this->id->LinkCustomAttributes = "";
             $this->id->HrefValue = "";
             $this->id->TooltipValue = "";
+
+            // keperluan
+            $this->keperluan->LinkCustomAttributes = "";
+            $this->keperluan->HrefValue = "";
+            $this->keperluan->TooltipValue = "";
         }
 
         // Call Row Rendered event

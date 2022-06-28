@@ -111,11 +111,11 @@ $Page->renderListOptions();
 // Render list options (header, left)
 $Page->ListOptions->render("header", "left");
 ?>
-<?php if ($Page->pangkat->Visible) { // pangkat ?>
-        <th data-name="pangkat" class="<?= $Page->pangkat->headerCellClass() ?>"><div id="elh_m_pangkat_pangkat" class="m_pangkat_pangkat"><?= $Page->renderSort($Page->pangkat) ?></div></th>
-<?php } ?>
 <?php if ($Page->id->Visible) { // id ?>
         <th data-name="id" class="<?= $Page->id->headerCellClass() ?>"><div id="elh_m_pangkat_id" class="m_pangkat_id"><?= $Page->renderSort($Page->id) ?></div></th>
+<?php } ?>
+<?php if ($Page->pangkat->Visible) { // pangkat ?>
+        <th data-name="pangkat" class="<?= $Page->pangkat->headerCellClass() ?>"><div id="elh_m_pangkat_pangkat" class="m_pangkat_pangkat"><?= $Page->renderSort($Page->pangkat) ?></div></th>
 <?php } ?>
 <?php
 // Render list options (header, right)
@@ -184,19 +184,19 @@ while ($Page->RecordCount < $Page->StopRecord) {
 // Render list options (body, left)
 $Page->ListOptions->render("body", "left", $Page->RowCount);
 ?>
-    <?php if ($Page->pangkat->Visible) { // pangkat ?>
-        <td data-name="pangkat" <?= $Page->pangkat->cellAttributes() ?>>
-<span id="el<?= $Page->RowCount ?>_m_pangkat_pangkat">
-<span<?= $Page->pangkat->viewAttributes() ?>>
-<?= $Page->pangkat->getViewValue() ?></span>
-</span>
-</td>
-    <?php } ?>
     <?php if ($Page->id->Visible) { // id ?>
         <td data-name="id" <?= $Page->id->cellAttributes() ?>>
 <span id="el<?= $Page->RowCount ?>_m_pangkat_id">
 <span<?= $Page->id->viewAttributes() ?>>
 <?= $Page->id->getViewValue() ?></span>
+</span>
+</td>
+    <?php } ?>
+    <?php if ($Page->pangkat->Visible) { // pangkat ?>
+        <td data-name="pangkat" <?= $Page->pangkat->cellAttributes() ?>>
+<span id="el<?= $Page->RowCount ?>_m_pangkat_pangkat">
+<span<?= $Page->pangkat->viewAttributes() ?>>
+<?= $Page->pangkat->getViewValue() ?></span>
 </span>
 </td>
     <?php } ?>

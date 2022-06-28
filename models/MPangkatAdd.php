@@ -464,8 +464,8 @@ class MPangkatAdd extends MPangkat
         // Create form object
         $CurrentForm = new HttpForm();
         $this->CurrentAction = Param("action"); // Set up current action
-        $this->pangkat->setVisibility();
         $this->id->Visible = false;
+        $this->pangkat->setVisibility();
         $this->hideFieldsForAddEdit();
 
         // Do not use lookup cache
@@ -612,10 +612,10 @@ class MPangkatAdd extends MPangkat
     // Load default values
     protected function loadDefaultValues()
     {
-        $this->pangkat->CurrentValue = null;
-        $this->pangkat->OldValue = $this->pangkat->CurrentValue;
         $this->id->CurrentValue = null;
         $this->id->OldValue = $this->id->CurrentValue;
+        $this->pangkat->CurrentValue = null;
+        $this->pangkat->OldValue = $this->pangkat->CurrentValue;
     }
 
     // Load form values
@@ -692,8 +692,8 @@ class MPangkatAdd extends MPangkat
         if (!$rs) {
             return;
         }
-        $this->pangkat->setDbValue($row['pangkat']);
         $this->id->setDbValue($row['id']);
+        $this->pangkat->setDbValue($row['pangkat']);
     }
 
     // Return a row with default values
@@ -701,8 +701,8 @@ class MPangkatAdd extends MPangkat
     {
         $this->loadDefaultValues();
         $row = [];
-        $row['pangkat'] = $this->pangkat->CurrentValue;
         $row['id'] = $this->id->CurrentValue;
+        $row['pangkat'] = $this->pangkat->CurrentValue;
         return $row;
     }
 
@@ -734,17 +734,17 @@ class MPangkatAdd extends MPangkat
 
         // Common render codes for all row types
 
-        // pangkat
-
         // id
-        if ($this->RowType == ROWTYPE_VIEW) {
-            // pangkat
-            $this->pangkat->ViewValue = $this->pangkat->CurrentValue;
-            $this->pangkat->ViewCustomAttributes = "";
 
+        // pangkat
+        if ($this->RowType == ROWTYPE_VIEW) {
             // id
             $this->id->ViewValue = $this->id->CurrentValue;
             $this->id->ViewCustomAttributes = "";
+
+            // pangkat
+            $this->pangkat->ViewValue = $this->pangkat->CurrentValue;
+            $this->pangkat->ViewCustomAttributes = "";
 
             // pangkat
             $this->pangkat->LinkCustomAttributes = "";

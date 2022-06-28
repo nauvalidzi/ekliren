@@ -2331,6 +2331,7 @@ class VSekretariatList extends VSekretariat
         //$opt->Header = "xxx";
         //$opt->OnLeft = true; // Link on left
         //$opt->MoveTo(0); // Move to first column
+        $this->ListOptions->Items["details"]->Visible = false;
     }
 
     // ListOptions Rendering event

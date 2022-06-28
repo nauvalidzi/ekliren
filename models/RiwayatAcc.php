@@ -996,7 +996,6 @@ SORTHTML;
             if ($doc->Horizontal) { // Horizontal format, write header
                 $doc->beginExportRow();
                 if ($exportPageType == "view") {
-                    $doc->exportCaption($this->id);
                     $doc->exportCaption($this->id_skk);
                     $doc->exportCaption($this->status);
                     $doc->exportCaption($this->verifikator);
@@ -1036,7 +1035,6 @@ SORTHTML;
                 if (!$doc->ExportCustom) {
                     $doc->beginExportRow($rowCnt); // Allow CSS styles if enabled
                     if ($exportPageType == "view") {
-                        $doc->exportField($this->id);
                         $doc->exportField($this->id_skk);
                         $doc->exportField($this->status);
                         $doc->exportField($this->verifikator);

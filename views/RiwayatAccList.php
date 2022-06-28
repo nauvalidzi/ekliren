@@ -111,9 +111,6 @@ $Page->renderListOptions();
 // Render list options (header, left)
 $Page->ListOptions->render("header", "left");
 ?>
-<?php if ($Page->id->Visible) { // id ?>
-        <th data-name="id" class="<?= $Page->id->headerCellClass() ?>"><div id="elh_riwayat_acc_id" class="riwayat_acc_id"><?= $Page->renderSort($Page->id) ?></div></th>
-<?php } ?>
 <?php if ($Page->id_skk->Visible) { // id_skk ?>
         <th data-name="id_skk" class="<?= $Page->id_skk->headerCellClass() ?>"><div id="elh_riwayat_acc_id_skk" class="riwayat_acc_id_skk"><?= $Page->renderSort($Page->id_skk) ?></div></th>
 <?php } ?>
@@ -193,14 +190,6 @@ while ($Page->RecordCount < $Page->StopRecord) {
 // Render list options (body, left)
 $Page->ListOptions->render("body", "left", $Page->RowCount);
 ?>
-    <?php if ($Page->id->Visible) { // id ?>
-        <td data-name="id" <?= $Page->id->cellAttributes() ?>>
-<span id="el<?= $Page->RowCount ?>_riwayat_acc_id">
-<span<?= $Page->id->viewAttributes() ?>>
-<?= $Page->id->getViewValue() ?></span>
-</span>
-</td>
-    <?php } ?>
     <?php if ($Page->id_skk->Visible) { // id_skk ?>
         <td data-name="id_skk" <?= $Page->id_skk->cellAttributes() ?>>
 <span id="el<?= $Page->RowCount ?>_riwayat_acc_id_skk">

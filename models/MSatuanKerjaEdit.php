@@ -467,7 +467,7 @@ class MSatuanKerjaEdit extends MSatuanKerja
         // Create form object
         $CurrentForm = new HttpForm();
         $this->CurrentAction = Param("action"); // Set up current action
-        $this->id->setVisibility();
+        $this->id->Visible = false;
         $this->kode_satker->setVisibility();
         $this->satuan_kerja->setVisibility();
         $this->hideFieldsForAddEdit();
@@ -650,12 +650,6 @@ class MSatuanKerjaEdit extends MSatuanKerja
         // Load from form
         global $CurrentForm;
 
-        // Check field name 'id' first before field var 'x_id'
-        $val = $CurrentForm->hasValue("id") ? $CurrentForm->getValue("id") : $CurrentForm->getValue("x_id");
-        if (!$this->id->IsDetailKey) {
-            $this->id->setFormValue($val);
-        }
-
         // Check field name 'kode_satker' first before field var 'x_kode_satker'
         $val = $CurrentForm->hasValue("kode_satker") ? $CurrentForm->getValue("kode_satker") : $CurrentForm->getValue("x_kode_satker");
         if (!$this->kode_satker->IsDetailKey) {
@@ -674,6 +668,12 @@ class MSatuanKerjaEdit extends MSatuanKerja
             } else {
                 $this->satuan_kerja->setFormValue($val);
             }
+        }
+
+        // Check field name 'id' first before field var 'x_id'
+        $val = $CurrentForm->hasValue("id") ? $CurrentForm->getValue("id") : $CurrentForm->getValue("x_id");
+        if (!$this->id->IsDetailKey) {
+            $this->id->setFormValue($val);
         }
     }
 
@@ -794,11 +794,6 @@ class MSatuanKerjaEdit extends MSatuanKerja
             $this->satuan_kerja->ViewValue = $this->satuan_kerja->CurrentValue;
             $this->satuan_kerja->ViewCustomAttributes = "";
 
-            // id
-            $this->id->LinkCustomAttributes = "";
-            $this->id->HrefValue = "";
-            $this->id->TooltipValue = "";
-
             // kode_satker
             $this->kode_satker->LinkCustomAttributes = "";
             $this->kode_satker->HrefValue = "";
@@ -809,12 +804,6 @@ class MSatuanKerjaEdit extends MSatuanKerja
             $this->satuan_kerja->HrefValue = "";
             $this->satuan_kerja->TooltipValue = "";
         } elseif ($this->RowType == ROWTYPE_EDIT) {
-            // id
-            $this->id->EditAttrs["class"] = "form-control";
-            $this->id->EditCustomAttributes = "";
-            $this->id->EditValue = $this->id->CurrentValue;
-            $this->id->ViewCustomAttributes = "";
-
             // kode_satker
             $this->kode_satker->EditAttrs["class"] = "form-control";
             $this->kode_satker->EditCustomAttributes = "";
@@ -834,10 +823,6 @@ class MSatuanKerjaEdit extends MSatuanKerja
             $this->satuan_kerja->PlaceHolder = RemoveHtml($this->satuan_kerja->caption());
 
             // Edit refer script
-
-            // id
-            $this->id->LinkCustomAttributes = "";
-            $this->id->HrefValue = "";
 
             // kode_satker
             $this->kode_satker->LinkCustomAttributes = "";
@@ -865,11 +850,6 @@ class MSatuanKerjaEdit extends MSatuanKerja
         // Check if validation required
         if (!Config("SERVER_VALIDATE")) {
             return true;
-        }
-        if ($this->id->Required) {
-            if (!$this->id->IsDetailKey && EmptyValue($this->id->FormValue)) {
-                $this->id->addErrorMessage(str_replace("%s", $this->id->caption(), $this->id->RequiredErrorMessage));
-            }
         }
         if ($this->kode_satker->Required) {
             if (!$this->kode_satker->IsDetailKey && EmptyValue($this->kode_satker->FormValue)) {

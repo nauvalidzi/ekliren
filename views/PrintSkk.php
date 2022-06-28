@@ -45,30 +45,36 @@ $PrintSkk = &$Page;
                             hkd.pasal,
                             hkd.surat_keputusan, 
                             hkd.sk_nomor,
-                            hkd.tanggal_sk,
+                            IFNULL(hkd.tanggal_sk,'----NIHIL----') as tanggal_sk,
                             hkd.status_hukuman,
                             hkd.pernah_dijatuhi_hukuman,
                             bd.sk_banding_nomor, 
-                            bd.tgl_sk_banding,
+                            IFNULL(bd.tgl_sk_banding,'----NIHIL----') as tgl_sk_banding,
                             ins.pelanggaran_disiplin,
                             ins.inspeksi_kasus,
                             skp.tempat_sidang_kode_perilaku, 
                             skp.hukuman_administratif, 
                             skp.sidang_kode_perilaku_jaksa, 
                             skp.sk_nomor_kode_perilaku, 
-                            skp.tgl_sk_kode_perilaku, 
-                            skp.status_hukuman_kode_perilaku, 
-                            sk2.satuan_kerja AS tempat_sidang
+                            IFNULL(skp.tgl_sk_kode_perilaku,'----NIHIL----') as tgl_sk_kode_perilaku, 
+                            skp.status_hukuman_kode_perilaku
                             FROM data_request_skk skk 
                             LEFT JOIN m_pangkat p ON skk.pangkat = p.id 
                             LEFT JOIN m_jabatan j ON skk.jabatan = j.id 
                             LEFT JOIN m_satuan_kerja sk ON skk.unit_organisasi = sk.id 
                             LEFT JOIN m_keperluan k ON skk.keperluan = k.id 
-                            LEFT JOIN hukuman_disiplin hkd ON skk.id_request = hkd.pid_request_skk
+                            LEFT JOIN (
+                                SELECT pid_request_skk, jenis_hukuman, hukuman, pasal, sk.title as surat_keputusan, sk_nomor, tanggal_sk, status_hukuman, pernah_dijatuhi_hukuman
+                                FROM hukuman_disiplin hkd
+                                JOIN m_surat_keputusan sk ON hkd.surat_keputusan = sk.id
+                            ) hkd ON skk.id_request = hkd.pid_request_skk
                             LEFT JOIN banding bd ON skk.id_request = bd.pid_request_skk
                             LEFT JOIN inspeksi ins ON skk.id_request = ins.pid_request_skk
-                            LEFT JOIN sidang_kode_perilaku skp ON skk.id_request = skp.pid_request_skk
-                            LEFT JOIN m_satuan_kerja sk2 ON skp.tempat_sidang_kode_perilaku = sk2.id
+                            LEFT JOIN (
+                                SELECT pid_request_skk, sk.satuan_kerja as tempat_sidang_kode_perilaku, hukuman_administratif, sidang_kode_perilaku_jaksa, sk_nomor_kode_perilaku, tgl_sk_kode_perilaku, status_hukuman_kode_perilaku
+                                FROM sidang_kode_perilaku skp
+                                JOIN m_satuan_kerja sk ON skp.tempat_sidang_kode_perilaku = sk.id
+                            ) skp ON skk.id_request = skp.pid_request_skk
                             WHERE skk.id_request = {$id}");
 
     $nomor_surat = $data['nomor_surat'] > 0 ? $data['nomor_surat'] : '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -258,10 +264,6 @@ $PrintSkk = &$Page;
                 <tr>
                     <td width=\"5%\" class=\"align-baseline\">4. </td>
                     <td width=\"95%\" class=\"text-justify\">Sedang dilakukan sidang Kode Perilaku Jaksa di {$poin_4['0']} pernah dijatuhi hukuman administratif oleh Majelis Kode Perilaku Jaksa berupa {$poin_4['1']} berdasarkan Surat Keputusan Nomor : {$poin_4['2']} Tanggal {$poin_4['3']} tentang Hukuman Administratif *) dengan catatan Hukuman Administratif dimaksud telah {$poin_4['4']} *) dijalankan.</td>
-                </tr>
-                <tr>
-                    <td width=\"5%\" class=\"align-baseline\">5. </td>
-                    <td width=\"95%\" class=\"text-justify\">Melaporkan LHKPN ke Komisi Pemberantasan Korupsi (KPK RI).</td>
                 </tr>
                 <tr>
                     <td colspan=\"2\" class=\"text-justify\">----------Demikian Surat Keterangan ini dibuat dengan sebenarnya untuk dapat dipergunakan seperlunya.------------------------------------------------------------------------------------------------------------

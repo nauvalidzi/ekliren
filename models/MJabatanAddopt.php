@@ -435,8 +435,8 @@ class MJabatanAddopt extends MJabatan
         // Create form object
         $CurrentForm = new HttpForm();
         $this->CurrentAction = Param("action"); // Set up current action
-        $this->nama_jabatan->setVisibility();
         $this->id->Visible = false;
+        $this->nama_jabatan->setVisibility();
         $this->hideFieldsForAddEdit();
 
         // Do not use lookup cache
@@ -491,10 +491,10 @@ class MJabatanAddopt extends MJabatan
     // Load default values
     protected function loadDefaultValues()
     {
-        $this->nama_jabatan->CurrentValue = null;
-        $this->nama_jabatan->OldValue = $this->nama_jabatan->CurrentValue;
         $this->id->CurrentValue = null;
         $this->id->OldValue = $this->id->CurrentValue;
+        $this->nama_jabatan->CurrentValue = null;
+        $this->nama_jabatan->OldValue = $this->nama_jabatan->CurrentValue;
     }
 
     // Load form values
@@ -567,8 +567,8 @@ class MJabatanAddopt extends MJabatan
         if (!$rs) {
             return;
         }
-        $this->nama_jabatan->setDbValue($row['nama_jabatan']);
         $this->id->setDbValue($row['id']);
+        $this->nama_jabatan->setDbValue($row['nama_jabatan']);
     }
 
     // Return a row with default values
@@ -576,8 +576,8 @@ class MJabatanAddopt extends MJabatan
     {
         $this->loadDefaultValues();
         $row = [];
-        $row['nama_jabatan'] = $this->nama_jabatan->CurrentValue;
         $row['id'] = $this->id->CurrentValue;
+        $row['nama_jabatan'] = $this->nama_jabatan->CurrentValue;
         return $row;
     }
 
@@ -593,17 +593,17 @@ class MJabatanAddopt extends MJabatan
 
         // Common render codes for all row types
 
-        // nama_jabatan
-
         // id
-        if ($this->RowType == ROWTYPE_VIEW) {
-            // nama_jabatan
-            $this->nama_jabatan->ViewValue = $this->nama_jabatan->CurrentValue;
-            $this->nama_jabatan->ViewCustomAttributes = "";
 
+        // nama_jabatan
+        if ($this->RowType == ROWTYPE_VIEW) {
             // id
             $this->id->ViewValue = $this->id->CurrentValue;
             $this->id->ViewCustomAttributes = "";
+
+            // nama_jabatan
+            $this->nama_jabatan->ViewValue = $this->nama_jabatan->CurrentValue;
+            $this->nama_jabatan->ViewCustomAttributes = "";
 
             // nama_jabatan
             $this->nama_jabatan->LinkCustomAttributes = "";

@@ -47,9 +47,6 @@ $Page->showMessage();
 <?php if ($Page->nama_jabatan->Visible) { // nama_jabatan ?>
         <th class="<?= $Page->nama_jabatan->headerCellClass() ?>"><span id="elh_m_jabatan_nama_jabatan" class="m_jabatan_nama_jabatan"><?= $Page->nama_jabatan->caption() ?></span></th>
 <?php } ?>
-<?php if ($Page->id->Visible) { // id ?>
-        <th class="<?= $Page->id->headerCellClass() ?>"><span id="elh_m_jabatan_id" class="m_jabatan_id"><?= $Page->id->caption() ?></span></th>
-<?php } ?>
     </tr>
     </thead>
     <tbody>
@@ -76,14 +73,6 @@ while (!$Page->Recordset->EOF) {
 <span id="el<?= $Page->RowCount ?>_m_jabatan_nama_jabatan" class="m_jabatan_nama_jabatan">
 <span<?= $Page->nama_jabatan->viewAttributes() ?>>
 <?= $Page->nama_jabatan->getViewValue() ?></span>
-</span>
-</td>
-<?php } ?>
-<?php if ($Page->id->Visible) { // id ?>
-        <td <?= $Page->id->cellAttributes() ?>>
-<span id="el<?= $Page->RowCount ?>_m_jabatan_id" class="m_jabatan_id">
-<span<?= $Page->id->viewAttributes() ?>>
-<?= $Page->id->getViewValue() ?></span>
 </span>
 </td>
 <?php } ?>

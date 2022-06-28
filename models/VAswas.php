@@ -264,7 +264,7 @@ class VAswas extends DbTable
         $this->Fields['hukuman_disiplin'] = &$this->hukuman_disiplin;
 
         // keterangan
-        $this->keterangan = new DbField('v_aswas', 'v_aswas', 'x_keterangan', 'keterangan', '`keterangan`', '`keterangan`', 200, 255, -1, false, '`keterangan`', false, false, false, 'FORMATTED TEXT', 'TEXTAREA');
+        $this->keterangan = new DbField('v_aswas', 'v_aswas', 'x_keterangan', 'keterangan', '`keterangan`', '`keterangan`', 201, 65535, -1, false, '`keterangan`', false, false, false, 'FORMATTED TEXT', 'TEXTAREA');
         $this->keterangan->Required = true; // Required field
         $this->keterangan->Sortable = true; // Allow sort
         $this->keterangan->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->keterangan->Param, "CustomMsg");

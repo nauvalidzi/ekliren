@@ -467,13 +467,14 @@ class DataUserEdit extends DataUser
         // Create form object
         $CurrentForm = new HttpForm();
         $this->CurrentAction = Param("action"); // Set up current action
-        $this->id_user->setVisibility();
+        $this->id_user->Visible = false;
         $this->_username->setVisibility();
         $this->_password->Visible = false;
         $this->unit_organisasi->setVisibility();
         $this->email_satker->setVisibility();
         $this->hak_akses->setVisibility();
         $this->hideFieldsForAddEdit();
+        $this->_username->Required = false;
 
         // Do not use lookup cache
         $this->setUseLookupCache(false);
@@ -655,12 +656,6 @@ class DataUserEdit extends DataUser
         // Load from form
         global $CurrentForm;
 
-        // Check field name 'id_user' first before field var 'x_id_user'
-        $val = $CurrentForm->hasValue("id_user") ? $CurrentForm->getValue("id_user") : $CurrentForm->getValue("x_id_user");
-        if (!$this->id_user->IsDetailKey) {
-            $this->id_user->setFormValue($val);
-        }
-
         // Check field name 'username' first before field var 'x__username'
         $val = $CurrentForm->hasValue("username") ? $CurrentForm->getValue("username") : $CurrentForm->getValue("x__username");
         if (!$this->_username->IsDetailKey) {
@@ -699,6 +694,12 @@ class DataUserEdit extends DataUser
             } else {
                 $this->hak_akses->setFormValue($val);
             }
+        }
+
+        // Check field name 'id_user' first before field var 'x_id_user'
+        $val = $CurrentForm->hasValue("id_user") ? $CurrentForm->getValue("id_user") : $CurrentForm->getValue("x_id_user");
+        if (!$this->id_user->IsDetailKey) {
+            $this->id_user->setFormValue($val);
         }
     }
 
@@ -883,11 +884,6 @@ class DataUserEdit extends DataUser
             }
             $this->hak_akses->ViewCustomAttributes = "";
 
-            // id_user
-            $this->id_user->LinkCustomAttributes = "";
-            $this->id_user->HrefValue = "";
-            $this->id_user->TooltipValue = "";
-
             // username
             $this->_username->LinkCustomAttributes = "";
             $this->_username->HrefValue = "";
@@ -908,20 +904,11 @@ class DataUserEdit extends DataUser
             $this->hak_akses->HrefValue = "";
             $this->hak_akses->TooltipValue = "";
         } elseif ($this->RowType == ROWTYPE_EDIT) {
-            // id_user
-            $this->id_user->EditAttrs["class"] = "form-control";
-            $this->id_user->EditCustomAttributes = "";
-            $this->id_user->EditValue = $this->id_user->CurrentValue;
-            $this->id_user->ViewCustomAttributes = "";
-
             // username
             $this->_username->EditAttrs["class"] = "form-control";
             $this->_username->EditCustomAttributes = "";
-            if (!$this->_username->Raw) {
-                $this->_username->CurrentValue = HtmlDecode($this->_username->CurrentValue);
-            }
-            $this->_username->EditValue = HtmlEncode($this->_username->CurrentValue);
-            $this->_username->PlaceHolder = RemoveHtml($this->_username->caption());
+            $this->_username->EditValue = $this->_username->CurrentValue;
+            $this->_username->ViewCustomAttributes = "";
 
             // unit_organisasi
             $this->unit_organisasi->EditAttrs["class"] = "form-control";
@@ -988,13 +975,10 @@ class DataUserEdit extends DataUser
 
             // Edit refer script
 
-            // id_user
-            $this->id_user->LinkCustomAttributes = "";
-            $this->id_user->HrefValue = "";
-
             // username
             $this->_username->LinkCustomAttributes = "";
             $this->_username->HrefValue = "";
+            $this->_username->TooltipValue = "";
 
             // unit_organisasi
             $this->unit_organisasi->LinkCustomAttributes = "";
@@ -1027,18 +1011,10 @@ class DataUserEdit extends DataUser
         if (!Config("SERVER_VALIDATE")) {
             return true;
         }
-        if ($this->id_user->Required) {
-            if (!$this->id_user->IsDetailKey && EmptyValue($this->id_user->FormValue)) {
-                $this->id_user->addErrorMessage(str_replace("%s", $this->id_user->caption(), $this->id_user->RequiredErrorMessage));
-            }
-        }
         if ($this->_username->Required) {
             if (!$this->_username->IsDetailKey && EmptyValue($this->_username->FormValue)) {
                 $this->_username->addErrorMessage(str_replace("%s", $this->_username->caption(), $this->_username->RequiredErrorMessage));
             }
-        }
-        if (!$this->_username->Raw && Config("REMOVE_XSS") && CheckUsername($this->_username->FormValue)) {
-            $this->_username->addErrorMessage($Language->phrase("InvalidUsernameChars"));
         }
         if ($this->unit_organisasi->Required) {
             if (!$this->unit_organisasi->IsDetailKey && EmptyValue($this->unit_organisasi->FormValue)) {
@@ -1086,9 +1062,6 @@ class DataUserEdit extends DataUser
             // Save old values
             $this->loadDbValues($rsold);
             $rsnew = [];
-
-            // username
-            $this->_username->setDbValueDef($rsnew, $this->_username->CurrentValue, "", $this->_username->ReadOnly);
 
             // unit_organisasi
             $this->unit_organisasi->setDbValueDef($rsnew, $this->unit_organisasi->CurrentValue, 0, $this->unit_organisasi->ReadOnly);

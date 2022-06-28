@@ -28,8 +28,8 @@ class MPangkat extends DbTable
     public $ExportDoc;
 
     // Fields
-    public $pangkat;
     public $id;
+    public $pangkat;
 
     // Page ID
     public $PageID = ""; // To be overridden by subclass
@@ -66,12 +66,6 @@ class MPangkat extends DbTable
         $this->UserIDAllowSecurity = Config("DEFAULT_USER_ID_ALLOW_SECURITY"); // Default User ID allowed permissions
         $this->BasicSearch = new BasicSearch($this->TableVar);
 
-        // pangkat
-        $this->pangkat = new DbField('m_pangkat', 'm_pangkat', 'x_pangkat', 'pangkat', '`pangkat`', '`pangkat`', 200, 255, -1, false, '`pangkat`', false, false, false, 'FORMATTED TEXT', 'TEXT');
-        $this->pangkat->Sortable = true; // Allow sort
-        $this->pangkat->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->pangkat->Param, "CustomMsg");
-        $this->Fields['pangkat'] = &$this->pangkat;
-
         // id
         $this->id = new DbField('m_pangkat', 'm_pangkat', 'x_id', 'id', '`id`', '`id`', 3, 11, -1, false, '`id`', false, false, false, 'FORMATTED TEXT', 'NO');
         $this->id->IsAutoIncrement = true; // Autoincrement field
@@ -80,6 +74,12 @@ class MPangkat extends DbTable
         $this->id->DefaultErrorMessage = $Language->phrase("IncorrectInteger");
         $this->id->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->id->Param, "CustomMsg");
         $this->Fields['id'] = &$this->id;
+
+        // pangkat
+        $this->pangkat = new DbField('m_pangkat', 'm_pangkat', 'x_pangkat', 'pangkat', '`pangkat`', '`pangkat`', 200, 255, -1, false, '`pangkat`', false, false, false, 'FORMATTED TEXT', 'TEXT');
+        $this->pangkat->Sortable = true; // Allow sort
+        $this->pangkat->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->pangkat->Param, "CustomMsg");
+        $this->Fields['pangkat'] = &$this->pangkat;
     }
 
     // Field Visibility
@@ -493,8 +493,8 @@ class MPangkat extends DbTable
         if (!is_array($row)) {
             return;
         }
-        $this->pangkat->DbValue = $row['pangkat'];
         $this->id->DbValue = $row['id'];
+        $this->pangkat->DbValue = $row['pangkat'];
     }
 
     // Delete uploaded files
@@ -815,8 +815,8 @@ SORTHTML;
         } else {
             return;
         }
-        $this->pangkat->setDbValue($row['pangkat']);
         $this->id->setDbValue($row['id']);
+        $this->pangkat->setDbValue($row['pangkat']);
     }
 
     // Render list row values
@@ -829,27 +829,27 @@ SORTHTML;
 
         // Common render codes
 
-        // pangkat
-
         // id
 
         // pangkat
-        $this->pangkat->ViewValue = $this->pangkat->CurrentValue;
-        $this->pangkat->ViewCustomAttributes = "";
 
         // id
         $this->id->ViewValue = $this->id->CurrentValue;
         $this->id->ViewCustomAttributes = "";
 
         // pangkat
-        $this->pangkat->LinkCustomAttributes = "";
-        $this->pangkat->HrefValue = "";
-        $this->pangkat->TooltipValue = "";
+        $this->pangkat->ViewValue = $this->pangkat->CurrentValue;
+        $this->pangkat->ViewCustomAttributes = "";
 
         // id
         $this->id->LinkCustomAttributes = "";
         $this->id->HrefValue = "";
         $this->id->TooltipValue = "";
+
+        // pangkat
+        $this->pangkat->LinkCustomAttributes = "";
+        $this->pangkat->HrefValue = "";
+        $this->pangkat->TooltipValue = "";
 
         // Call Row Rendered event
         $this->rowRendered();
@@ -866,6 +866,12 @@ SORTHTML;
         // Call Row Rendering event
         $this->rowRendering();
 
+        // id
+        $this->id->EditAttrs["class"] = "form-control";
+        $this->id->EditCustomAttributes = "";
+        $this->id->EditValue = $this->id->CurrentValue;
+        $this->id->ViewCustomAttributes = "";
+
         // pangkat
         $this->pangkat->EditAttrs["class"] = "form-control";
         $this->pangkat->EditCustomAttributes = "";
@@ -874,12 +880,6 @@ SORTHTML;
         }
         $this->pangkat->EditValue = $this->pangkat->CurrentValue;
         $this->pangkat->PlaceHolder = RemoveHtml($this->pangkat->caption());
-
-        // id
-        $this->id->EditAttrs["class"] = "form-control";
-        $this->id->EditCustomAttributes = "";
-        $this->id->EditValue = $this->id->CurrentValue;
-        $this->id->ViewCustomAttributes = "";
 
         // Call Row Rendered event
         $this->rowRendered();
@@ -909,11 +909,11 @@ SORTHTML;
             if ($doc->Horizontal) { // Horizontal format, write header
                 $doc->beginExportRow();
                 if ($exportPageType == "view") {
-                    $doc->exportCaption($this->pangkat);
                     $doc->exportCaption($this->id);
+                    $doc->exportCaption($this->pangkat);
                 } else {
-                    $doc->exportCaption($this->pangkat);
                     $doc->exportCaption($this->id);
+                    $doc->exportCaption($this->pangkat);
                 }
                 $doc->endExportRow();
             }
@@ -943,11 +943,11 @@ SORTHTML;
                 if (!$doc->ExportCustom) {
                     $doc->beginExportRow($rowCnt); // Allow CSS styles if enabled
                     if ($exportPageType == "view") {
-                        $doc->exportField($this->pangkat);
                         $doc->exportField($this->id);
+                        $doc->exportField($this->pangkat);
                     } else {
-                        $doc->exportField($this->pangkat);
                         $doc->exportField($this->id);
+                        $doc->exportField($this->pangkat);
                     }
                     $doc->endExportRow($rowCnt);
                 }

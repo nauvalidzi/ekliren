@@ -262,7 +262,7 @@ class VPemeriksa extends DbTable
         $this->Fields['email_pemohon'] = &$this->email_pemohon;
 
         // keterangan
-        $this->keterangan = new DbField('v_pemeriksa', 'v_pemeriksa', 'x_keterangan', 'keterangan', '`keterangan`', '`keterangan`', 200, 255, -1, false, '`keterangan`', false, false, false, 'FORMATTED TEXT', 'TEXTAREA');
+        $this->keterangan = new DbField('v_pemeriksa', 'v_pemeriksa', 'x_keterangan', 'keterangan', '`keterangan`', '`keterangan`', 201, 65535, -1, false, '`keterangan`', false, false, false, 'FORMATTED TEXT', 'TEXTAREA');
         $this->keterangan->Sortable = true; // Allow sort
         $this->keterangan->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->keterangan->Param, "CustomMsg");
         $this->Fields['keterangan'] = &$this->keterangan;

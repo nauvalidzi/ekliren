@@ -174,10 +174,20 @@ class VKajari extends DbTable
         $this->Fields['jabatan'] = &$this->jabatan;
 
         // keperluan
-        $this->keperluan = new DbField('v_kajari', 'v_kajari', 'x_keperluan', 'keperluan', '`keperluan`', '`keperluan`', 3, 11, -1, false, '`keperluan`', false, false, false, 'FORMATTED TEXT', 'TEXT');
+        $this->keperluan = new DbField('v_kajari', 'v_kajari', 'x_keperluan', 'keperluan', '`keperluan`', '`keperluan`', 3, 11, -1, false, '`keperluan`', false, false, false, 'FORMATTED TEXT', 'SELECT');
         $this->keperluan->Nullable = false; // NOT NULL field
         $this->keperluan->Required = true; // Required field
         $this->keperluan->Sortable = true; // Allow sort
+        $this->keperluan->UsePleaseSelect = true; // Use PleaseSelect by default
+        $this->keperluan->PleaseSelectText = $Language->phrase("PleaseSelect"); // "PleaseSelect" text
+        switch ($CurrentLanguage) {
+            case "en":
+                $this->keperluan->Lookup = new Lookup('keperluan', 'm_keperluan', false, 'id', ["keperluan","","",""], [], [], [], [], [], [], '', '');
+                break;
+            default:
+                $this->keperluan->Lookup = new Lookup('keperluan', 'm_keperluan', false, 'id', ["keperluan","","",""], [], [], [], [], [], [], '', '');
+                break;
+        }
         $this->keperluan->DefaultErrorMessage = $Language->phrase("IncorrectInteger");
         $this->keperluan->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->keperluan->Param, "CustomMsg");
         $this->Fields['keperluan'] = &$this->keperluan;
@@ -203,7 +213,7 @@ class VKajari extends DbTable
         $this->Fields['scan_lhkasn'] = &$this->scan_lhkasn;
 
         // keterangan
-        $this->keterangan = new DbField('v_kajari', 'v_kajari', 'x_keterangan', 'keterangan', '`keterangan`', '`keterangan`', 200, 255, -1, false, '`keterangan`', false, false, false, 'FORMATTED TEXT', 'TEXT');
+        $this->keterangan = new DbField('v_kajari', 'v_kajari', 'x_keterangan', 'keterangan', '`keterangan`', '`keterangan`', 201, 65535, -1, false, '`keterangan`', false, false, false, 'FORMATTED TEXT', 'TEXT');
         $this->keterangan->Sortable = true; // Allow sort
         $this->keterangan->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->keterangan->Param, "CustomMsg");
         $this->Fields['keterangan'] = &$this->keterangan;
@@ -1108,8 +1118,24 @@ SORTHTML;
         $this->jabatan->ViewCustomAttributes = "";
 
         // keperluan
-        $this->keperluan->ViewValue = $this->keperluan->CurrentValue;
-        $this->keperluan->ViewValue = FormatNumber($this->keperluan->ViewValue, 0, -2, -2, -2);
+        $curVal = trim(strval($this->keperluan->CurrentValue));
+        if ($curVal != "") {
+            $this->keperluan->ViewValue = $this->keperluan->lookupCacheOption($curVal);
+            if ($this->keperluan->ViewValue === null) { // Lookup from database
+                $filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
+                $sqlWrk = $this->keperluan->Lookup->getSql(false, $filterWrk, '', $this, true, true);
+                $rswrk = Conn()->executeQuery($sqlWrk)->fetchAll(\PDO::FETCH_BOTH);
+                $ari = count($rswrk);
+                if ($ari > 0) { // Lookup values found
+                    $arwrk = $this->keperluan->Lookup->renderViewRow($rswrk[0]);
+                    $this->keperluan->ViewValue = $this->keperluan->displayValue($arwrk);
+                } else {
+                    $this->keperluan->ViewValue = $this->keperluan->CurrentValue;
+                }
+            }
+        } else {
+            $this->keperluan->ViewValue = null;
+        }
         $this->keperluan->ViewCustomAttributes = "";
 
         // kategori_pemohon
@@ -1340,8 +1366,24 @@ SORTHTML;
         // keperluan
         $this->keperluan->EditAttrs["class"] = "form-control";
         $this->keperluan->EditCustomAttributes = "";
-        $this->keperluan->EditValue = $this->keperluan->CurrentValue;
-        $this->keperluan->EditValue = FormatNumber($this->keperluan->EditValue, 0, -2, -2, -2);
+        $curVal = trim(strval($this->keperluan->CurrentValue));
+        if ($curVal != "") {
+            $this->keperluan->EditValue = $this->keperluan->lookupCacheOption($curVal);
+            if ($this->keperluan->EditValue === null) { // Lookup from database
+                $filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
+                $sqlWrk = $this->keperluan->Lookup->getSql(false, $filterWrk, '', $this, true, true);
+                $rswrk = Conn()->executeQuery($sqlWrk)->fetchAll(\PDO::FETCH_BOTH);
+                $ari = count($rswrk);
+                if ($ari > 0) { // Lookup values found
+                    $arwrk = $this->keperluan->Lookup->renderViewRow($rswrk[0]);
+                    $this->keperluan->EditValue = $this->keperluan->displayValue($arwrk);
+                } else {
+                    $this->keperluan->EditValue = $this->keperluan->CurrentValue;
+                }
+            }
+        } else {
+            $this->keperluan->EditValue = null;
+        }
         $this->keperluan->ViewCustomAttributes = "";
 
         // kategori_pemohon
@@ -1410,7 +1452,6 @@ SORTHTML;
                     $doc->exportCaption($this->pangkat);
                     $doc->exportCaption($this->jabatan);
                     $doc->exportCaption($this->keperluan);
-                    $doc->exportCaption($this->kategori_pemohon);
                     $doc->exportCaption($this->scan_lhkpn);
                     $doc->exportCaption($this->scan_lhkasn);
                     $doc->exportCaption($this->keterangan);
@@ -1468,7 +1509,6 @@ SORTHTML;
                         $doc->exportField($this->pangkat);
                         $doc->exportField($this->jabatan);
                         $doc->exportField($this->keperluan);
-                        $doc->exportField($this->kategori_pemohon);
                         $doc->exportField($this->scan_lhkpn);
                         $doc->exportField($this->scan_lhkasn);
                         $doc->exportField($this->keterangan);

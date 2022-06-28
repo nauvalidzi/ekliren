@@ -45,17 +45,6 @@ $Page->showMessage();
 <input type="hidden" name="t" value="m_jabatan">
 <input type="hidden" name="modal" value="<?= (int)$Page->IsModal ?>">
 <table class="table table-striped table-sm ew-view-table">
-<?php if ($Page->nama_jabatan->Visible) { // nama_jabatan ?>
-    <tr id="r_nama_jabatan">
-        <td class="<?= $Page->TableLeftColumnClass ?>"><span id="elh_m_jabatan_nama_jabatan"><?= $Page->nama_jabatan->caption() ?></span></td>
-        <td data-name="nama_jabatan" <?= $Page->nama_jabatan->cellAttributes() ?>>
-<span id="el_m_jabatan_nama_jabatan">
-<span<?= $Page->nama_jabatan->viewAttributes() ?>>
-<?= $Page->nama_jabatan->getViewValue() ?></span>
-</span>
-</td>
-    </tr>
-<?php } ?>
 <?php if ($Page->id->Visible) { // id ?>
     <tr id="r_id">
         <td class="<?= $Page->TableLeftColumnClass ?>"><span id="elh_m_jabatan_id"><?= $Page->id->caption() ?></span></td>
@@ -63,6 +52,17 @@ $Page->showMessage();
 <span id="el_m_jabatan_id">
 <span<?= $Page->id->viewAttributes() ?>>
 <?= $Page->id->getViewValue() ?></span>
+</span>
+</td>
+    </tr>
+<?php } ?>
+<?php if ($Page->nama_jabatan->Visible) { // nama_jabatan ?>
+    <tr id="r_nama_jabatan">
+        <td class="<?= $Page->TableLeftColumnClass ?>"><span id="elh_m_jabatan_nama_jabatan"><?= $Page->nama_jabatan->caption() ?></span></td>
+        <td data-name="nama_jabatan" <?= $Page->nama_jabatan->cellAttributes() ?>>
+<span id="el_m_jabatan_nama_jabatan">
+<span<?= $Page->nama_jabatan->viewAttributes() ?>>
+<?= $Page->nama_jabatan->getViewValue() ?></span>
 </span>
 </td>
     </tr>

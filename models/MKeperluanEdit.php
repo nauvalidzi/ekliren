@@ -467,8 +467,8 @@ class MKeperluanEdit extends MKeperluan
         // Create form object
         $CurrentForm = new HttpForm();
         $this->CurrentAction = Param("action"); // Set up current action
+        $this->id->Visible = false;
         $this->keperluan->setVisibility();
-        $this->id->setVisibility();
         $this->hideFieldsForAddEdit();
 
         // Do not use lookup cache
@@ -670,8 +670,8 @@ class MKeperluanEdit extends MKeperluan
     public function restoreFormValues()
     {
         global $CurrentForm;
-        $this->keperluan->CurrentValue = $this->keperluan->FormValue;
         $this->id->CurrentValue = $this->id->FormValue;
+        $this->keperluan->CurrentValue = $this->keperluan->FormValue;
     }
 
     /**
@@ -721,16 +721,16 @@ class MKeperluanEdit extends MKeperluan
         if (!$rs) {
             return;
         }
-        $this->keperluan->setDbValue($row['keperluan']);
         $this->id->setDbValue($row['id']);
+        $this->keperluan->setDbValue($row['keperluan']);
     }
 
     // Return a row with default values
     protected function newRow()
     {
         $row = [];
-        $row['keperluan'] = null;
         $row['id'] = null;
+        $row['keperluan'] = null;
         return $row;
     }
 
@@ -762,27 +762,22 @@ class MKeperluanEdit extends MKeperluan
 
         // Common render codes for all row types
 
-        // keperluan
-
         // id
-        if ($this->RowType == ROWTYPE_VIEW) {
-            // keperluan
-            $this->keperluan->ViewValue = $this->keperluan->CurrentValue;
-            $this->keperluan->ViewCustomAttributes = "";
 
+        // keperluan
+        if ($this->RowType == ROWTYPE_VIEW) {
             // id
             $this->id->ViewValue = $this->id->CurrentValue;
             $this->id->ViewCustomAttributes = "";
 
             // keperluan
+            $this->keperluan->ViewValue = $this->keperluan->CurrentValue;
+            $this->keperluan->ViewCustomAttributes = "";
+
+            // keperluan
             $this->keperluan->LinkCustomAttributes = "";
             $this->keperluan->HrefValue = "";
             $this->keperluan->TooltipValue = "";
-
-            // id
-            $this->id->LinkCustomAttributes = "";
-            $this->id->HrefValue = "";
-            $this->id->TooltipValue = "";
         } elseif ($this->RowType == ROWTYPE_EDIT) {
             // keperluan
             $this->keperluan->EditAttrs["class"] = "form-control";
@@ -790,21 +785,11 @@ class MKeperluanEdit extends MKeperluan
             $this->keperluan->EditValue = HtmlEncode($this->keperluan->CurrentValue);
             $this->keperluan->PlaceHolder = RemoveHtml($this->keperluan->caption());
 
-            // id
-            $this->id->EditAttrs["class"] = "form-control";
-            $this->id->EditCustomAttributes = "";
-            $this->id->EditValue = $this->id->CurrentValue;
-            $this->id->ViewCustomAttributes = "";
-
             // Edit refer script
 
             // keperluan
             $this->keperluan->LinkCustomAttributes = "";
             $this->keperluan->HrefValue = "";
-
-            // id
-            $this->id->LinkCustomAttributes = "";
-            $this->id->HrefValue = "";
         }
         if ($this->RowType == ROWTYPE_ADD || $this->RowType == ROWTYPE_EDIT || $this->RowType == ROWTYPE_SEARCH) { // Add/Edit/Search row
             $this->setupFieldTitles();
@@ -828,11 +813,6 @@ class MKeperluanEdit extends MKeperluan
         if ($this->keperluan->Required) {
             if (!$this->keperluan->IsDetailKey && EmptyValue($this->keperluan->FormValue)) {
                 $this->keperluan->addErrorMessage(str_replace("%s", $this->keperluan->caption(), $this->keperluan->RequiredErrorMessage));
-            }
-        }
-        if ($this->id->Required) {
-            if (!$this->id->IsDetailKey && EmptyValue($this->id->FormValue)) {
-                $this->id->addErrorMessage(str_replace("%s", $this->id->caption(), $this->id->RequiredErrorMessage));
             }
         }
 

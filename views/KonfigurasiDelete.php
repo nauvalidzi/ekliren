@@ -44,9 +44,6 @@ $Page->showMessage();
 <table class="table ew-table">
     <thead>
     <tr class="ew-table-header">
-<?php if ($Page->id->Visible) { // id ?>
-        <th class="<?= $Page->id->headerCellClass() ?>"><span id="elh_konfigurasi_id" class="konfigurasi_id"><?= $Page->id->caption() ?></span></th>
-<?php } ?>
 <?php if ($Page->config_name->Visible) { // config_name ?>
         <th class="<?= $Page->config_name->headerCellClass() ?>"><span id="elh_konfigurasi_config_name" class="konfigurasi_config_name"><?= $Page->config_name->caption() ?></span></th>
 <?php } ?>
@@ -71,14 +68,6 @@ while (!$Page->Recordset->EOF) {
     $Page->renderRow();
 ?>
     <tr <?= $Page->rowAttributes() ?>>
-<?php if ($Page->id->Visible) { // id ?>
-        <td <?= $Page->id->cellAttributes() ?>>
-<span id="el<?= $Page->RowCount ?>_konfigurasi_id" class="konfigurasi_id">
-<span<?= $Page->id->viewAttributes() ?>>
-<?= $Page->id->getViewValue() ?></span>
-</span>
-</td>
-<?php } ?>
 <?php if ($Page->config_name->Visible) { // config_name ?>
         <td <?= $Page->config_name->cellAttributes() ?>>
 <span id="el<?= $Page->RowCount ?>_konfigurasi_config_name" class="konfigurasi_config_name">

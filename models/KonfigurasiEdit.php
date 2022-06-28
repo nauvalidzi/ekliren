@@ -467,7 +467,7 @@ class KonfigurasiEdit extends Konfigurasi
         // Create form object
         $CurrentForm = new HttpForm();
         $this->CurrentAction = Param("action"); // Set up current action
-        $this->id->setVisibility();
+        $this->id->Visible = false;
         $this->config_name->setVisibility();
         $this->config_value->setVisibility();
         $this->hideFieldsForAddEdit();
@@ -650,12 +650,6 @@ class KonfigurasiEdit extends Konfigurasi
         // Load from form
         global $CurrentForm;
 
-        // Check field name 'id' first before field var 'x_id'
-        $val = $CurrentForm->hasValue("id") ? $CurrentForm->getValue("id") : $CurrentForm->getValue("x_id");
-        if (!$this->id->IsDetailKey) {
-            $this->id->setFormValue($val);
-        }
-
         // Check field name 'config_name' first before field var 'x_config_name'
         $val = $CurrentForm->hasValue("config_name") ? $CurrentForm->getValue("config_name") : $CurrentForm->getValue("x_config_name");
         if (!$this->config_name->IsDetailKey) {
@@ -674,6 +668,12 @@ class KonfigurasiEdit extends Konfigurasi
             } else {
                 $this->config_value->setFormValue($val);
             }
+        }
+
+        // Check field name 'id' first before field var 'x_id'
+        $val = $CurrentForm->hasValue("id") ? $CurrentForm->getValue("id") : $CurrentForm->getValue("x_id");
+        if (!$this->id->IsDetailKey) {
+            $this->id->setFormValue($val);
         }
     }
 
@@ -794,11 +794,6 @@ class KonfigurasiEdit extends Konfigurasi
             $this->config_value->ViewValue = $this->config_value->CurrentValue;
             $this->config_value->ViewCustomAttributes = "";
 
-            // id
-            $this->id->LinkCustomAttributes = "";
-            $this->id->HrefValue = "";
-            $this->id->TooltipValue = "";
-
             // config_name
             $this->config_name->LinkCustomAttributes = "";
             $this->config_name->HrefValue = "";
@@ -809,12 +804,6 @@ class KonfigurasiEdit extends Konfigurasi
             $this->config_value->HrefValue = "";
             $this->config_value->TooltipValue = "";
         } elseif ($this->RowType == ROWTYPE_EDIT) {
-            // id
-            $this->id->EditAttrs["class"] = "form-control";
-            $this->id->EditCustomAttributes = "";
-            $this->id->EditValue = $this->id->CurrentValue;
-            $this->id->ViewCustomAttributes = "";
-
             // config_name
             $this->config_name->EditAttrs["class"] = "form-control";
             $this->config_name->EditCustomAttributes = "";
@@ -831,10 +820,6 @@ class KonfigurasiEdit extends Konfigurasi
             $this->config_value->PlaceHolder = RemoveHtml($this->config_value->caption());
 
             // Edit refer script
-
-            // id
-            $this->id->LinkCustomAttributes = "";
-            $this->id->HrefValue = "";
 
             // config_name
             $this->config_name->LinkCustomAttributes = "";
@@ -862,11 +847,6 @@ class KonfigurasiEdit extends Konfigurasi
         // Check if validation required
         if (!Config("SERVER_VALIDATE")) {
             return true;
-        }
-        if ($this->id->Required) {
-            if (!$this->id->IsDetailKey && EmptyValue($this->id->FormValue)) {
-                $this->id->addErrorMessage(str_replace("%s", $this->id->caption(), $this->id->RequiredErrorMessage));
-            }
         }
         if ($this->config_name->Required) {
             if (!$this->config_name->IsDetailKey && EmptyValue($this->config_name->FormValue)) {

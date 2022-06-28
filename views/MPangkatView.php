@@ -45,17 +45,6 @@ $Page->showMessage();
 <input type="hidden" name="t" value="m_pangkat">
 <input type="hidden" name="modal" value="<?= (int)$Page->IsModal ?>">
 <table class="table table-striped table-sm ew-view-table">
-<?php if ($Page->pangkat->Visible) { // pangkat ?>
-    <tr id="r_pangkat">
-        <td class="<?= $Page->TableLeftColumnClass ?>"><span id="elh_m_pangkat_pangkat"><?= $Page->pangkat->caption() ?></span></td>
-        <td data-name="pangkat" <?= $Page->pangkat->cellAttributes() ?>>
-<span id="el_m_pangkat_pangkat">
-<span<?= $Page->pangkat->viewAttributes() ?>>
-<?= $Page->pangkat->getViewValue() ?></span>
-</span>
-</td>
-    </tr>
-<?php } ?>
 <?php if ($Page->id->Visible) { // id ?>
     <tr id="r_id">
         <td class="<?= $Page->TableLeftColumnClass ?>"><span id="elh_m_pangkat_id"><?= $Page->id->caption() ?></span></td>
@@ -63,6 +52,17 @@ $Page->showMessage();
 <span id="el_m_pangkat_id">
 <span<?= $Page->id->viewAttributes() ?>>
 <?= $Page->id->getViewValue() ?></span>
+</span>
+</td>
+    </tr>
+<?php } ?>
+<?php if ($Page->pangkat->Visible) { // pangkat ?>
+    <tr id="r_pangkat">
+        <td class="<?= $Page->TableLeftColumnClass ?>"><span id="elh_m_pangkat_pangkat"><?= $Page->pangkat->caption() ?></span></td>
+        <td data-name="pangkat" <?= $Page->pangkat->cellAttributes() ?>>
+<span id="el_m_pangkat_pangkat">
+<span<?= $Page->pangkat->viewAttributes() ?>>
+<?= $Page->pangkat->getViewValue() ?></span>
 </span>
 </td>
     </tr>

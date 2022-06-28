@@ -44,11 +44,11 @@ $Page->showMessage();
 <table class="table ew-table">
     <thead>
     <tr class="ew-table-header">
-<?php if ($Page->pangkat->Visible) { // pangkat ?>
-        <th class="<?= $Page->pangkat->headerCellClass() ?>"><span id="elh_m_pangkat_pangkat" class="m_pangkat_pangkat"><?= $Page->pangkat->caption() ?></span></th>
-<?php } ?>
 <?php if ($Page->id->Visible) { // id ?>
         <th class="<?= $Page->id->headerCellClass() ?>"><span id="elh_m_pangkat_id" class="m_pangkat_id"><?= $Page->id->caption() ?></span></th>
+<?php } ?>
+<?php if ($Page->pangkat->Visible) { // pangkat ?>
+        <th class="<?= $Page->pangkat->headerCellClass() ?>"><span id="elh_m_pangkat_pangkat" class="m_pangkat_pangkat"><?= $Page->pangkat->caption() ?></span></th>
 <?php } ?>
     </tr>
     </thead>
@@ -71,19 +71,19 @@ while (!$Page->Recordset->EOF) {
     $Page->renderRow();
 ?>
     <tr <?= $Page->rowAttributes() ?>>
-<?php if ($Page->pangkat->Visible) { // pangkat ?>
-        <td <?= $Page->pangkat->cellAttributes() ?>>
-<span id="el<?= $Page->RowCount ?>_m_pangkat_pangkat" class="m_pangkat_pangkat">
-<span<?= $Page->pangkat->viewAttributes() ?>>
-<?= $Page->pangkat->getViewValue() ?></span>
-</span>
-</td>
-<?php } ?>
 <?php if ($Page->id->Visible) { // id ?>
         <td <?= $Page->id->cellAttributes() ?>>
 <span id="el<?= $Page->RowCount ?>_m_pangkat_id" class="m_pangkat_id">
 <span<?= $Page->id->viewAttributes() ?>>
 <?= $Page->id->getViewValue() ?></span>
+</span>
+</td>
+<?php } ?>
+<?php if ($Page->pangkat->Visible) { // pangkat ?>
+        <td <?= $Page->pangkat->cellAttributes() ?>>
+<span id="el<?= $Page->RowCount ?>_m_pangkat_pangkat" class="m_pangkat_pangkat">
+<span<?= $Page->pangkat->viewAttributes() ?>>
+<?= $Page->pangkat->getViewValue() ?></span>
 </span>
 </td>
 <?php } ?>

@@ -28,8 +28,8 @@ class MKeperluan extends DbTable
     public $ExportDoc;
 
     // Fields
-    public $keperluan;
     public $id;
+    public $keperluan;
 
     // Page ID
     public $PageID = ""; // To be overridden by subclass
@@ -66,12 +66,6 @@ class MKeperluan extends DbTable
         $this->UserIDAllowSecurity = Config("DEFAULT_USER_ID_ALLOW_SECURITY"); // Default User ID allowed permissions
         $this->BasicSearch = new BasicSearch($this->TableVar);
 
-        // keperluan
-        $this->keperluan = new DbField('m_keperluan', 'm_keperluan', 'x_keperluan', 'keperluan', '`keperluan`', '`keperluan`', 200, 255, -1, false, '`keperluan`', false, false, false, 'FORMATTED TEXT', 'TEXTAREA');
-        $this->keperluan->Sortable = true; // Allow sort
-        $this->keperluan->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->keperluan->Param, "CustomMsg");
-        $this->Fields['keperluan'] = &$this->keperluan;
-
         // id
         $this->id = new DbField('m_keperluan', 'm_keperluan', 'x_id', 'id', '`id`', '`id`', 3, 11, -1, false, '`id`', false, false, false, 'FORMATTED TEXT', 'NO');
         $this->id->IsAutoIncrement = true; // Autoincrement field
@@ -80,6 +74,12 @@ class MKeperluan extends DbTable
         $this->id->DefaultErrorMessage = $Language->phrase("IncorrectInteger");
         $this->id->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->id->Param, "CustomMsg");
         $this->Fields['id'] = &$this->id;
+
+        // keperluan
+        $this->keperluan = new DbField('m_keperluan', 'm_keperluan', 'x_keperluan', 'keperluan', '`keperluan`', '`keperluan`', 200, 255, -1, false, '`keperluan`', false, false, false, 'FORMATTED TEXT', 'TEXTAREA');
+        $this->keperluan->Sortable = true; // Allow sort
+        $this->keperluan->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->keperluan->Param, "CustomMsg");
+        $this->Fields['keperluan'] = &$this->keperluan;
     }
 
     // Field Visibility
@@ -493,8 +493,8 @@ class MKeperluan extends DbTable
         if (!is_array($row)) {
             return;
         }
-        $this->keperluan->DbValue = $row['keperluan'];
         $this->id->DbValue = $row['id'];
+        $this->keperluan->DbValue = $row['keperluan'];
     }
 
     // Delete uploaded files
@@ -815,8 +815,8 @@ SORTHTML;
         } else {
             return;
         }
-        $this->keperluan->setDbValue($row['keperluan']);
         $this->id->setDbValue($row['id']);
+        $this->keperluan->setDbValue($row['keperluan']);
     }
 
     // Render list row values
@@ -829,27 +829,27 @@ SORTHTML;
 
         // Common render codes
 
-        // keperluan
-
         // id
 
         // keperluan
-        $this->keperluan->ViewValue = $this->keperluan->CurrentValue;
-        $this->keperluan->ViewCustomAttributes = "";
 
         // id
         $this->id->ViewValue = $this->id->CurrentValue;
         $this->id->ViewCustomAttributes = "";
 
         // keperluan
-        $this->keperluan->LinkCustomAttributes = "";
-        $this->keperluan->HrefValue = "";
-        $this->keperluan->TooltipValue = "";
+        $this->keperluan->ViewValue = $this->keperluan->CurrentValue;
+        $this->keperluan->ViewCustomAttributes = "";
 
         // id
         $this->id->LinkCustomAttributes = "";
         $this->id->HrefValue = "";
         $this->id->TooltipValue = "";
+
+        // keperluan
+        $this->keperluan->LinkCustomAttributes = "";
+        $this->keperluan->HrefValue = "";
+        $this->keperluan->TooltipValue = "";
 
         // Call Row Rendered event
         $this->rowRendered();
@@ -866,17 +866,17 @@ SORTHTML;
         // Call Row Rendering event
         $this->rowRendering();
 
-        // keperluan
-        $this->keperluan->EditAttrs["class"] = "form-control";
-        $this->keperluan->EditCustomAttributes = "";
-        $this->keperluan->EditValue = $this->keperluan->CurrentValue;
-        $this->keperluan->PlaceHolder = RemoveHtml($this->keperluan->caption());
-
         // id
         $this->id->EditAttrs["class"] = "form-control";
         $this->id->EditCustomAttributes = "";
         $this->id->EditValue = $this->id->CurrentValue;
         $this->id->ViewCustomAttributes = "";
+
+        // keperluan
+        $this->keperluan->EditAttrs["class"] = "form-control";
+        $this->keperluan->EditCustomAttributes = "";
+        $this->keperluan->EditValue = $this->keperluan->CurrentValue;
+        $this->keperluan->PlaceHolder = RemoveHtml($this->keperluan->caption());
 
         // Call Row Rendered event
         $this->rowRendered();
@@ -906,11 +906,11 @@ SORTHTML;
             if ($doc->Horizontal) { // Horizontal format, write header
                 $doc->beginExportRow();
                 if ($exportPageType == "view") {
-                    $doc->exportCaption($this->keperluan);
                     $doc->exportCaption($this->id);
+                    $doc->exportCaption($this->keperluan);
                 } else {
-                    $doc->exportCaption($this->keperluan);
                     $doc->exportCaption($this->id);
+                    $doc->exportCaption($this->keperluan);
                 }
                 $doc->endExportRow();
             }
@@ -940,11 +940,11 @@ SORTHTML;
                 if (!$doc->ExportCustom) {
                     $doc->beginExportRow($rowCnt); // Allow CSS styles if enabled
                     if ($exportPageType == "view") {
-                        $doc->exportField($this->keperluan);
                         $doc->exportField($this->id);
+                        $doc->exportField($this->keperluan);
                     } else {
-                        $doc->exportField($this->keperluan);
                         $doc->exportField($this->id);
+                        $doc->exportField($this->keperluan);
                     }
                     $doc->endExportRow($rowCnt);
                 }

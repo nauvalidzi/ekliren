@@ -32,8 +32,7 @@ loadjs.ready("head", function () {
 </script>
 <script>
 loadjs.ready("head", function () {
-    // Client script
-    $("span.v_sekretariat_details").hide(),$("a.ew-row-link.ew-edit").each((function(){var i=$(this).attr("href").split("=");$(this).attr("href",i[0]+"=hukuman_disiplin,banding,inspeksi,sidang_kode_perilaku")}));
+    // Write your table-specific client script here, no need to add script tags.
 });
 </script>
 <?php } ?>
@@ -316,7 +315,14 @@ loadjs.ready("head", function() {
 </script>
 <script>
 loadjs.ready("load", function () {
+    // Startup script
     // Write your table-specific startup script here, no need to add script tags.
+    //$("span.v_sekretariat_details").hide();
+
+    // $("a.ew-row-link.ew-edit").each(function () {
+    //     var view_url = $(this).attr("href").split("=");
+    //     $(this).attr("href", view_url[0] + "=hukuman_disiplin,banding,inspeksi,sidang_kode_perilaku");
+    // });
 });
 </script>
 <?php } ?>

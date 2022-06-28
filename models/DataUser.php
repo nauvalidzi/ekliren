@@ -1034,11 +1034,8 @@ SORTHTML;
         // username
         $this->_username->EditAttrs["class"] = "form-control";
         $this->_username->EditCustomAttributes = "";
-        if (!$this->_username->Raw) {
-            $this->_username->CurrentValue = HtmlDecode($this->_username->CurrentValue);
-        }
         $this->_username->EditValue = $this->_username->CurrentValue;
-        $this->_username->PlaceHolder = RemoveHtml($this->_username->caption());
+        $this->_username->ViewCustomAttributes = "";
 
         // password
         $this->_password->EditAttrs["class"] = "form-control";

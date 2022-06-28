@@ -240,7 +240,7 @@ class VArsipSkk extends DbTable
         $this->Fields['keperluan'] = &$this->keperluan;
 
         // keterangan
-        $this->keterangan = new DbField('v_arsip_skk', 'v_arsip_skk', 'x_keterangan', 'keterangan', '`keterangan`', '`keterangan`', 200, 255, -1, false, '`keterangan`', false, false, false, 'FORMATTED TEXT', 'TEXT');
+        $this->keterangan = new DbField('v_arsip_skk', 'v_arsip_skk', 'x_keterangan', 'keterangan', '`keterangan`', '`keterangan`', 201, 65535, -1, false, '`keterangan`', false, false, false, 'FORMATTED TEXT', 'TEXT');
         $this->keterangan->Sortable = true; // Allow sort
         $this->keterangan->CustomMsg = $Language->FieldPhrase($this->TableVar, $this->keterangan->Param, "CustomMsg");
         $this->Fields['keterangan'] = &$this->keterangan;

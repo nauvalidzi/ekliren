@@ -503,6 +503,7 @@ class VKajariEdit extends VKajari
         $this->setupLookupOptions($this->unit_organisasi);
         $this->setupLookupOptions($this->pangkat);
         $this->setupLookupOptions($this->jabatan);
+        $this->setupLookupOptions($this->keperluan);
 
         // Check modal
         if ($this->IsModal) {
@@ -1053,8 +1054,24 @@ class VKajariEdit extends VKajari
             $this->jabatan->ViewCustomAttributes = "";
 
             // keperluan
-            $this->keperluan->ViewValue = $this->keperluan->CurrentValue;
-            $this->keperluan->ViewValue = FormatNumber($this->keperluan->ViewValue, 0, -2, -2, -2);
+            $curVal = trim(strval($this->keperluan->CurrentValue));
+            if ($curVal != "") {
+                $this->keperluan->ViewValue = $this->keperluan->lookupCacheOption($curVal);
+                if ($this->keperluan->ViewValue === null) { // Lookup from database
+                    $filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
+                    $sqlWrk = $this->keperluan->Lookup->getSql(false, $filterWrk, '', $this, true, true);
+                    $rswrk = Conn()->executeQuery($sqlWrk)->fetchAll(\PDO::FETCH_BOTH);
+                    $ari = count($rswrk);
+                    if ($ari > 0) { // Lookup values found
+                        $arwrk = $this->keperluan->Lookup->renderViewRow($rswrk[0]);
+                        $this->keperluan->ViewValue = $this->keperluan->displayValue($arwrk);
+                    } else {
+                        $this->keperluan->ViewValue = $this->keperluan->CurrentValue;
+                    }
+                }
+            } else {
+                $this->keperluan->ViewValue = null;
+            }
             $this->keperluan->ViewCustomAttributes = "";
 
             // kategori_pemohon
@@ -1259,8 +1276,24 @@ class VKajariEdit extends VKajari
             // keperluan
             $this->keperluan->EditAttrs["class"] = "form-control";
             $this->keperluan->EditCustomAttributes = "";
-            $this->keperluan->EditValue = $this->keperluan->CurrentValue;
-            $this->keperluan->EditValue = FormatNumber($this->keperluan->EditValue, 0, -2, -2, -2);
+            $curVal = trim(strval($this->keperluan->CurrentValue));
+            if ($curVal != "") {
+                $this->keperluan->EditValue = $this->keperluan->lookupCacheOption($curVal);
+                if ($this->keperluan->EditValue === null) { // Lookup from database
+                    $filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
+                    $sqlWrk = $this->keperluan->Lookup->getSql(false, $filterWrk, '', $this, true, true);
+                    $rswrk = Conn()->executeQuery($sqlWrk)->fetchAll(\PDO::FETCH_BOTH);
+                    $ari = count($rswrk);
+                    if ($ari > 0) { // Lookup values found
+                        $arwrk = $this->keperluan->Lookup->renderViewRow($rswrk[0]);
+                        $this->keperluan->EditValue = $this->keperluan->displayValue($arwrk);
+                    } else {
+                        $this->keperluan->EditValue = $this->keperluan->CurrentValue;
+                    }
+                }
+            } else {
+                $this->keperluan->EditValue = null;
+            }
             $this->keperluan->ViewCustomAttributes = "";
 
             // kategori_pemohon
@@ -1566,6 +1599,8 @@ class VKajariEdit extends VKajari
                 case "x_pangkat":
                     break;
                 case "x_jabatan":
+                    break;
+                case "x_keperluan":
                     break;
                 case "x_status":
                     break;

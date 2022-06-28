@@ -568,7 +568,7 @@ class RiwayatAccList extends RiwayatAcc
 
         // Set up list options
         $this->setupListOptions();
-        $this->id->setVisibility();
+        $this->id->Visible = false;
         $this->id_skk->setVisibility();
         $this->status->setVisibility();
         $this->verifikator->setVisibility();
@@ -1119,7 +1119,6 @@ class RiwayatAccList extends RiwayatAcc
         if (Get("order") !== null) {
             $this->CurrentOrder = Get("order");
             $this->CurrentOrderType = Get("ordertype", "");
-            $this->updateSort($this->id); // id
             $this->updateSort($this->id_skk); // id_skk
             $this->updateSort($this->status); // status
             $this->updateSort($this->verifikator); // verifikator
@@ -1203,6 +1202,14 @@ class RiwayatAccList extends RiwayatAcc
         $item->ShowInDropDown = false;
         $item->ShowInButtonGroup = false;
 
+        // "sequence"
+        $item = &$this->ListOptions->add("sequence");
+        $item->CssClass = "text-nowrap";
+        $item->Visible = true;
+        $item->OnLeft = true; // Always on left
+        $item->ShowInDropDown = false;
+        $item->ShowInButtonGroup = false;
+
         // Drop down button for ListOptions
         $this->ListOptions->UseDropDownButton = false;
         $this->ListOptions->DropDownButtonPhrase = $Language->phrase("ButtonListOptions");
@@ -1228,6 +1235,10 @@ class RiwayatAccList extends RiwayatAcc
 
         // Call ListOptions_Rendering event
         $this->listOptionsRendering();
+
+        // "sequence"
+        $opt = $this->ListOptions["sequence"];
+        $opt->Body = FormatSequenceNumber($this->RecordCount);
         $pageUrl = $this->pageUrl();
         if ($this->CurrentMode == "view") { // View mode
         } // End View mode
@@ -1593,11 +1604,6 @@ class RiwayatAccList extends RiwayatAcc
             $this->tanggal->ViewValue = $this->tanggal->CurrentValue;
             $this->tanggal->ViewValue = FormatDateTime($this->tanggal->ViewValue, 0);
             $this->tanggal->ViewCustomAttributes = "";
-
-            // id
-            $this->id->LinkCustomAttributes = "";
-            $this->id->HrefValue = "";
-            $this->id->TooltipValue = "";
 
             // id_skk
             $this->id_skk->LinkCustomAttributes = "";

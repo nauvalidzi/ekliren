@@ -467,8 +467,8 @@ class MPangkatEdit extends MPangkat
         // Create form object
         $CurrentForm = new HttpForm();
         $this->CurrentAction = Param("action"); // Set up current action
+        $this->id->Visible = false;
         $this->pangkat->setVisibility();
-        $this->id->setVisibility();
         $this->hideFieldsForAddEdit();
 
         // Do not use lookup cache
@@ -670,8 +670,8 @@ class MPangkatEdit extends MPangkat
     public function restoreFormValues()
     {
         global $CurrentForm;
-        $this->pangkat->CurrentValue = $this->pangkat->FormValue;
         $this->id->CurrentValue = $this->id->FormValue;
+        $this->pangkat->CurrentValue = $this->pangkat->FormValue;
     }
 
     /**
@@ -721,16 +721,16 @@ class MPangkatEdit extends MPangkat
         if (!$rs) {
             return;
         }
-        $this->pangkat->setDbValue($row['pangkat']);
         $this->id->setDbValue($row['id']);
+        $this->pangkat->setDbValue($row['pangkat']);
     }
 
     // Return a row with default values
     protected function newRow()
     {
         $row = [];
-        $row['pangkat'] = null;
         $row['id'] = null;
+        $row['pangkat'] = null;
         return $row;
     }
 
@@ -762,27 +762,22 @@ class MPangkatEdit extends MPangkat
 
         // Common render codes for all row types
 
-        // pangkat
-
         // id
-        if ($this->RowType == ROWTYPE_VIEW) {
-            // pangkat
-            $this->pangkat->ViewValue = $this->pangkat->CurrentValue;
-            $this->pangkat->ViewCustomAttributes = "";
 
+        // pangkat
+        if ($this->RowType == ROWTYPE_VIEW) {
             // id
             $this->id->ViewValue = $this->id->CurrentValue;
             $this->id->ViewCustomAttributes = "";
 
             // pangkat
+            $this->pangkat->ViewValue = $this->pangkat->CurrentValue;
+            $this->pangkat->ViewCustomAttributes = "";
+
+            // pangkat
             $this->pangkat->LinkCustomAttributes = "";
             $this->pangkat->HrefValue = "";
             $this->pangkat->TooltipValue = "";
-
-            // id
-            $this->id->LinkCustomAttributes = "";
-            $this->id->HrefValue = "";
-            $this->id->TooltipValue = "";
         } elseif ($this->RowType == ROWTYPE_EDIT) {
             // pangkat
             $this->pangkat->EditAttrs["class"] = "form-control";
@@ -793,21 +788,11 @@ class MPangkatEdit extends MPangkat
             $this->pangkat->EditValue = HtmlEncode($this->pangkat->CurrentValue);
             $this->pangkat->PlaceHolder = RemoveHtml($this->pangkat->caption());
 
-            // id
-            $this->id->EditAttrs["class"] = "form-control";
-            $this->id->EditCustomAttributes = "";
-            $this->id->EditValue = $this->id->CurrentValue;
-            $this->id->ViewCustomAttributes = "";
-
             // Edit refer script
 
             // pangkat
             $this->pangkat->LinkCustomAttributes = "";
             $this->pangkat->HrefValue = "";
-
-            // id
-            $this->id->LinkCustomAttributes = "";
-            $this->id->HrefValue = "";
         }
         if ($this->RowType == ROWTYPE_ADD || $this->RowType == ROWTYPE_EDIT || $this->RowType == ROWTYPE_SEARCH) { // Add/Edit/Search row
             $this->setupFieldTitles();
@@ -831,11 +816,6 @@ class MPangkatEdit extends MPangkat
         if ($this->pangkat->Required) {
             if (!$this->pangkat->IsDetailKey && EmptyValue($this->pangkat->FormValue)) {
                 $this->pangkat->addErrorMessage(str_replace("%s", $this->pangkat->caption(), $this->pangkat->RequiredErrorMessage));
-            }
-        }
-        if ($this->id->Required) {
-            if (!$this->id->IsDetailKey && EmptyValue($this->id->FormValue)) {
-                $this->id->addErrorMessage(str_replace("%s", $this->id->caption(), $this->id->RequiredErrorMessage));
             }
         }
 
