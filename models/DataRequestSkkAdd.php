@@ -1822,6 +1822,9 @@ class DataRequestSkkAdd extends DataRequestSkk
         if ($addRow) {
             // Call Row Inserted event
             $this->rowInserted($rsold, $rsnew);
+            if ($this->SendEmail) {
+                $this->sendEmailOnAdd($rsnew);
+            }
         }
 
         // Clean upload path if any
