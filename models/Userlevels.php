@@ -1037,6 +1037,7 @@ SORTHTML;
     {
         // Enter your code here
         // To cancel, set return value to false
+        $rsnew['userlevelid'] = $rsold['userlevelid'];
         return true;
     }
 

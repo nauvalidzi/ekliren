@@ -31,10 +31,4 @@ class UserlevelsController extends ControllerBase
     {
         return $this->runPage($request, $response, $args, "UserlevelsEdit");
     }
-
-    // delete
-    public function delete(Request $request, Response $response, array $args): Response
-    {
-        return $this->runPage($request, $response, $args, "UserlevelsDelete");
-    }
 }
