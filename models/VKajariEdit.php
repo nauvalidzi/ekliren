@@ -476,7 +476,7 @@ class VKajariEdit extends VKajari
         $this->pangkat->setVisibility();
         $this->jabatan->setVisibility();
         $this->keperluan->setVisibility();
-        $this->kategori_pemohon->setVisibility();
+        $this->kategori_pemohon->Visible = false;
         $this->scan_lhkpn->setVisibility();
         $this->scan_lhkasn->setVisibility();
         $this->keterangan->setVisibility();
@@ -486,7 +486,6 @@ class VKajariEdit extends VKajari
         $this->nrp->Required = false;
         $this->nama->Required = false;
         $this->keperluan->Required = false;
-        $this->kategori_pemohon->Required = false;
 
         // Do not use lookup cache
         $this->setUseLookupCache(false);
@@ -751,16 +750,6 @@ class VKajariEdit extends VKajari
             }
         }
 
-        // Check field name 'kategori_pemohon' first before field var 'x_kategori_pemohon'
-        $val = $CurrentForm->hasValue("kategori_pemohon") ? $CurrentForm->getValue("kategori_pemohon") : $CurrentForm->getValue("x_kategori_pemohon");
-        if (!$this->kategori_pemohon->IsDetailKey) {
-            if (IsApi() && $val === null) {
-                $this->kategori_pemohon->Visible = false; // Disable update for API request
-            } else {
-                $this->kategori_pemohon->setFormValue($val);
-            }
-        }
-
         // Check field name 'scan_lhkpn' first before field var 'x_scan_lhkpn'
         $val = $CurrentForm->hasValue("scan_lhkpn") ? $CurrentForm->getValue("scan_lhkpn") : $CurrentForm->getValue("x_scan_lhkpn");
         if (!$this->scan_lhkpn->IsDetailKey) {
@@ -822,7 +811,6 @@ class VKajariEdit extends VKajari
         $this->pangkat->CurrentValue = $this->pangkat->FormValue;
         $this->jabatan->CurrentValue = $this->jabatan->FormValue;
         $this->keperluan->CurrentValue = $this->keperluan->FormValue;
-        $this->kategori_pemohon->CurrentValue = $this->kategori_pemohon->FormValue;
         $this->scan_lhkpn->CurrentValue = $this->scan_lhkpn->FormValue;
         $this->scan_lhkasn->CurrentValue = $this->scan_lhkasn->FormValue;
         $this->keterangan->CurrentValue = $this->keterangan->FormValue;
@@ -1138,11 +1126,6 @@ class VKajariEdit extends VKajari
             $this->keperluan->HrefValue = "";
             $this->keperluan->TooltipValue = "";
 
-            // kategori_pemohon
-            $this->kategori_pemohon->LinkCustomAttributes = "";
-            $this->kategori_pemohon->HrefValue = "";
-            $this->kategori_pemohon->TooltipValue = "";
-
             // scan_lhkpn
             $this->scan_lhkpn->LinkCustomAttributes = "data-toggle=\"modal\"";
             if (!EmptyValue($this->scan_lhkpn->CurrentValue)) {
@@ -1296,12 +1279,6 @@ class VKajariEdit extends VKajari
             }
             $this->keperluan->ViewCustomAttributes = "";
 
-            // kategori_pemohon
-            $this->kategori_pemohon->EditAttrs["class"] = "form-control";
-            $this->kategori_pemohon->EditCustomAttributes = "";
-            $this->kategori_pemohon->EditValue = $this->kategori_pemohon->CurrentValue;
-            $this->kategori_pemohon->ViewCustomAttributes = "";
-
             // scan_lhkpn
             $this->scan_lhkpn->EditAttrs["class"] = "form-control";
             $this->scan_lhkpn->EditCustomAttributes = "";
@@ -1366,11 +1343,6 @@ class VKajariEdit extends VKajari
             $this->keperluan->LinkCustomAttributes = "";
             $this->keperluan->HrefValue = "";
             $this->keperluan->TooltipValue = "";
-
-            // kategori_pemohon
-            $this->kategori_pemohon->LinkCustomAttributes = "";
-            $this->kategori_pemohon->HrefValue = "";
-            $this->kategori_pemohon->TooltipValue = "";
 
             // scan_lhkpn
             $this->scan_lhkpn->LinkCustomAttributes = "data-toggle=\"modal\"";
@@ -1464,11 +1436,6 @@ class VKajariEdit extends VKajari
         if ($this->keperluan->Required) {
             if (!$this->keperluan->IsDetailKey && EmptyValue($this->keperluan->FormValue)) {
                 $this->keperluan->addErrorMessage(str_replace("%s", $this->keperluan->caption(), $this->keperluan->RequiredErrorMessage));
-            }
-        }
-        if ($this->kategori_pemohon->Required) {
-            if (!$this->kategori_pemohon->IsDetailKey && EmptyValue($this->kategori_pemohon->FormValue)) {
-                $this->kategori_pemohon->addErrorMessage(str_replace("%s", $this->kategori_pemohon->caption(), $this->kategori_pemohon->RequiredErrorMessage));
             }
         }
         if ($this->scan_lhkpn->Required) {

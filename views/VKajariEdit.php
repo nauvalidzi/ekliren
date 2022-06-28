@@ -28,7 +28,6 @@ loadjs.ready("head", function () {
         ["pangkat", [fields.pangkat.visible && fields.pangkat.required ? ew.Validators.required(fields.pangkat.caption) : null], fields.pangkat.isInvalid],
         ["jabatan", [fields.jabatan.visible && fields.jabatan.required ? ew.Validators.required(fields.jabatan.caption) : null], fields.jabatan.isInvalid],
         ["keperluan", [fields.keperluan.visible && fields.keperluan.required ? ew.Validators.required(fields.keperluan.caption) : null], fields.keperluan.isInvalid],
-        ["kategori_pemohon", [fields.kategori_pemohon.visible && fields.kategori_pemohon.required ? ew.Validators.required(fields.kategori_pemohon.caption) : null], fields.kategori_pemohon.isInvalid],
         ["scan_lhkpn", [fields.scan_lhkpn.visible && fields.scan_lhkpn.required ? ew.Validators.required(fields.scan_lhkpn.caption) : null], fields.scan_lhkpn.isInvalid],
         ["scan_lhkasn", [fields.scan_lhkasn.visible && fields.scan_lhkasn.required ? ew.Validators.required(fields.scan_lhkasn.caption) : null], fields.scan_lhkasn.isInvalid],
         ["keterangan", [fields.keterangan.visible && fields.keterangan.required ? ew.Validators.required(fields.keterangan.caption) : null], fields.keterangan.isInvalid],
@@ -215,18 +214,6 @@ $Page->showMessage();
 <input type="text" readonly class="form-control-plaintext" value="<?= HtmlEncode(RemoveHtml($Page->keperluan->getDisplayValue($Page->keperluan->EditValue))) ?>"></span>
 </span>
 <input type="hidden" data-table="v_kajari" data-field="x_keperluan" data-hidden="1" name="x_keperluan" id="x_keperluan" value="<?= HtmlEncode($Page->keperluan->CurrentValue) ?>">
-</div></div>
-    </div>
-<?php } ?>
-<?php if ($Page->kategori_pemohon->Visible) { // kategori_pemohon ?>
-    <div id="r_kategori_pemohon" class="form-group row">
-        <label id="elh_v_kajari_kategori_pemohon" for="x_kategori_pemohon" class="<?= $Page->LeftColumnClass ?>"><?= $Page->kategori_pemohon->caption() ?><?= $Page->kategori_pemohon->Required ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
-        <div class="<?= $Page->RightColumnClass ?>"><div <?= $Page->kategori_pemohon->cellAttributes() ?>>
-<span id="el_v_kajari_kategori_pemohon">
-<span<?= $Page->kategori_pemohon->viewAttributes() ?>>
-<input type="text" readonly class="form-control-plaintext" value="<?= HtmlEncode(RemoveHtml($Page->kategori_pemohon->getDisplayValue($Page->kategori_pemohon->EditValue))) ?>"></span>
-</span>
-<input type="hidden" data-table="v_kajari" data-field="x_kategori_pemohon" data-hidden="1" name="x_kategori_pemohon" id="x_kategori_pemohon" value="<?= HtmlEncode($Page->kategori_pemohon->CurrentValue) ?>">
 </div></div>
     </div>
 <?php } ?>

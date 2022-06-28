@@ -198,10 +198,12 @@ $PrintSkk = &$Page;
                 </tr>
             </table>
             <hr>
-            <table>
+            <table class=\"mt-2\">
                 <tr>
                     <td class=\"text-right font-weight-bolder\">WAS-38</td>
                 </tr>
+            </table>
+            <table class=\"mt-3 mb-2\">
                 <tr>
                     <td class=\"font-weight-bolder text-center line-strict\"><u>SURAT KETERANGAN KEPEGAWAIAN</u></td>
                 </tr>
@@ -244,7 +246,7 @@ $PrintSkk = &$Page;
                     <td width=\"70%\">: {$data['detail_keperluan']}</td>
                 </tr>
             </table>
-            <table class=\"mt-2 letter-body\">
+            <table class=\"mt-3 letter-body\">
                 <tr>
                     <td colspan=\"2\" class=\"text-justify\">Pada saat diterbitkan Surat Keterangan Kepegawaian ini, yang bersangkutan dalam keadaan sebagai berikut :
                     </td>
@@ -265,12 +267,13 @@ $PrintSkk = &$Page;
                     <td width=\"5%\" class=\"align-baseline\">4. </td>
                     <td width=\"95%\" class=\"text-justify\">Sedang dilakukan sidang Kode Perilaku Jaksa di {$poin_4['0']} pernah dijatuhi hukuman administratif oleh Majelis Kode Perilaku Jaksa berupa {$poin_4['1']} berdasarkan Surat Keputusan Nomor : {$poin_4['2']} Tanggal {$poin_4['3']} tentang Hukuman Administratif *) dengan catatan Hukuman Administratif dimaksud telah {$poin_4['4']} *) dijalankan.</td>
                 </tr>
+            </table>
+            <table class=\"mt-2 letter-body\">
                 <tr>
-                    <td colspan=\"2\" class=\"text-justify\">----------Demikian Surat Keterangan ini dibuat dengan sebenarnya untuk dapat dipergunakan seperlunya.------------------------------------------------------------------------------------------------------------
-                    </td>
+                    <td colspan=\"2\" class=\"text-justify\">----------Demikian Surat Keterangan ini dibuat dengan sebenarnya untuk dapat dipergunakan seperlunya.------------------------------------------------------------------------------------------------------------</td>
                 </tr>
             </table>
-            <table class=\"mt-1\">
+            <table class=\"mt-3\">
                 <tr>
                     <td width=\"40%\"></td>
                     <td width=\"60%\" class=\"text-center\">

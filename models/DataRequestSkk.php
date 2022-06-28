@@ -1830,6 +1830,40 @@ SORTHTML;
         return false;
     }
 
+    // Send email after add success
+    public function sendEmailOnAdd(&$rs)
+    {
+        global $Language;
+        $table = 'data_request_skk';
+        $subject = $table . " " . $Language->phrase("RecordInserted");
+        $action = $Language->phrase("ActionInserted");
+
+        // Get key value
+        $key = "";
+        if ($key != "") {
+            $key .= Config("COMPOSITE_KEY_SEPARATOR");
+        }
+        $key .= $rs['id_request'];
+        $email = new Email();
+        $email->load(Config("EMAIL_NOTIFY_TEMPLATE"));
+        $email->replaceSender(Config("SENDER_EMAIL")); // Replace Sender
+        $email->replaceRecipient(Config("RECIPIENT_EMAIL")); // Replace Recipient
+        $email->replaceSubject($subject); // Replace Subject
+        $email->replaceContent("<!--table-->", $table);
+        $email->replaceContent("<!--key-->", $key);
+        $email->replaceContent("<!--action-->", $action);
+        $args = ["rsnew" => $rs];
+        $emailSent = false;
+        if ($this->emailSending($email, $args)) {
+            $emailSent = $email->send();
+        }
+
+        // Send email failed
+        if (!$emailSent) {
+            $this->setFailureMessage($email->SendErrDescription);
+        }
+    }
+
     // Table level events
     // Recordset Selecting event
     public function recordsetSelecting(&$filter)
@@ -1976,30 +2010,27 @@ SORTHTML;
     public function emailSending($email, &$args)
     {
         //var_dump($email); var_dump($args); exit();
-        // if (CurrentPageID() == "add") { // If Add page
-    //     $email->Recipient = "sego.yellow@gmail.com";
-    //     $email->Subject = "[BARU] Permohonan SKK ({$args['rsnew']['kategori_pemohon']})";
-    //     $email->Content = "Berikut adalah data Pengajuan Permohonan ".$args["rsnew"]["kategori_pemohon"]." oleh:";
-    //     $email->Content .= "<br>Nama: ".$args["rsnew"]["nama"];
-    //     $email->Content .= "<br>NRP/NIP: ".$args["rsnew"]["nrp"]."/".$args["rsnew"]["nip"];
-    //     $email->Content .= "<br>Pangkat: ".$args["rsnew"]["pangkat"];
-    //     $email->Content .= "<br>Jabatan: ".$args["rsnew"]["jabatan"];
-    //     $email->Content .= "<br>Keperluan: ".$args["rsnew"]["keperluan"];
-    //     $email->Content .= "<br>Tgl Request: ".date('d/m/Y H:i', strtotime($args["rsnew"]["tanggal_request"]));
-    //     $email->Content .= "<br>Hukuman Disiplin: ".$args["rsnew"]["hukuman_disiplin"];
-
-    //     if ($args["rsnew"]["hukuman_disiplin"] == 'Ya') {
-    //         $email->Content .= "<br>Keterangan: ".$args["rsnew"]["keterangan"];
-    //     }
-
-    //     $email->Content .= "<br><br><br>Pesan ini dibuat otomatis oleh sistem.";
-
-    //     if($args["rsnew"]["kategori_pemohon"] == 'Wajib LHKPN'){
-    //         $email->Attachments = $args["rsnew"]["scan_lhkpn"];
-    //     } else {
-    //         $email->Attachments = $args["rsnew"]["scan_lhkasn"];
-    //     }
-    // }
+        if (CurrentPageID() == "add") { // If Add page
+        $email->Recipient = "sego.yellow@gmail.com";
+        $email->Subject = "[BARU] Permohonan SKK ({$args['rsnew']['kategori_pemohon']})";
+        $email->Content = "Berikut adalah data Pengajuan Permohonan ".$args["rsnew"]["kategori_pemohon"]." oleh:";
+        $email->Content .= "<br>Nama: ".$args["rsnew"]["nama"];
+        $email->Content .= "<br>NRP/NIP: ".$args["rsnew"]["nrp"]."/".$args["rsnew"]["nip"];
+        $email->Content .= "<br>Pangkat: ".$args["rsnew"]["pangkat"];
+        $email->Content .= "<br>Jabatan: ".$args["rsnew"]["jabatan"];
+        $email->Content .= "<br>Keperluan: ".$args["rsnew"]["keperluan"];
+        $email->Content .= "<br>Tgl Request: ".date('d/m/Y H:i', strtotime($args["rsnew"]["tanggal_request"]));
+        $email->Content .= "<br>Hukuman Disiplin: ".$args["rsnew"]["hukuman_disiplin"];
+        if ($args["rsnew"]["hukuman_disiplin"] == 'Ya') {
+            $email->Content .= "<br>Keterangan: ".$args["rsnew"]["keterangan"];
+        }
+        $email->Content .= "<br><br><br>Pesan ini dibuat otomatis oleh sistem.";
+        if($args["rsnew"]["kategori_pemohon"] == 'Wajib LHKPN'){
+            $email->Attachments = $args["rsnew"]["scan_lhkpn"];
+        } else {
+            $email->Attachments = $args["rsnew"]["scan_lhkasn"];
+        }
+    }
         return true;
     }
 
