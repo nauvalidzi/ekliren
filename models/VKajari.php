@@ -1560,7 +1560,7 @@ SORTHTML;
     	if($status != '' OR $status != FALSE) {
     		AddFilter($filter, "status = '{$status}'");
     	}
-    	if (!empty(CurrentUserInfo('unit_organisasi'))) {
+    	if (CurrentUserLevel() == 5) {
             AddFilter($filter, "unit_organisasi = ".CurrentUserInfo('unit_organisasi'));
         }
     }

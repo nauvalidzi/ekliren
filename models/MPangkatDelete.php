@@ -374,7 +374,7 @@ class MPangkatDelete extends MPangkat
     {
         global $ExportType, $CustomExportType, $ExportFileName, $UserProfile, $Language, $Security, $CurrentForm;
         $this->CurrentAction = Param("action"); // Set up current action
-        $this->id->setVisibility();
+        $this->id->Visible = false;
         $this->pangkat->setVisibility();
         $this->hideFieldsForAddEdit();
 
@@ -574,11 +574,6 @@ class MPangkatDelete extends MPangkat
             // pangkat
             $this->pangkat->ViewValue = $this->pangkat->CurrentValue;
             $this->pangkat->ViewCustomAttributes = "";
-
-            // id
-            $this->id->LinkCustomAttributes = "";
-            $this->id->HrefValue = "";
-            $this->id->TooltipValue = "";
 
             // pangkat
             $this->pangkat->LinkCustomAttributes = "";

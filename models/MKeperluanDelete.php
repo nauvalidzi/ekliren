@@ -374,7 +374,7 @@ class MKeperluanDelete extends MKeperluan
     {
         global $ExportType, $CustomExportType, $ExportFileName, $UserProfile, $Language, $Security, $CurrentForm;
         $this->CurrentAction = Param("action"); // Set up current action
-        $this->id->setVisibility();
+        $this->id->Visible = false;
         $this->keperluan->setVisibility();
         $this->hideFieldsForAddEdit();
 
@@ -574,11 +574,6 @@ class MKeperluanDelete extends MKeperluan
             // keperluan
             $this->keperluan->ViewValue = $this->keperluan->CurrentValue;
             $this->keperluan->ViewCustomAttributes = "";
-
-            // id
-            $this->id->LinkCustomAttributes = "";
-            $this->id->HrefValue = "";
-            $this->id->TooltipValue = "";
 
             // keperluan
             $this->keperluan->LinkCustomAttributes = "";

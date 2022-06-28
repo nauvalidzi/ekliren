@@ -568,7 +568,7 @@ class MPangkatList extends MPangkat
 
         // Set up list options
         $this->setupListOptions();
-        $this->id->setVisibility();
+        $this->id->Visible = false;
         $this->pangkat->setVisibility();
         $this->hideFieldsForAddEdit();
 
@@ -1088,7 +1088,6 @@ class MPangkatList extends MPangkat
         if (Get("order") !== null) {
             $this->CurrentOrder = Get("order");
             $this->CurrentOrderType = Get("ordertype", "");
-            $this->updateSort($this->id); // id
             $this->updateSort($this->pangkat); // pangkat
             $this->setStartRecordNumber(1); // Reset start position
         }
@@ -1606,11 +1605,6 @@ class MPangkatList extends MPangkat
             // pangkat
             $this->pangkat->ViewValue = $this->pangkat->CurrentValue;
             $this->pangkat->ViewCustomAttributes = "";
-
-            // id
-            $this->id->LinkCustomAttributes = "";
-            $this->id->HrefValue = "";
-            $this->id->TooltipValue = "";
 
             // pangkat
             $this->pangkat->LinkCustomAttributes = "";

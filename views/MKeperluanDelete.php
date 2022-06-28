@@ -44,9 +44,6 @@ $Page->showMessage();
 <table class="table ew-table">
     <thead>
     <tr class="ew-table-header">
-<?php if ($Page->id->Visible) { // id ?>
-        <th class="<?= $Page->id->headerCellClass() ?>"><span id="elh_m_keperluan_id" class="m_keperluan_id"><?= $Page->id->caption() ?></span></th>
-<?php } ?>
 <?php if ($Page->keperluan->Visible) { // keperluan ?>
         <th class="<?= $Page->keperluan->headerCellClass() ?>"><span id="elh_m_keperluan_keperluan" class="m_keperluan_keperluan"><?= $Page->keperluan->caption() ?></span></th>
 <?php } ?>
@@ -71,14 +68,6 @@ while (!$Page->Recordset->EOF) {
     $Page->renderRow();
 ?>
     <tr <?= $Page->rowAttributes() ?>>
-<?php if ($Page->id->Visible) { // id ?>
-        <td <?= $Page->id->cellAttributes() ?>>
-<span id="el<?= $Page->RowCount ?>_m_keperluan_id" class="m_keperluan_id">
-<span<?= $Page->id->viewAttributes() ?>>
-<?= $Page->id->getViewValue() ?></span>
-</span>
-</td>
-<?php } ?>
 <?php if ($Page->keperluan->Visible) { // keperluan ?>
         <td <?= $Page->keperluan->cellAttributes() ?>>
 <span id="el<?= $Page->RowCount ?>_m_keperluan_keperluan" class="m_keperluan_keperluan">

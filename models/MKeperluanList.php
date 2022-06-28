@@ -568,7 +568,7 @@ class MKeperluanList extends MKeperluan
 
         // Set up list options
         $this->setupListOptions();
-        $this->id->setVisibility();
+        $this->id->Visible = false;
         $this->keperluan->setVisibility();
         $this->hideFieldsForAddEdit();
 
@@ -1088,7 +1088,6 @@ class MKeperluanList extends MKeperluan
         if (Get("order") !== null) {
             $this->CurrentOrder = Get("order");
             $this->CurrentOrderType = Get("ordertype", "");
-            $this->updateSort($this->id); // id
             $this->updateSort($this->keperluan); // keperluan
             $this->setStartRecordNumber(1); // Reset start position
         }
@@ -1606,11 +1605,6 @@ class MKeperluanList extends MKeperluan
             // keperluan
             $this->keperluan->ViewValue = $this->keperluan->CurrentValue;
             $this->keperluan->ViewCustomAttributes = "";
-
-            // id
-            $this->id->LinkCustomAttributes = "";
-            $this->id->HrefValue = "";
-            $this->id->TooltipValue = "";
 
             // keperluan
             $this->keperluan->LinkCustomAttributes = "";
