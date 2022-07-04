@@ -2347,6 +2347,7 @@ class VSekretariatList extends VSekretariat
     {
         // Example:
         //$this->ListOptions["new"]->Body = "xxx";
+        $this->ListOptions->Items["edit"]->Body = "<a class=\"ew-row-link ew-edit\" data-caption=\"Edit\" href=\"VSekretariatEdit/{$this->id_request->CurrentValue}?showdetail=hukuman_disiplin,banding,inspeksi,sidang_kode_perilaku\" data-original-title=\"Edit\"><i data-phrase=\"EditLink\" class=\"icon-edit ew-icon\" data-caption=\"Edit\"></i></a>";
     }
 
     // Row Custom Action event
