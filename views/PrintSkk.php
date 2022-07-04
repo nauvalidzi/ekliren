@@ -37,53 +37,45 @@ $PrintSkk = &$Page;
     }
 
     $data = ExecuteRow("SELECT skk.nomor_surat,
-                            skk.nama, 
-                            skk.nip, 
-                            skk.nrp, 
-                            skk.pangkat, 
-                            skk.jabatan, 
-                            skk.tanggal_request, 
-                            skk.acc, 
-                            p.pangkat AS nama_pangkat, 
-                            j.nama_jabatan, 
-                            sk.satuan_kerja AS nama_organisasi, 
-                            k.keperluan AS detail_keperluan,
-                            hkd.jenis_hukuman,
-                            hkd.hukuman,
-                            hkd.pasal,
-                            hkd.surat_keputusan, 
-                            hkd.sk_nomor,
-                            hkd.tanggal_sk,
-                            hkd.status_hukuman,
-                            hkd.pernah_dijatuhi_hukuman,
-                            bd.sk_banding_nomor, 
-                            bd.tgl_sk_banding,
-                            ins.pelanggaran_disiplin,
-                            ins.inspeksi_kasus,
-                            skp.tempat_sidang_kode_perilaku, 
-                            skp.hukuman_administratif, 
-                            skp.sidang_kode_perilaku_jaksa, 
-                            skp.sk_nomor_kode_perilaku, 
-                            skp.tgl_sk_kode_perilaku,
-                            skp.status_hukuman_kode_perilaku
-                            FROM data_request_skk skk 
-                            LEFT JOIN m_pangkat p ON skk.pangkat = p.id 
-                            LEFT JOIN m_jabatan j ON skk.jabatan = j.id 
-                            LEFT JOIN m_satuan_kerja sk ON skk.unit_organisasi = sk.id 
-                            LEFT JOIN m_keperluan k ON skk.keperluan = k.id 
-                            LEFT JOIN (
-                                SELECT pid_request_skk, jenis_hukuman, hukuman, pasal, sk.title as surat_keputusan, sk_nomor, tanggal_sk, status_hukuman, pernah_dijatuhi_hukuman
-                                FROM hukuman_disiplin hkd
-                                JOIN m_surat_keputusan sk ON hkd.surat_keputusan = sk.id
-                            ) hkd ON skk.id_request = hkd.pid_request_skk
-                            LEFT JOIN banding bd ON skk.id_request = bd.pid_request_skk
-                            LEFT JOIN inspeksi ins ON skk.id_request = ins.pid_request_skk
-                            LEFT JOIN (
-                                SELECT pid_request_skk, sk.satuan_kerja as tempat_sidang_kode_perilaku, hukuman_administratif, sidang_kode_perilaku_jaksa, sk_nomor_kode_perilaku, tgl_sk_kode_perilaku, status_hukuman_kode_perilaku
-                                FROM sidang_kode_perilaku skp
-                                JOIN m_satuan_kerja sk ON skp.tempat_sidang_kode_perilaku = sk.id
-                            ) skp ON skk.id_request = skp.pid_request_skk
-                            WHERE skk.id_request = {$id}");
+                         skk.nama, 
+                         skk.nip, 
+                         skk.nrp, 
+                         skk.tanggal_request, 
+                         skk.acc, 
+                         p.pangkat AS nama_pangkat, 
+                         j.nama_jabatan, 
+                         sk.satuan_kerja AS nama_organisasi, 
+                         k.keperluan AS detail_keperluan,
+                         hkd.jenis_hukuman,
+                         hkd.hukuman,
+                         hkd.pasal,
+                         sk1.title AS surat_keputusan, 
+                         hkd.sk_nomor,
+                         hkd.tanggal_sk,
+                         hkd.status_hukuman,
+                         hkd.pernah_dijatuhi_hukuman,
+                         bd.sk_banding_nomor, 
+                         bd.tgl_sk_banding,
+                         ins.pelanggaran_disiplin,
+                         ins.inspeksi_kasus,
+                         skp.hukuman_administratif, 
+                         skp.sidang_kode_perilaku_jaksa, 
+                         skp.sk_nomor_kode_perilaku, 
+                         skp.tgl_sk_kode_perilaku,
+                         skp.status_hukuman_kode_perilaku,
+                         sk2.satuan_kerja
+                        FROM data_request_skk skk
+                        LEFT JOIN m_pangkat p ON skk.pangkat = p.id
+                        LEFT JOIN m_jabatan j ON skk.jabatan = j.id
+                        LEFT JOIN m_satuan_kerja sk ON skk.unit_organisasi = sk.id
+                        LEFT JOIN m_keperluan k ON skk.keperluan = k.id
+                        LEFT JOIN hukuman_disiplin hkd ON skk.id_request = hkd.pid_request_skk
+                        LEFT JOIN m_surat_keputusan sk1 ON hkd.surat_keputusan = sk1.id
+                        LEFT JOIN banding bd ON skk.id_request = bd.pid_request_skk
+                        LEFT JOIN inspeksi ins ON skk.id_request = ins.pid_request_skk
+                        LEFT JOIN sidang_kode_perilaku skp ON skk.id_request = skp.pid_request_skk
+                        LEFT JOIN m_satuan_kerja sk2 ON skp.tempat_sidang_kode_perilaku = sk2.id
+                        WHERE skk.id_request = {$id}");
 
     $nomor_surat = $data['nomor_surat'] > 0 ? $data['nomor_surat'] : '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 
