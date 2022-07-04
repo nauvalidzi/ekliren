@@ -1977,26 +1977,26 @@ SORTHTML;
     {
         //var_dump($email); var_dump($args); exit();
         if (CurrentPageID() == "add") { // If Add page
-        	$email->Recipient = $args['rsnew']['email_pemohon'].",noreply@eclearance.kejati-jatim.go.id";
-            $email->Subject = "[BARU] Permohonan SKK ({$args['rsnew']['kategori_pemohon']})";
-            $email->Content = "Berikut adalah data Pengajuan Permohonan ".$args["rsnew"]["kategori_pemohon"]." oleh:";
-            $email->Content .= "<br>Nama: ".$args["rsnew"]["nama"];
-            $email->Content .= "<br>NRP/NIP: ".$args["rsnew"]["nrp"]."/".$args["rsnew"]["nip"];
-            $email->Content .= "<br>Pangkat: ".$args["rsnew"]["pangkat"];
-            $email->Content .= "<br>Jabatan: ".$args["rsnew"]["jabatan"];
-            $email->Content .= "<br>Keperluan: ".$args["rsnew"]["keperluan"];
-            $email->Content .= "<br>Tgl Request: ".date('d/m/Y H:i', strtotime($args["rsnew"]["tanggal_request"]));
-            $email->Content .= "<br>Hukuman Disiplin: ".$args["rsnew"]["hukuman_disiplin"];
-            if ($args["rsnew"]["hukuman_disiplin"] == 'Ya') {
-                $email->Content .= "<br>Keterangan: ".$args["rsnew"]["keterangan"];
-            }
-            $email->Content .= "<br><br><br>Pesan ini dibuat otomatis oleh sistem.";
-            if($args["rsnew"]["kategori_pemohon"] == 'Wajib LHKPN'){
-                $email->Attachments = $args["rsnew"]["scan_lhkpn"];
-            } else {
-                $email->Attachments = $args["rsnew"]["scan_lhkasn"];
-            }
+        $email->Recipient = $args['rsnew']['email_pemohon'];
+        $email->Subject = "[BARU] Permohonan SKK ({$args['rsnew']['kategori_pemohon']})";
+        $email->Content = "Berikut adalah data Pengajuan Permohonan ".$args["rsnew"]["kategori_pemohon"]." oleh:";
+        $email->Content .= "<br>Nama: ".$args["rsnew"]["nama"];
+        $email->Content .= "<br>NRP/NIP: ".$args["rsnew"]["nrp"]."/".$args["rsnew"]["nip"];
+        $email->Content .= "<br>Pangkat: ".$args["rsnew"]["pangkat"];
+        $email->Content .= "<br>Jabatan: ".$args["rsnew"]["jabatan"];
+        $email->Content .= "<br>Keperluan: ".$args["rsnew"]["keperluan"];
+        $email->Content .= "<br>Tgl Request: ".date('d/m/Y H:i', strtotime($args["rsnew"]["tanggal_request"]));
+        $email->Content .= "<br>Hukuman Disiplin: ".$args["rsnew"]["hukuman_disiplin"];
+        if ($args["rsnew"]["hukuman_disiplin"] == 'Ya') {
+            $email->Content .= "<br>Keterangan: ".$args["rsnew"]["keterangan"];
         }
+        $email->Content .= "<br><br><br>Pesan ini dibuat otomatis oleh sistem.";
+        if($args["rsnew"]["kategori_pemohon"] == 'Wajib LHKPN'){
+            $email->Attachments = $args["rsnew"]["scan_lhkpn"];
+        } else {
+            $email->Attachments = $args["rsnew"]["scan_lhkasn"];
+        }
+    }
         return true;
     }
 

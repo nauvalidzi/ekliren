@@ -27,6 +27,14 @@ $PrintSkk = &$Page;
 
         return tgl_indo($tanggal);
     }
+    
+    function cek_tanggal($date) {
+        if (preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $date)) {
+            return true;
+        }
+    
+        return false;
+    }
 
     $data = ExecuteRow("SELECT skk.nomor_surat,
                             skk.nama, 
@@ -45,18 +53,18 @@ $PrintSkk = &$Page;
                             hkd.pasal,
                             hkd.surat_keputusan, 
                             hkd.sk_nomor,
-                            IFNULL(hkd.tanggal_sk,'----NIHIL----') as tanggal_sk,
+                            hkd.tanggal_sk,
                             hkd.status_hukuman,
                             hkd.pernah_dijatuhi_hukuman,
                             bd.sk_banding_nomor, 
-                            IFNULL(bd.tgl_sk_banding,'----NIHIL----') as tgl_sk_banding,
+                            bd.tgl_sk_banding,
                             ins.pelanggaran_disiplin,
                             ins.inspeksi_kasus,
                             skp.tempat_sidang_kode_perilaku, 
                             skp.hukuman_administratif, 
                             skp.sidang_kode_perilaku_jaksa, 
                             skp.sk_nomor_kode_perilaku, 
-                            IFNULL(skp.tgl_sk_kode_perilaku,'----NIHIL----') as tgl_sk_kode_perilaku, 
+                            skp.tgl_sk_kode_perilaku,
                             skp.status_hukuman_kode_perilaku
                             FROM data_request_skk skk 
                             LEFT JOIN m_pangkat p ON skk.pangkat = p.id 
@@ -119,7 +127,7 @@ $PrintSkk = &$Page;
             $data['pasal'],
             $data['surat_keputusan'],
             $data['sk_nomor'],
-            tgl_indo($data['tanggal_sk']),
+            cek_tanggal($data['tanggal_sk']) ? tgl_indo($data['tanggal_sk']) : '----NIHIL----',
             $data['status_hukuman']
         ];
     }
@@ -132,7 +140,7 @@ $PrintSkk = &$Page;
     if ($data['pernah_dijatuhi_hukuman'] == 'Ya') {
         $poin_2 = [
             $data['sk_banding_nomor'],
-            tgl_indo($data['tgl_sk_banding']),
+            cek_tanggal($data['tgl_sk_banding']) ? tgl_indo($data['tgl_sk_banding']) : '----NIHIL----',
         ];
     }
 
@@ -151,7 +159,7 @@ $PrintSkk = &$Page;
             $data['tempat_sidang_kode_perilaku'],
             $data['hukuman_administratif'],
             $data['sk_nomor_kode_perilaku'],
-            tgl_indo($data['tgl_sk_kode_perilaku']),
+            cek_tanggal($data['tanggal_sk']) ? tgl_indo($data['tgl_sk_kode_perilaku']) : '----NIHIL----',
             $data['status_hukuman_kode_perilaku'],
         ];
     }
